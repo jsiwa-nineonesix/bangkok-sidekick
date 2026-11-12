@@ -21,7 +21,7 @@
 
 | Place | Why | Note |
 |-------|-----|------|
-| **Jodd Fairs Rama 9** | Grilled seafood, spicy salads, mala skewers, drinks, music | Evening only; busy at weekends 🔎 |
+| **Jodd Fairs Ratchada** | Grilled seafood, spicy salads, mala skewers, drinks, music | Evening only; busy at weekends. The Rama 9 branch has closed 🔎 check opening nights |
 | **Ratchada Train Night Market** | Retro market, street food and bars | Usually Thu–Sun evenings 🔎 |
 | **Yaowarat (Chinatown)** | Best for seafood, roast duck, dim sum, dessert | MRT Wat Mangkon; go after 18:00 |
 

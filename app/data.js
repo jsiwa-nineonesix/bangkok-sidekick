@@ -5,7 +5,7 @@ const DATA = {
   // Chat assistant. Leave endpoint empty to answer from the guide only (free, offline).
   // AI assistant: Cloudflare Workers AI via chat-proxy/ (free daily allowance, no API key).
   chat: { endpoint: "https://bangkok-sidekick-chat.bangkok-sidekick-chat-proxy.workers.dev/", dailyLimit: 30 },
-  version: "19",
+  version: "20",
   hotel: {
     name: "Avani Ratchada Bangkok Hotel (opposite G Tower, Rama 9)",
     thaiName: "โรงแรมอวานี รัชดา กรุงเทพ ตรงข้ามจีทาวเวอร์ พระราม 9",
@@ -17,7 +17,7 @@ const DATA = {
     // cat: near | nearby | downtown
     { n: "G Tower", cat: "near", d: "Office tower opposite your hotel; cafés and quick lunches on lower floors.", t: "Across the street", q: "G Tower Rama 9 Bangkok" },
     { n: "Central Rama 9", cat: "near", d: "Big mall: food hall, supermarket, pharmacy, cinema. Rainy-day base.", t: "Short walk (across the road per reviews)", q: "Central Rama 9" },
-    { n: "Jodd Fairs Rama 9", cat: "near", d: "Evening night market: street food, grilled seafood, drinks, live music.", t: "Short walk/ride 🔎 check opening nights", q: "Jodd Fairs Rama 9" },
+    { n: "Jodd Fairs Ratchada", cat: "nearby", d: "Evening night market: street food, grilled seafood, drinks, live music. (The old Rama 9 branch has closed; this is the current one.)", t: "Ratchada area, ask Maps for the best route 🔎 check opening nights", q: "Jodd Fairs Ratchada" },
     { n: "Rama 9 Square / Grand Rama 9", cat: "near", d: "Office and restaurant cluster, convenience stores.", t: "Walking distance", q: "Rama 9 Square Bangkok" },
     { n: "Thailand Cultural Centre", cat: "nearby", d: "Concerts, exhibitions, Thai performances.", t: "MRT BL19, 1 stop", q: "Thailand Cultural Centre Bangkok" },
     { n: "Ratchada Train Night Market", cat: "nearby", d: "Retro market, street food, bars. Mostly Thu–Sun evenings 🔎", t: "MRT BL19", q: "Ratchada Train Night Market" },
@@ -44,7 +44,7 @@ const DATA = {
     { n: "G Tower lower floors", cat: "street", d: "Office-worker lunches. Avoid 12:00–13:00 queues 🔎", p: "฿", q: "G Tower Rama 9 restaurants" },
     { n: "Sois around Rama 9", cat: "street", d: "Small Thai shops and stalls: noodle soup, grilled pork (moo ping), papaya salad, rice with curry.", p: "฿", q: "restaurants near Rama 9 MRT" },
     { n: "7-Eleven / FamilyMart", cat: "street", d: "24h water, toasties, onigiri, snacks. Staff will heat food for you.", p: "฿", q: "7-Eleven near Rama 9" },
-    { n: "Jodd Fairs Rama 9", cat: "night", d: "Grilled seafood, spicy salads, mala skewers, drinks, music. Busy on weekends.", p: "฿฿", q: "Jodd Fairs Rama 9" },
+    { n: "Jodd Fairs Ratchada", cat: "night", d: "Grilled seafood, spicy salads, mala skewers, drinks, music. Busy on weekends. The Rama 9 branch has closed. Check opening nights 🔎", p: "฿฿", q: "Jodd Fairs Ratchada" },
     { n: "Ratchada Train Night Market", cat: "night", d: "Retro market, street food and bars.", p: "฿฿", q: "Ratchada Train Night Market" },
     { n: "Yaowarat (Chinatown) street food", cat: "night", d: "Seafood, roast duck, dim sum, dessert. Go after 18:00.", p: "฿฿", q: "Yaowarat Road street food" },
     { n: "Thip Samai", cat: "downtown", d: "Famous pad thai in the old town 🔎", p: "฿฿", q: "Thip Samai Pad Thai" },

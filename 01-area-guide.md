@@ -12,13 +12,13 @@ Rama 9 (Huai Khwang / Din Daeng district) is Bangkok's **"New CBD"**: modern off
 | **MRT Phra Ram 9 (BL20)** | Your gateway to the whole city | Short walk 🔎 |
 | **Central Rama 9** | Large mall: food hall, supermarket, cinema, services, cafés. Rainy-day base | Short walk or one MRT stop area 🔎 |
 | **Rama 9 Square / Grand Rama 9** | Office/commercial cluster with restaurants, convenience stores | Walking distance |
-| **Jodd Fairs Rama 9** | Popular evening night market: street food, drinks, live music | Short walk/ride from Central Rama 9 🔎 (check it's open that night) |
 
 ## Nearby (5–15 min by MRT or Grab)
 
 | Place | Why go | Nearest MRT |
 |-------|--------|-------------|
 | **Thailand Cultural Centre** | Concerts, exhibitions, Thai performances | Thailand Cultural Centre (BL19) |
+| **Jodd Fairs Ratchada** | Evening night market: street food, drinks, live music. The old Rama 9 branch has closed | Ratchada area 🔎 check route and opening nights |
 | **Ratchada Train Night Market** | Retro vibe, street food, drinks, shopping | Thailand Cultural Centre (BL19) 🔎 |
 | **Esplanade Ratchada** | Mall with cinema, restaurants, ice rink-type attractions | Thailand Cultural Centre (BL19) |
 | **Fortune Town** | IT/electronics mall (phones, laptops, gadgets) | Sutthisan / Ratchadaphisek 🔎 |
