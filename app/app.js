@@ -24,7 +24,33 @@
   const filterChips = (opts, cur, attr) =>
     `<div class="chips">${opts.map(([k, l]) => `<button class="chip ${k === cur ? "on" : ""}" data-${attr}="${k}">${l}</button>`).join("")}</div>`;
 
-  const state = { places: "all", food: "all", q: "", trip: 0 };
+  const state = { places: "all", food: "all", q: "", trip: 0, explore: "places", nightSort: "rating" };
+
+  const nightOut = () => {
+    const N = D.nightout, near = N.hotelQuery;
+    const w = v => (v.rating * v.reviews + 4.3 * 100) / (v.reviews + 100); // rating adjusted for review count
+    const sorts = { rating: (x, y) => w(y) - w(x), reviews: (x, y) => y.reviews - x.reviews, close: (x, y) => (x.walk ? 0 : x.taxi) - (y.walk ? 0 : y.taxi) || y.rating - x.rating };
+    const list = N.top.slice().sort(sorts[state.nightSort]);
+    const bestRated = N.top.reduce((m, v) => (w(v) > w(m) ? v : m), N.top[0]);
+    const mostReviewed = N.top.reduce((m, v) => (v.reviews > m.reviews ? v : m), N.top[0]);
+    const card = v => `<div class="card"><h4>${esc(v.n)}</h4>
+      <div class="row" style="margin:2px 0 6px"><span class="tag stars">⭐ ${v.rating.toFixed(1)} · ${v.reviews.toLocaleString()} reviews</span>
+        ${v === bestRated ? '<span class="tag hot">🏆 Top rated</span>' : ""}${v === mostReviewed ? '<span class="tag hot">🔥 Most reviewed</span>' : ""}</div>
+      <p>${esc(v.type)}</p><p>🧭 ${esc(v.go)}</p>
+      <div class="row"><span class="tag">💰 ~${esc(v.budget)} per person (est.)</span>${mapBtn((v.q || v.n) + " near " + near)}</div></div>`;
+    return `<div class="banner info"><strong>🌙 Dinner and drinks near the hotel.</strong> Ratings and review counts are Google's, as of ${esc(N.asOf)}. Budgets are my estimates (Google didn't show prices), so check the listing before you go. "Top rated" weighs the stars by how many reviews back them.</div>
+      <h3>⭐ Top-rated spots nearby</h3>
+      ${filterChips([["rating", "⭐ Top rated"], ["reviews", "🔥 Most reviewed"], ["close", "📍 Closest"]], state.nightSort, "ns")}
+      ${list.map(card).join("")}
+      <h3>🔎 Find chill bars and cafés (live Google ratings)</h3>
+      <p style="color:var(--muted);margin-top:0;font-size:14px">Google's bar and café ratings change daily, so these open Google Maps around the hotel where you can see current stars, photos and hours.</p>
+      <div class="grid">${N.find.map(f => `<a class="tile" target="_blank" rel="noopener" style="text-decoration:none" href="${gmap(f.q + " " + near)}"><span class="ic">${f.icon}</span>${esc(f.n)}<br><small style="color:var(--muted);font-weight:400">~${esc(f.budget)} / person</small></a>`).join("")}</div>
+      <h3>🚇 Bigger night-out areas</h3>
+      ${N.districts.map(x => `<div class="card"><h4>${x.icon} ${esc(x.n)}</h4><p>${esc(x.note)}</p><p>🧭 ${esc(x.how)}</p>
+        <div class="row"><span class="tag">💰 ~${esc(x.budget)} per person (est.)</span>${mapBtn(x.n.split(" / ")[0] + " Bangkok")}</div></div>`).join("")}
+      <h3>💡 Night-out tips</h3>
+      <div class="card"><ul>${N.tips.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div>`;
+  };
 
   const views = {
     home() {
@@ -92,9 +118,11 @@
     },
 
     places() {
+      const seg = filterChips([["places", "📍 Places"], ["night", "🌙 BKK Night Out"]], state.explore, "ev");
+      if (state.explore === "night") return `<h2>Explore</h2>${seg}${nightOut()}`;
       const cats = [["all", "All"], ["near", "Walkable"], ["nearby", "Near (MRT)"], ["downtown", "Downtown"]];
       const list = D.places.filter(p => state.places === "all" || p.cat === state.places);
-      return `<h2>Explore</h2>${filterChips(cats, state.places, "pf")}
+      return `<h2>Explore</h2>${seg}${filterChips(cats, state.places, "pf")}
       ${list.map(p => `<div class="card"><h4>${esc(p.n)}</h4><p>${esc(p.d)}</p>
         <div class="row"><span class="tag">🚶 ${esc(p.t)}</span>${mapBtn(p.q)}</div></div>`).join("")}`;
     },
@@ -154,6 +182,7 @@
   };
 
   function render(tab) {
+    if (tab === "night") { state.explore = "night"; tab = "places"; }
     tab = views[tab] ? tab : "home";
     location.hash = tab;
     $("#view").innerHTML = views[tab]();
@@ -177,11 +206,13 @@
 
   // Events
   document.addEventListener("click", e => {
-    const t = e.target.closest("[data-tab],[data-go],[data-pf],[data-ff],[data-say],[data-taxi],[data-sos],[data-close],[data-st]");
+    const t = e.target.closest("[data-tab],[data-go],[data-pf],[data-ff],[data-ev],[data-ns],[data-say],[data-taxi],[data-sos],[data-close],[data-st]");
     if (!t) return;
     const d = t.dataset;
     if (d.tab || d.go) { render(d.tab || d.go); }
     else if (d.pf) { state.places = d.pf; render("places"); }
+    else if (d.ev) { state.explore = d.ev; render("places"); }
+    else if (d.ns) { state.nightSort = d.ns; render("places"); }
     else if (d.ff) { state.food = d.ff; render("eat"); }
     else if (d.say) { try { const u = new SpeechSynthesisUtterance(d.say); u.lang = "th-TH"; speechSynthesis.cancel(); speechSynthesis.speak(u); } catch (_) { } }
     else if (d.taxi) taxi();
@@ -196,7 +227,7 @@
   });
   document.addEventListener("change", e => { if (e.target.id === "tripsel") { state.trip = +e.target.value; render("go"); } });
   $("#modal").addEventListener("click", e => { if (e.target.id === "modal") e.target.hidden = true; });
-  window.addEventListener("hashchange", () => { const h = location.hash.slice(1); if (views[h]) render(h); });
+  window.addEventListener("hashchange", () => { const h = location.hash.slice(1); if (views[h] || h === "night") render(h); });
 
   $("#nav").innerHTML = TABS.map(([k, l, i]) => `<button data-tab="${k}"><span class="ic">${i}</span>${l}</button>`).join("");
   render(location.hash.slice(1) || "home");

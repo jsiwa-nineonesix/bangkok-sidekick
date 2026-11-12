@@ -7,6 +7,10 @@ A quick-reference pack for colleagues visiting Bangkok for one week, staying at 
 
 Open `app/index.html`, or host the `app/` folder on any static host (it has no build step). On a phone, use "Add to Home Screen" and it works offline. All content is in `app/data.js`. The Markdown files below are the same material in document form.
 
+## 🌙 BKK Night Out
+
+Explore > BKK Night Out lists top-rated dinner and drinks spots near the hotel (Google ratings as of 12 Nov 2026, budgets are estimates), one-tap searches for bars and cafés with live Google ratings, and the main night-out areas with train routes. Data lives in `nightout` in `app/data.js`.
+
 ## 💬 Chat assistant
 
 A chat button ("Ask") answers questions from the guide itself (free, offline). `app/chat-proxy/` contains an proxy that upgrades it to a real AI when online (Cloudflare Workers AI, free allowance); see `app/chat-proxy/README.md`.

@@ -37,6 +37,17 @@
   D.tips.forEach(s => add({ title: s.h, tab: "tips", kw: "tip tips advice" + (/clothing/i.test(s.h) ? " wear dress clothes outfit temple dress code modest shoes" : ""), text: s.b.map(x => "• " + x).join("\n") }));
   D.phrases.forEach(([en, th, ro]) => add({ title: `Thai for "${en}"`, tab: "tips", kw: "thai say phrase speak language word translate how to say",
     text: `${th}\n${ro}`, actions: [{ label: "🔊 Hear it", say: th }] }));
+  const NO = D.nightout;
+  const weighted = v => (v.rating * v.reviews + 4.3 * 100) / (v.reviews + 100); // rating adjusted for how many reviews back it
+  NO.top.forEach(v => add({ title: v.n, ttl: v.n + " " + v.type.replace(/\(.*\)/, ""), tab: "night", rated: weighted(v), taxi: v.walk ? 3 : v.taxi, kw: `night out dinner drinks restaurant eat chill popular best top rated google rating review ${v.type}`,
+    text: `⭐ ${v.rating.toFixed(1)} from ${v.reviews.toLocaleString()} Google reviews (as of ${NO.asOf})\n${v.type}\n🧭 ${v.go}\n💰 About ${v.budget} per person (my estimate)`,
+    actions: [{ label: "📍 Map", href: gmap((v.q || v.n) + " near " + NO.hotelQuery) }] }));
+  NO.find.forEach(f => add({ title: `${f.n} near the hotel`, tab: "night", kw: "night out bar pub drink chill cafe rooftop cocktail music late night live ratings best popular",
+    text: `Open Google Maps around the hotel for live ratings, photos and hours.\n💰 About ${f.budget} per person (estimate)`,
+    actions: [{ label: "📍 Find on Maps", href: gmap(f.q + " " + NO.hotelQuery) }] }));
+  NO.districts.forEach(x => add({ title: `Night out: ${x.n}`, tab: "night", kw: "night out nightlife bar pub drink district area go downtown",
+    text: `${x.note}\n🧭 ${x.how}\n💰 About ${x.budget} per person (estimate)`, actions: [{ label: "📍 Map", href: gmap(x.n.split(" / ")[0] + " Bangkok") }] }));
+  add({ title: "Night-out tips", tab: "night", kw: "night out late home last train midnight grab budget", text: NO.tips.map(x => "• " + x).join("\n") });
   D.stations.concat(D.btsStations).forEach(s => add({ title: `${s.n.replace(/[^\w\s\/]/g, "").trim()} station`, tab: "map", kw: "station mrt bts stop line", text: s.info,
     actions: s.ll ? [{ label: "📍 Map", href: "https://www.google.com/maps/search/?api=1&query=" + s.ll }] : [] }));
   add({ title: "Avoid scams and bad rides", tab: "apps", kw: "scam avoid cheat taxi meter tuk tuk safe safety ripoff overcharge", text: D.avoid.map(x => "• " + x).join("\n") });
@@ -65,14 +76,19 @@
     ["downtown", "city", "center", "centre", "siam", "sukhumvit", "silom"],
     ["team", "teams", "microsoft", "work", "meeting"]
   ];
-  const stem = w => (w.length > 4 && w.endsWith("s") && !w.endsWith("ss") ? w.slice(0, -1) : w);
+  const stem = w => (w.length > 3 && w.endsWith("s") && !w.endsWith("ss") ? w.slice(0, -1) : w);
   const tok = s => String(s).toLowerCase().replace(/[^a-z0-9฀-๿\s]/g, " ").split(/\s+/).filter(w => w && !STOP.has(w)).map(stem);
   const synOf = new Map();
   SYN.forEach(g => { const set = g.map(stem); set.forEach(w => { if (!synOf.has(w)) synOf.set(w, new Set()); set.forEach(x => synOf.get(w).add(x)); }); });
-  docs.forEach(d => { d.t = new Set(tok(d.title)); d.b = new Set(tok(d.kw + " " + d.text)); });
+  docs.forEach(d => { d.t = new Set(tok(d.ttl || d.title)); d.b = new Set(tok(d.kw + " " + d.text)); });
+  // Rare words (e.g. "thonglor") should count for more than common ones (e.g. "near", "dinner").
+  const df = new Map();
+  docs.forEach(d => new Set([...d.t, ...d.b]).forEach(w => df.set(w, (df.get(w) || 0) + 1)));
+  const idf = w => Math.log(1 + docs.length / (df.get(w) || 1)) / Math.log(1 + docs.length / 8); // ~1 for a word in ~8 docs
 
   const RE_ROUTE = /\b(get|go|going|reach|travel|commute|directions?|route|way)\b/i, RE_TO = /\b(to|from)\b/i;
-  const RE_MALL = /\b(mall|malls|shopping)\b/i, RE_APP = /\b(app|apps|download|install|delivery|deliver)\b/i, RE_WEAR = /\b(wear|dress|clothes|clothing|outfit|pack|packing|bring)\b/i;
+  const RE_RATED = /\b(best|top|highest|rated|popular|recommend\w*|famous)\b/i, RE_MALL = /\b(mall|malls|shopping)\b/i, RE_APP = /\b(app|apps|download|install|delivery|deliver)\b/i, RE_WEAR = /\b(wear|dress|clothes|clothing|outfit|pack|packing|bring)\b/i;
+  const GENERIC = new Set(["near", "nearby", "hotel", "best", "top", "good", "close", "closest", "walk", "walking", "night", "out", "go", "popular", "rated", "highest", "recommend", "famous", "review"].map(stem));
   function search(q) {
     const qt = [...new Set(tok(q))];
     if (!qt.length) return [];
@@ -80,11 +96,15 @@
     qt.forEach(w => (synOf.get(w) || []).forEach(x => { if (!qt.includes(x)) ext.add(x); }));
     return docs.map(d => {
       let s = 0;
-      qt.forEach(w => { if (d.t.has(w)) s += 3; else if (d.b.has(w)) s += 1; });
-      ext.forEach(w => { if (d.t.has(w)) s += 1; else if (d.b.has(w)) s += 0.35; });
+      qt.forEach(w => { if (d.t.has(w)) s += 3 * idf(w); else if (d.b.has(w)) s += 1 * idf(w); });
+      ext.forEach(w => { if (d.t.has(w)) s += 1 * idf(w); else if (d.b.has(w)) s += 0.35 * idf(w); });
+      // Bonuses only apply when the doc matches the *topic* (not just words like "best", "near", "hotel").
+      const topical = qt.some(w => !GENERIC.has(w) && (d.t.has(w) || d.b.has(w))) || [...ext].some(w => !GENERIC.has(w) && (d.t.has(w) || d.b.has(w)));
       if (s > 0) {
         if (RE_ROUTE.test(q) && RE_TO.test(q) && d.title.startsWith("Getting to")) s += 2.5;
         if (RE_APP.test(q) && d.tab === "apps" && d.title.endsWith(" app")) s += 3;
+        if (topical && /\b(near|nearby|close|closest|walking)\b/i.test(q) && d.taxi) s += (20 - Math.min(d.taxi, 20)) / 8;
+        if (topical && RE_RATED.test(q) && d.rated) s += 1 + (d.rated - 4) * 6;
         if (RE_MALL.test(q) && (d.tab === "places" || d.tab === "eat") && /\bmall\b/i.test(d.text)) s += 3;
         if (RE_WEAR.test(q) && d.tab === "tips" && !d.title.startsWith("Thai for")) s += 2.5;
       }

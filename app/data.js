@@ -10,12 +10,13 @@ const DATA = {
       "Locations of all 21 MRT/BTS stations (OpenStreetMap)",
       "Walking distances from the hotel (measured from map coordinates)",
       "App Store and Play Store links (Apple and Google store records)",
-      "Every Maps button opens a well-formed search or coordinate"
+      "Every Maps button opens a well-formed search or coordinate",
+      "Night Out ratings and review counts (Google, 12 Nov 2026)"
     ],
     recheck: [
       "Fares, travel times and train hours",
       "Opening days and hours (especially night markets)",
-      "Restaurant details and prices",
+      "Restaurant details and prices, including all Night Out budgets (my estimates)",
       "Anything marked 🔎 in the guide"
     ]
   },
@@ -25,7 +26,7 @@ const DATA = {
   // dash.cloudflare.com > Web Analytics to turn it on; leave empty to keep analytics off.
   analytics: { cfToken: "" },
   chat: { endpoint: "https://bangkok-sidekick-chat.bangkok-sidekick-chat-proxy.workers.dev/", dailyLimit: 30 },
-  version: "25",
+  version: "27",
   hotel: {
     name: "Avani Ratchada Bangkok Hotel (opposite G Tower, Rama 9)",
     thaiName: "โรงแรมอวานี รัชดา กรุงเทพ ตรงข้ามจีทาวเวอร์ พระราม 9",
@@ -158,6 +159,41 @@ const DATA = {
     { h: "Packing checklist", b: ["Passport, entry documents, hotel booking", "Travel insurance", "Power adapter (220 V) 🔎", "Contactless credit card for MRT", "Small cash", "Power bank", "Umbrella or rain jacket", "Sunscreen, insect repellent", "Prescription medicines with a copy of the prescription"] }
   ],
 
+  // BKK Night Out (Explore > Night Out). Ratings/review counts/taxi times are Google's, read from the hotel's
+  // Google listing on 12 Nov 2026. Budgets are ESTIMATES by cuisine (Google data had no price level).
+  nightout: {
+    asOf: "12 Nov 2026",
+    hotelQuery: "Avani Ratchada Bangkok Hotel",
+    top: [
+      { n: "Maderla", type: "Thai restaurant", rating: 4.9, reviews: 547, taxi: 5, go: "About 5 min by Grab from the hotel (Google's estimate). Open Map, then tap Directions.", budget: "฿200-450" },
+      { n: "ตำตำ ต้นตำรับ (Belle Grand Rama 9)", q: "ตำตำ ต้นตำรับ Belle Grand Rama 9", type: "Thai restaurant", rating: 4.8, reviews: 215, taxi: 5, walk: "about 10 min walk (~600 m)", go: "Belle Grand Rama 9 is about 600 m from the hotel: roughly a 10-minute walk, or ~5 min by Grab.", budget: "฿150-350" },
+      { n: "Treehouse Cafe & Bar", type: "Cafe & bar (Google lists it as a restaurant)", rating: 4.8, reviews: 2356, taxi: 16, go: "About 16 min by Grab (Google's estimate). The most-reviewed place in this list. Check the route in Maps before you go.", budget: "฿400-900 with drinks" },
+      { n: "Come Pah", type: "Thai restaurant", rating: 4.7, reviews: 257, taxi: 5, go: "About 5 min by Grab (Google's estimate).", budget: "฿200-450" },
+      { n: "Dal Dal Korean Restaurant", type: "Korean restaurant", rating: 4.7, reviews: 543, taxi: 5, go: "About 5 min by Grab (Google's estimate).", budget: "฿300-700" },
+      { n: "Kumpoon - Central Rama 9", type: "Thai restaurant", rating: 4.6, reviews: 398, taxi: 6, walk: "inside Central Rama 9, about a 4-min walk", go: "Inside Central Rama 9, a 4-minute walk (~250 m) from the hotel. Use the mall directory for the floor.", budget: "฿200-450" },
+      { n: "Baan Ying Original Siam Kitchen", type: "Thai restaurant", rating: 4.6, reviews: 340, taxi: 3, go: "About 3 min by Grab (Google's estimate), the closest of the group by car.", budget: "฿250-500" },
+      { n: "Have A Zeed - Central Rama 9", type: "Thai restaurant", rating: 4.5, reviews: 214, taxi: 4, walk: "inside Central Rama 9, about a 4-min walk", go: "Inside Central Rama 9, a 4-minute walk (~250 m) from the hotel.", budget: "฿150-350" },
+      { n: "MUGI - The Prom Din Daeng", type: "Japanese restaurant", rating: 5.0, reviews: 170, taxi: 11, go: "About 11 min by Grab (Google's estimate). Perfect score but fewer reviews.", budget: "฿300-700" }
+    ],
+    find: [
+      { n: "Pubs & bars", icon: "🍺", q: "pub bar near", budget: "฿400-1,000" },
+      { n: "Rooftop bars", icon: "🌃", q: "rooftop bar near", budget: "฿800-2,000+" },
+      { n: "Cocktail bars", icon: "🍸", q: "cocktail bar near", budget: "฿500-1,200" },
+      { n: "Chill cafés", icon: "☕", q: "cafe near", budget: "฿100-250" },
+      { n: "Live music", icon: "🎶", q: "live music bar near", budget: "฿400-900" },
+      { n: "Late-night food", icon: "🍜", q: "late night food near", budget: "฿100-300" }
+    ],
+    districts: [
+      { n: "Asok / Sukhumvit", icon: "🏙️", how: "MRT Phra Ram 9 → Sukhumvit (BL22), about 10 min. BTS Asok and Terminal 21 are right there.", budget: "฿500-1,200", note: "The closest big nightlife and dining area." },
+      { n: "Thonglor & Ekkamai", icon: "🥂", how: "MRT to Sukhumvit (BL22), change to BTS Asok, then BTS to Thong Lo (E6), about 35-45 min in total. Grab is faster late at night.", budget: "฿600-1,500", note: "Trendier bars, cocktail spots and cafés." },
+      { n: "Silom / Sala Daeng", icon: "🌆", how: "MRT straight to Silom (BL26), about 20 min, no change. BTS Sala Daeng is the interchange.", budget: "฿500-1,200", note: "Pubs and bars near Lumphini Park and Silom." }
+    ],
+    tips: [
+      "Trains run roughly 05:30-00:00 🔎, so plan to take a Grab home late. Tap Home > Show to taxi driver for the hotel's Thai address card.",
+      "In Google Maps, use the Rating filter (4.5+), Open now, and Popular times to pick a place at the right moment.",
+      "Budgets are per person and approximate. Rooftop bars add up fast; check prices on the Maps listing."
+    ]
+  },
   phrases: [
     ["Hello", "สวัสดีครับ/ค่ะ", "Sawasdee krap/ka"],
     ["Thank you", "ขอบคุณครับ/ค่ะ", "Khob khun krap/ka"],
