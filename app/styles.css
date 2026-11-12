@@ -261,3 +261,6 @@ a.tile { display: block; }
 .base-note { font-size: 14px; }
 
 a.tag.rate-link { text-decoration: none; color: var(--link); font-weight: 600; background: rgba(190,220,255,.55); border-color: rgba(90,150,230,.55); }
+
+/* ===== Brand logo ===== */
+.brand .logo { height: 30px; width: auto; flex: none; filter: drop-shadow(0 2px 3px rgba(150,90,0,.25)); }
