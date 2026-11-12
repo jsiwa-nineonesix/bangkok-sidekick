@@ -122,9 +122,11 @@
     },
 
     apps() {
+      const groups = [];
+      D.apps.forEach(x => { let g = groups.find(y => y.n === x.grp); if (!g) groups.push(g = { n: x.grp, items: [] }); g.items.push(x); });
       return `<h2>Apps</h2><p style="color:var(--muted);margin-top:0">Install and add your payment method before you land.</p>
-      ${D.apps.map(a => `<div class="card"><h4>${esc(a.n)}</h4><p><strong>${esc(a.use)}</strong></p><ul>${a.tips.map(x => `<li>${esc(x)}</li>`).join("")}</ul>
-        <div class="row">${storeBtns(a)}</div></div>`).join("")}
+      ${groups.map(g => `<h3>${esc(g.n)}</h3>${g.items.map(a => `<div class="card"><h4>${esc(a.n)}</h4><p><strong>${esc(a.use)}</strong></p><ul>${a.tips.map(x => `<li>${esc(x)}</li>`).join("")}</ul>
+        <div class="row">${storeBtns(a)}</div></div>`).join("")}`).join("")}
       <h3>Avoid</h3><div class="card"><ul>${D.avoid.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div>`;
     },
 
