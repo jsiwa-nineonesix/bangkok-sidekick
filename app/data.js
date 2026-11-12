@@ -2,7 +2,7 @@
 const DATA = {
   appName: "Siam Sidekick",
   tagline: "Your travel buddy in the Big Mango",
-  version: "14",
+  version: "15",
   hotel: {
     name: "Avani Ratchada Bangkok Hotel (opposite G Tower, Rama 9)",
     thaiName: "โรงแรมอวานี รัชดา กรุงเทพ ตรงข้ามจีทาวเวอร์ พระราม 9",
