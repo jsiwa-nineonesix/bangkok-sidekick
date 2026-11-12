@@ -2,6 +2,14 @@
   "_howto": "Add a new entry at the TOP for every release. 'v' must match the version in data.js and sw.js. Keep notes short and in plain language: they are shown to colleagues when an update is available.",
   "releases": [
     {
+      "v": "43",
+      "date": "2026-11-12",
+      "notes": [
+        "Explore now has a photo for every place, all in the same size, with a cleaner minimal card design",
+        "Tap the small “i” on a photo to see who took it. Photos are saved on your phone for offline use"
+      ]
+    },
+    {
       "v": "42",
       "date": "2026-11-12",
       "notes": [

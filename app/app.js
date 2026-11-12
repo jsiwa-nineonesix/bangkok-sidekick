@@ -32,7 +32,7 @@
   const EXPLORE = [["near", "🚶 Walkable"], ["nearby", "🚇 Near (MRT)"], ["downtown", "🏙️ Downtown"], ["malls", "🛍️ Popular Malls"], ["night", "🌙 BKK Night Out"]];
   const EXPLORE_KEYS = EXPLORE.map(e => e[0]);
   const INTRO = {
-    near: "🚶 <strong>Within a few minutes' walk of the hotel.</strong> Distances are measured from map coordinates.",
+    near: "🚶 <strong>Within a few minutes' walk of the hotel.</strong>",
     nearby: "🚇 <strong>A short MRT or Grab ride away</strong> (about 5-25 minutes).",
     downtown: "🏙️ <strong>Bangkok's big sights.</strong> Plan 20-60 minutes each way by MRT/BTS and set aside half a day.",
     malls: "🛍️ <strong>Popular malls</strong>, from the ones beside the hotel to the big Siam and riverside ones."
@@ -46,40 +46,58 @@
     close: (x, y) => distOf(x) - distOf(y) || (y.rating ? weighted(y) : 0) - (x.rating ? weighted(x) : 0)
   };
   const sortChips = cur => filterChips([["rating", "⭐ Top rated"], ["reviews", "🔥 Most reviewed"], ["close", "📍 Closest"]], cur, "ns");
-  const vcard = (v, badges, mapQuery) => `<div class="card"><h4>${esc(v.n)}</h4>
-      <div class="row" style="margin:2px 0 6px">${v.rating
-        ? `<span class="tag stars">⭐ ${v.rating.toFixed(1)} · ${v.reviews.toLocaleString()} reviews</span>`
-        : `<a class="tag rate-link" target="_blank" rel="noopener" href="${gmap(mapQuery)}">⭐ Tap to see Google rating ›</a>`}${v.km != null ? `<span class="tag">📏 ${v.km.toFixed(1)} km</span>` : ""}${badges}</div>
-      <p>${esc(v.type)}</p>${v.d ? `<p>${esc(v.d)}</p>` : ""}<p>🧭 ${esc(v.go)}</p>
-      <div class="row"><span class="tag">💰 Per person (est.): ${esc(v.budget)}</span>${mapBtn(mapQuery)}</div></div>`;
+  // ---- photo cards: every card has the same 16:10 picture area; places without a free photo get a matching tile ----
+  const TONES = ["warm", "cool", "green", "rose", "violet"];
+  const toneOf = s => TONES[[...String(s)].reduce((n, c) => n + c.charCodeAt(0), 0) % TONES.length];
+  const photoOf = v => (v.photo && D.photos && D.photos[v.photo] ? { src: D.photoDir + v.photo + ".jpg", c: D.photos[v.photo] } : null);
+  const creditHtml = c => `Photo: ${esc(c.by)} · <a target="_blank" rel="noopener" href="${esc(c.licUrl)}">${esc(c.lic)}</a> · <a target="_blank" rel="noopener" href="${esc(c.page)}">Wikimedia Commons</a>`;
+  const vcard = (v, labels, mapQuery) => {
+    const ph = photoOf(v);
+    const media = ph
+      ? `<img src="${esc(ph.src)}" alt="${esc(v.n)}" width="800" height="500" loading="lazy" decoding="async">`
+      : `<div class="vph tone-${toneOf(v.n)}" role="img" aria-label="${esc(v.n)}"><span aria-hidden="true">${v.ph || "📍"}</span></div>`;
+    const meta = [esc(v.type), v.km != null ? v.km.toFixed(1) + " km away" : "", v.rating ? v.reviews.toLocaleString() + " Google reviews" : ""].filter(Boolean).join(" · ");
+    return `<article class="vc"><div class="vmedia">${media}
+        ${v.rating ? `<span class="vchip r">⭐ ${v.rating.toFixed(1)}</span>` : ""}
+        ${labels.length ? `<div class="vlabels">${labels.map(l => `<span class="vchip">${l}</span>`).join("")}</div>` : ""}
+        ${ph ? `<button class="vinfo" type="button" data-credit="1" aria-label="Photo credit">i</button><div class="vcredit">${creditHtml(ph.c)}</div>` : ""}</div>
+      <div class="vbody"><h4>${esc(v.n)}</h4><p class="vmeta">${meta}</p>
+        ${v.d ? `<p class="vdesc">${esc(v.d)}</p>` : ""}<p class="vgo">🧭 ${esc(v.go)}</p>
+        <div class="vfoot"><span class="vbudget"><b>${esc(v.budget)}</b><small>per person · estimate</small></span>
+          <span class="vlinks">${v.rating ? "" : `<a class="vlink soft" target="_blank" rel="noopener" href="${gmap(mapQuery)}">Google rating</a>`}<a class="vlink" target="_blank" rel="noopener" href="${gmap(mapQuery)}">Map ›</a></span></div></div></article>`;
+  };
   const badgeFor = (list, v) => {
     const rated = list.filter(x => x.rating);
     const best = rated.length ? rated.reduce((m, x) => (weighted(x) > weighted(m) ? x : m), rated[0]) : null;
     const most = rated.length ? rated.reduce((m, x) => (x.reviews > m.reviews ? x : m), rated[0]) : null;
-    return (v === best ? '<span class="tag hot">🏆 Top rated</span>' : "") + (v === most ? '<span class="tag hot">🔥 Most reviewed</span>' : "");
+    return [v === best ? "🏆 Top rated" : "", v === most ? "🔥 Most reviewed" : ""].filter(Boolean);
+  };
+  const creditsList = items => {
+    const rows = items.filter(photoOf).map(v => { const c = photoOf(v).c; return `<li><strong>${esc(v.n)}</strong>: ${esc(c.by)}, <a target="_blank" rel="noopener" href="${esc(c.licUrl)}">${esc(c.lic)}</a>, <a target="_blank" rel="noopener" href="${esc(c.page)}">source</a></li>`; }).join("");
+    return rows ? `<details class="vcredits"><summary>Photo credits</summary><ul>${rows}</ul><p>Photos are from Wikimedia Commons and have been cropped and resized. A plain tile means there is no free photo of that exact place.</p></details>` : "";
   };
   const venueView = key => {
     const list = D.places.filter(p => p.cats.includes(key));
     const sorted = list.slice().sort(venueSorts[sortOf(key)]);
-    return `<div class="banner info">${INTRO[key]} Ratings are Google's (as of ${esc(D.explore.asOf)}) where I could read them; where a card says “Tap to see Google rating”, one tap opens its Google listing. Budgets are my estimates. 📏 is the straight-line distance from the hotel. "Top rated" weighs the stars by how many reviews back them.</div>
+    return `<p class="vnote">${INTRO[key]} <span>Google ratings, ${esc(D.explore.asOf)} · budgets are estimates · straight-line distances</span></p>
       ${sortChips(sortOf(key))}
-      ${sorted.map(v => vcard(v, badgeFor(list, v), v.q)).join("")}`;
+      <div class="vgrid">${sorted.map(v => vcard(v, badgeFor(list, v), v.q)).join("")}</div>${creditsList(sorted)}`;
   };
   const nightOut = () => {
     const N = D.nightout, near = N.hotelQuery;
     const list = N.top.slice().sort(venueSorts[sortOf("night")]);
-    return `<div class="banner info"><strong>🌙 Dinner and drinks near the hotel.</strong> Ratings and review counts are Google's, as of ${esc(N.asOf)}. Budgets are my estimates (Google didn't show prices), so check the listing before you go. "Top rated" weighs the stars by how many reviews back them.</div>
-      <h3>⭐ Top-rated spots nearby</h3>
+    const areas = N.districts.map(x => ({ n: x.n, type: "Night-out area", d: x.note, go: x.how, budget: x.budget, photo: x.photo, ph: x.icon, q: x.n.split(" / ")[0] + " Bangkok" }));
+    return `<p class="vnote"><strong>🌙 Dinner and drinks near the hotel.</strong> <span>Google ratings, ${esc(N.asOf)} · budgets are my estimates</span></p>
+      <h3>Top-rated spots nearby</h3>
       ${sortChips(sortOf("night"))}
-      ${list.map(v => vcard(v, badgeFor(N.top, v), (v.q || v.n) + " near " + near)).join("")}
-      <h3>🔎 Find chill bars and cafés (live Google ratings)</h3>
-      <p style="color:var(--muted);margin-top:0;font-size:14px">Google's bar and café ratings change daily, so these open Google Maps around the hotel where you can see current stars, photos and hours.</p>
+      <div class="vgrid">${list.map(v => vcard(v, badgeFor(N.top, v), (v.q || v.n) + " near " + near)).join("")}</div>
+      <h3>Find chill bars and cafés</h3>
+      <p class="vnote"><span>Google's bar and café ratings change daily, so these open Google Maps around the hotel with current stars, photos and hours.</span></p>
       <div class="grid">${N.find.map(f => `<a class="tile" target="_blank" rel="noopener" style="text-decoration:none" href="${gmap(f.q + " " + near)}"><span class="ic">${f.icon}</span>${esc(f.n)}<br><small style="color:var(--muted);font-weight:400">~${esc(f.budget)} / person</small></a>`).join("")}</div>
-      <h3>🚇 Bigger night-out areas</h3>
-      ${N.districts.map(x => `<div class="card"><h4>${x.icon} ${esc(x.n)}</h4><p>${esc(x.note)}</p><p>🧭 ${esc(x.how)}</p>
-        <div class="row"><span class="tag">💰 Per person (est.): ${esc(x.budget)}</span>${mapBtn(x.n.split(" / ")[0] + " Bangkok")}</div></div>`).join("")}
-      <h3>💡 Night-out tips</h3>
-      <div class="card"><ul>${N.tips.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div>`;
+      <h3>Bigger night-out areas</h3>
+      <div class="vgrid">${areas.map(x => vcard(x, [], x.q)).join("")}</div>
+      <h3>Night-out tips</h3>
+      <div class="card"><ul>${N.tips.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div>${creditsList(areas)}`;
   };
 
   const views = {
@@ -233,10 +251,11 @@
 
   // Events
   document.addEventListener("click", e => {
-    const t = e.target.closest("[data-tab],[data-go],[data-pf],[data-ff],[data-ev],[data-ns],[data-say],[data-taxi],[data-sos],[data-close],[data-st]");
+    const t = e.target.closest("[data-credit],[data-tab],[data-go],[data-pf],[data-ff],[data-ev],[data-ns],[data-say],[data-taxi],[data-sos],[data-close],[data-st]");
     if (!t) return;
     const d = t.dataset;
-    if (d.tab || d.go) { render(d.tab || d.go); }
+    if (d.credit) { t.closest(".vc").classList.toggle("show-credit"); }
+    else if (d.tab || d.go) { render(d.tab || d.go); }
     else if (d.ev) { state.explore = d.ev; render("places"); }
     else if (d.ns) { state.sort[state.explore] = d.ns; render("places"); }
     else if (d.ff) { state.food = d.ff; render("eat"); }
@@ -255,6 +274,15 @@
   $("#modal").addEventListener("click", e => { if (e.target.id === "modal") e.target.hidden = true; });
   window.addEventListener("hashchange", () => { const h = location.hash.slice(1); if (views[h] || EXPLORE_KEYS.includes(h)) render(h); });
 
+  // After the first visit, quietly save the place photos for offline use (skipped on data-saver / very slow connections).
+  const warmPhotos = () => {
+    const c = navigator.connection || {};
+    if (c.saveData || /2g/.test(c.effectiveType || "")) return;
+    const urls = Object.keys(D.photos || {}).map(k => D.photoDir + k + ".jpg"); let i = 0;
+    const next = () => { if (i >= urls.length || navigator.onLine === false) return; fetch(urls[i++]).catch(() => { }).finally(() => setTimeout(next, 250)); };
+    next();
+  };
+  if ("requestIdleCallback" in window) requestIdleCallback(() => setTimeout(warmPhotos, 4000)); else setTimeout(warmPhotos, 6000);
   try { localStorage.removeItem("bkk-checkin-token"); } catch (_) { } // tidy up after the removed Check In tab
   $("#nav").innerHTML = TABS.map(([k, l, i]) => `<button data-tab="${k}"><span class="ic">${i}</span>${l}</button>`).join("");
   render(location.hash.slice(1) || "home");
