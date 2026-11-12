@@ -7,6 +7,10 @@ A quick-reference pack for colleagues visiting Bangkok for one week, staying at 
 
 Open `app/index.html`, or host the `app/` folder on any static host (it has no build step). On a phone, use "Add to Home Screen" and it works offline. All content is in `app/data.js`. The Markdown files below are the same material in document form.
 
+## 💬 Chat assistant
+
+A chat button ("Ask") answers questions from the guide itself (free, offline). `app/chat-proxy/` contains an optional proxy to upgrade it to a real AI; see `app/chat-proxy/README.md`.
+
 ## What's inside
 
 | File | What you'll find |

@@ -1,5 +1,5 @@
-const CACHE = "bangkok-sidekick-v16";
-const FILES = ["./", "index.html", "styles.css", "app.js", "data.js", "manifest.webmanifest", "icon.svg", "img/app-store-badge.png", "img/google-play-badge.png"];
+const CACHE = "bangkok-sidekick-v17";
+const FILES = ["./", "index.html", "styles.css", "app.js", "data.js", "chat.js", "manifest.webmanifest", "icon.svg", "img/app-store-badge.png", "img/google-play-badge.png"];
 self.addEventListener("install", e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES))); self.skipWaiting(); });
 self.addEventListener("activate", e => {
   e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== CACHE).map(k => caches.delete(k)))));

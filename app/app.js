@@ -38,6 +38,7 @@
       <div class="banner good"><strong>💳 Card tip:</strong> MRT gates accept contactless Visa/Mastercard directly. <strong>BTS does not</strong>, so use a Rabbit card, QR ticket or coins.</div>
       <div class="grid">
         ${TABS.slice(1).map(([k, l, i]) => `<div class="tile" data-go="${k}"><span class="ic">${i}</span>${l}</div>`).join("")}
+        <div class="tile" data-chat="1"><span class="ic">💬</span>Ask Sidekick</div>
         <div class="tile" data-taxi="1"><span class="ic">🚕</span>Show to taxi driver</div>
         <div class="tile" data-sos="1"><span class="ic">🆘</span>Emergency</div>
       </div>

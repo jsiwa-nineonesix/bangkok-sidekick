@@ -1,0 +1,13 @@
+{
+  "name": "bangkok-sidekick-chat-proxy",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Tiny Cloudflare Worker that keeps your Anthropic API key private and answers Bangkok Sidekick chat questions.",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": { "@anthropic-ai/sdk": "latest" },
+  "devDependencies": { "typescript": "^5.6.0", "wrangler": "^4.0.0" }
+}

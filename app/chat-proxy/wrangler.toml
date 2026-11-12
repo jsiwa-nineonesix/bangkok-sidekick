@@ -1,0 +1,12 @@
+name = "bangkok-sidekick-chat"
+main = "src/index.ts"
+compatibility_date = "2026-11-01"
+
+[vars]
+# The exact origin of your site (no path, no trailing slash). Requests from other origins are refused.
+ALLOWED_ORIGIN = "https://jsiwa-nineonesix.github.io"
+# Optional: pick the model. Defaults to claude-opus-5-5. A smaller model costs much less, e.g. "claude-haiku-5-5".
+# MODEL = "claude-haiku-5-5"
+
+# The API key is a SECRET, never put it in this file. Set it with:
+#   npx wrangler secret put ANTHROPIC_API_KEY
