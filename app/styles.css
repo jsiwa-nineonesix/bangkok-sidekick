@@ -75,7 +75,8 @@ a { color: var(--link); }
   border-bottom: 1px solid var(--glass-border);
   box-shadow: inset 0 -1px 0 var(--glass-edge);
 }
-.brand { font-weight: 700; font-size: 17px; letter-spacing: .2px; max-width: 900px; margin: 0 auto; }
+.brand { display: flex; align-items: center; gap: 6px; font-weight: 700; font-size: 17px; letter-spacing: .2px; max-width: 900px; margin: 0 auto; color: var(--text); text-decoration: none; }
+.ver { margin-left: auto; font-size: 11px; font-weight: 500; color: var(--muted); opacity: .8; }
 
 /* Floating pill nav */
 #nav {
@@ -84,7 +85,7 @@ a { color: var(--link); }
   display: flex; justify-content: space-between; gap: 2px; padding: 6px;
   max-width: 560px; margin: 0 auto;
   border-radius: 30px;
-  background: var(--glass); -webkit-backdrop-filter: var(--blur); backdrop-filter: var(--blur);
+  background: var(--glass-strong); -webkit-backdrop-filter: var(--blur); backdrop-filter: var(--blur);
   border: 1px solid var(--glass-border);
   box-shadow: 0 10px 34px rgba(10,40,80,.28), inset 0 1px 0 var(--glass-edge);
 }
@@ -163,6 +164,7 @@ ul { padding-left: 20px; margin: 4px 0 10px; }
 .map-wrap svg { width: 100%; height: auto; display: block; touch-action: manipulation; border-radius: 18px; background: rgba(255,255,255,.35); }
 @media (prefers-color-scheme: dark) { .map-wrap svg { background: rgba(255,255,255,.06); } }
 .map-wrap text { fill: var(--text); font-size: 11px; pointer-events: none; font-weight: 600; paint-order: stroke; stroke: var(--glass-strong); stroke-width: 3px; }
+.map-wrap .hit { fill: transparent; stroke: none; cursor: pointer; }
 .map-wrap .st { fill: #fff; stroke: #1d2c3d; stroke-width: 2; cursor: pointer; }
 .map-wrap .ix { fill: #fff; stroke: #000; stroke-width: 3; cursor: pointer; }
 .map-wrap .home { fill: #ff3b3b; stroke: #fff; stroke-width: 2.5; }

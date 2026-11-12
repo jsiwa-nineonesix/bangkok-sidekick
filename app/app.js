@@ -52,7 +52,7 @@
 
     map() {
       const L = (pts, col, w, dash) => `<polyline points="${pts}" fill="none" stroke="${col}" stroke-width="${w}" stroke-linejoin="round" ${dash ? `stroke-dasharray="${dash}"` : ""}/>`;
-      const st = (s, type) => `<g data-st="${type}:${s.id}" tabindex="0"><circle class="${s.home ? "home" : s.ix ? "ix" : "st"}" cx="${s.x}" cy="${s.y}" r="${s.home ? 10 : s.ix ? 8 : 6}"/><text x="${s.x + 12}" y="${s.y + 4}">${esc(s.n)}</text></g>`;
+      const st = (s, type) => `<g data-st="${type}:${s.id}" tabindex="0"><circle class="hit" cx="${s.x}" cy="${s.y}" r="17"/><circle class="${s.home ? "home" : s.ix ? "ix" : "st"}" cx="${s.x}" cy="${s.y}" r="${s.home ? 10 : s.ix ? 8 : 6}"/>${s.nolabel ? "" : s.left ? `<text x="${s.x - 12}" y="${s.y + 4}" text-anchor="end">${esc(s.n)}</text>` : `<text x="${s.x + 12}" y="${s.y + 4}">${esc(s.n)}</text>`}</g>`;
       return `
       <h2>Minimap</h2>
       <p style="color:var(--muted);margin-top:0">Schematic, not to scale. North is up. Tap a station.</p>
@@ -73,7 +73,7 @@
         <span><i class="sw" style="background:#2e9a4a"></i>BTS Sukhumvit</span>
         <span><i class="sw" style="background:#1b5e20"></i>BTS Silom</span>
         <span><i class="sw" style="background:#c62828"></i>Airport Link</span>
-        <span>⬤ red = you</span>
+        <span><i class="sw" style="background:#ff3b3b;height:10px;width:10px;border-radius:50%"></i>You (hotel area)</span>
       </div>
       <div id="stinfo" class="card"><p>Tap a station for details.</p></div>`;
     },
@@ -188,5 +188,13 @@
   $("#nav").innerHTML = TABS.map(([k, l, i]) => `<button data-tab="${k}"><span class="ic">${i}</span>${l}</button>`).join("");
   render(location.hash.slice(1) || "home");
 
-  if ("serviceWorker" in navigator && location.protocol.startsWith("http")) navigator.serviceWorker.register("sw.js").catch(() => { });
+  const ver = $("#ver"); if (ver) ver.textContent = "v" + D.version;
+
+  if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
+    const hadController = !!navigator.serviceWorker.controller;
+    let reloaded = false;
+    // When a newer version takes over, reload once so nobody keeps running a stale copy.
+    navigator.serviceWorker.addEventListener("controllerchange", () => { if (hadController && !reloaded) { reloaded = true; location.reload(); } });
+    navigator.serviceWorker.register("sw.js").then(r => r.update()).catch(() => { });
+  }
 })();

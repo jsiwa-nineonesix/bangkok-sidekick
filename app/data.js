@@ -1,5 +1,6 @@
 // All app content lives here. Edit this file to update the guide. 🔎 = verify before relying on it.
 const DATA = {
+  version: "12",
   hotel: {
     name: "Avani Ratchada Bangkok Hotel (opposite G Tower, Rama 9)",
     thaiName: "โรงแรมอวานี รัชดา กรุงเทพ ตรงข้ามจีทาวเวอร์ พระราม 9",
@@ -69,7 +70,7 @@ const DATA = {
     { id: "BL19", n: "Thailand Cultural Centre", x: 570, y: 268, info: "Ratchada Train Night Market, Esplanade, Cultural Centre. One stop from Phra Ram 9." },
     { id: "BL20", n: "Phra Ram 9 ★", x: 590, y: 300, home: true, info: "YOUR STATION. About a 3-minute walk from Avani Ratchada Bangkok Hotel; also G Tower and Central Rama 9." },
     { id: "BL21", n: "Phetchaburi", x: 570, y: 355, ix: true, info: "Interchange with Airport Rail Link (Makkasan) to Suvarnabhumi Airport." },
-    { id: "BL22", n: "Sukhumvit", x: 530, y: 405, ix: true, info: "Interchange with BTS Asok. Terminal 21. Gateway to Sukhumvit, Siam by BTS." },
+    { id: "BL22", n: "Sukhumvit / Asok", x: 530, y: 405, ix: true, info: "Interchange with BTS Asok. Terminal 21. Gateway to Sukhumvit, Siam by BTS." },
     { id: "BL25", n: "Lumphini", x: 470, y: 495, info: "Lumphini Park." },
     { id: "BL26", n: "Silom", x: 395, y: 520, ix: true, info: "Interchange with BTS Sala Daeng. Silom, Patpong, Lumphini Park." },
     { id: "BL28", n: "Hua Lamphong", x: 360, y: 595, info: "Main railway station." },
@@ -77,13 +78,13 @@ const DATA = {
     { id: "BL31", n: "Sanam Chai", x: 300, y: 655, info: "Wat Pho and Grand Palace (walk 10–15 min or taxi) 🔎." }
   ],
   btsStations: [
-    { id: "N8", n: "Mo Chit", x: 300, y: 60, info: "BTS terminus; Chatuchak area." },
-    { id: "N3", n: "Victory Monument", x: 300, y: 200, info: "Busy hub; boat noodle alley." },
+    { id: "N8", n: "Mo Chit", left: true, x: 300, y: 60, info: "BTS terminus; Chatuchak area." },
+    { id: "N3", n: "Victory Monument", left: true, x: 300, y: 200, info: "Busy hub; boat noodle alley." },
     { id: "CEN", n: "Siam", x: 300, y: 350, ix: true, info: "BTS interchange: Sukhumvit + Silom lines. Paragon, MBK, Center One." },
-    { id: "W1", n: "National Stadium", x: 190, y: 370, info: "Jim Thompson House, MBK." },
-    { id: "E4", n: "Asok", x: 530, y: 405, ix: true, info: "Interchange with MRT Sukhumvit. Terminal 21." },
+    { id: "W1", n: "National Stadium", left: true, x: 190, y: 370, info: "Jim Thompson House, MBK." },
+    { id: "E4", n: "Asok", nolabel: true, x: 530, y: 405, ix: true, info: "Interchange with MRT Sukhumvit. Terminal 21." },
     { id: "E6", n: "Thong Lo", x: 640, y: 430, info: "Cafés, bars, restaurants." },
-    { id: "S6", n: "Saphan Taksin", x: 330, y: 590, info: "River boats to Asiatique / ICONSIAM shuttle." }
+    { id: "S6", n: "Saphan Taksin", left: true, x: 330, y: 590, info: "River boats to Asiatique / ICONSIAM shuttle." }
   ],
 
   trips: [
