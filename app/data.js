@@ -30,7 +30,7 @@ const DATA = {
   // dash.cloudflare.com > Web Analytics to turn it on; leave empty to keep analytics off.
   analytics: { cfToken: "" },
   chat: { endpoint: "https://bangkok-sidekick-chat.bangkok-sidekick-chat-proxy.workers.dev/", dailyLimit: 30 },
-  version: "46",
+  version: "47",
   hotel: {
     name: "Avani Ratchada Bangkok Hotel (opposite G Tower, Rama 9)",
     thaiName: "โรงแรมอวานี รัชดา กรุงเทพ ตรงข้ามจีทาวเวอร์ พระราม 9",
@@ -165,6 +165,12 @@ const DATA = {
       "licUrl": "https://www.fortunetown.co.th/",
       "page": "https://www.fortunetown.co.th/"
     },
+    "the-street-ratchada": {
+      "by": "The Street Ratchada (photo supplied by the app owner)",
+      "lic": "Used with permission of the app owner",
+      "licUrl": "https://www.thestreetratchada.com/",
+      "page": "https://www.thestreetratchada.com/"
+    },
     "mbk": {
       "by": "Christian Henrich",
       "lic": "CC BY-SA 2.5",
@@ -254,7 +260,7 @@ const DATA = {
     // ---- Popular malls (the rest) ----
     { n: "CentralWorld", photo: "centralworld", cats: ["malls"], km: 3.0, rating: 4.5, reviews: 79344, type: "Shopping mall", d: "A huge mall for fashion, beauty, tech and dining.", go: "MRT to Sukhumvit (BL22), BTS Asok to Chit Lom or Siam; about 30 min.", budget: "฿0 to browse · meals ฿200-600", min: 30, q: "CentralWorld" },
     { n: "MBK Center", photo: "mbk", cats: ["malls"], km: 4.0, rating: 4.5, reviews: 66050, type: "Bargain mall", d: "Over 2,000 shops. Bargaining is expected.", go: "MRT to Sukhumvit (BL22), BTS Asok to National Stadium; about 35 min.", budget: "฿0 to browse · shopping ฿300-1,500 · meals ฿100-300", min: 35, q: "MBK Center" },
-    { n: "The Street Ratchada", ph: "🛍️", cats: ["malls"], km: 1.7, type: "Lifestyle mall & night market", d: "Open-air style mall with restaurants and a night market on Ratchada. The closest 'proper' mall after the Rama 9 ones.", go: "MRT to Thailand Cultural Centre (BL19), then about a 7-8 min walk (~500 m), or a short Grab ride.", budget: "฿0 to browse · meals ฿150-450", min: 12, q: "The Street Ratchada" },
+    { n: "The Street Ratchada", photo: "the-street-ratchada", cats: ["malls"], km: 1.7, type: "Lifestyle mall & night market", d: "Open-air style mall with restaurants and a night market on Ratchada. The closest 'proper' mall after the Rama 9 ones.", go: "MRT to Thailand Cultural Centre (BL19), then about a 7-8 min walk (~500 m), or a short Grab ride.", budget: "฿0 to browse · meals ฿150-450", min: 12, q: "The Street Ratchada" },
     { n: "Central Embassy", photo: "central-embassy", cats: ["malls"], km: 2.4, type: "Luxury mall", d: "Upscale shopping and a large food hall, next to Phloen Chit.", go: "MRT to Sukhumvit (BL22), BTS Asok to Phloen Chit (2 stops); about 30 min.", budget: "฿0 to browse · meals ฿300-900", min: 28, q: "Central Embassy" },
     { n: "Platinum Fashion Mall", photo: "platinum", cats: ["malls"], km: 2.8, type: "Wholesale fashion mall (Pratunam)", d: "Hundreds of small clothing stalls. Great for bargains; bring cash and expect to haggle.", go: "About 15-20 min by Grab. By train: MRT to Phetchaburi, Airport Link from Makkasan to Ratchaprarop, then walk ~10 min 🔎.", budget: "฿0 to browse · clothes ฿200-1,500", min: 20, q: "Platinum Fashion Mall" },
     { n: "Em District (EmQuartier, Emporium, EmSphere)", photo: "emquartier", cats: ["malls"], km: 2.9, type: "Upscale mall cluster (Phrom Phong)", d: "Three linked malls with designer shops, a waterfall atrium and many restaurants.", go: "MRT to Sukhumvit (BL22), BTS Asok to Phrom Phong (1 stop); about 25-30 min, or ~15-20 min by Grab.", budget: "฿0 to browse · meals ฿250-700", min: 25, q: "EmQuartier" },
