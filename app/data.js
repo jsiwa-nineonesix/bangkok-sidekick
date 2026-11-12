@@ -1,8 +1,8 @@
 // All app content lives here. Edit this file to update the guide. 🔎 = verify before relying on it.
 const DATA = {
-  appName: "Siam Sidekick",
+  appName: "Bangkok Sidekick",
   tagline: "Your travel buddy in the Big Mango",
-  version: "15",
+  version: "16",
   hotel: {
     name: "Avani Ratchada Bangkok Hotel (opposite G Tower, Rama 9)",
     thaiName: "โรงแรมอวานี รัชดา กรุงเทพ ตรงข้ามจีทาวเวอร์ พระราม 9",

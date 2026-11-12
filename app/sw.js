@@ -1,4 +1,4 @@
-const CACHE = "siam-sidekick-v15";
+const CACHE = "bangkok-sidekick-v16";
 const FILES = ["./", "index.html", "styles.css", "app.js", "data.js", "manifest.webmanifest", "icon.svg", "img/app-store-badge.png", "img/google-play-badge.png"];
 self.addEventListener("install", e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES))); self.skipWaiting(); });
 self.addEventListener("activate", e => {
