@@ -18,7 +18,7 @@
 
   const TABS = [
     ["home", "Home", "🏠"], ["map", "Map", "🗺️"], ["places", "Explore", "📸"], ["eat", "Eat", "🍜"],
-    ["go", "Transit", "🚇"], ["apps", "Apps", "📱"], ["tips", "Tips", "💡"]
+    ["go", "Transit", "🚇"], ["apps", "Apps", "📱"], ["tips", "Tips", "💡"], ["checkin", "Check In", "✅"]
   ];
 
   const filterChips = (opts, cur, attr) =>
@@ -198,6 +198,10 @@
       <h3>Avoid</h3><div class="card"><ul>${D.avoid.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div>`;
     },
 
+    checkin() {
+      return window.CheckIn ? window.CheckIn.render() : "<p>Loading…</p>";
+    },
+
     tips() {
       return `<h2>Tips</h2>
       ${D.tips.map((s, i) => `<details ${i === 0 ? "open" : ""}><summary>${esc(s.h)}</summary><ul>${s.b.map(x => `<li>${esc(x)}</li>`).join("")}</ul></details>`).join("")}
@@ -255,6 +259,7 @@
   $("#modal").addEventListener("click", e => { if (e.target.id === "modal") e.target.hidden = true; });
   window.addEventListener("hashchange", () => { const h = location.hash.slice(1); if (views[h] || EXPLORE_KEYS.includes(h)) render(h); });
 
+  window.BKK = { rerender: () => { if (location.hash === "#checkin") { const y = window.scrollY; $("#view").innerHTML = views.checkin(); window.scrollTo(0, y); } } };
   $("#nav").innerHTML = TABS.map(([k, l, i]) => `<button data-tab="${k}"><span class="ic">${i}</span>${l}</button>`).join("");
   render(location.hash.slice(1) || "home");
 

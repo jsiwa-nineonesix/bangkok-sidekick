@@ -1,0 +1,17 @@
+name = "bangkok-sidekick-checkin"
+main = "src/index.ts"
+compatibility_date = "2026-11-01"
+
+[vars]
+# Exact origin(s) of the site, comma-separated. Requests from other origins are refused.
+ALLOWED_ORIGIN = "https://jsiwa-nineonesix.github.io"
+
+# Private database holding people, visitors and card statuses. Nothing here is stored in the public GitHub repo.
+[[d1_databases]]
+binding = "DB"
+database_name = "bangkok-sidekick-checkin"
+database_id = "f334c895-bc5e-44a4-99c0-22281cf6e900"
+
+# Secrets (set with `npx wrangler secret put NAME`, never put them in this file):
+#   TOKEN_SECRET  signs login tokens
+#   PIN_PEPPER    mixed into PIN hashes
