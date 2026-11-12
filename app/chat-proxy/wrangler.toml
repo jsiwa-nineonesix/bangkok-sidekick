@@ -5,8 +5,14 @@ compatibility_date = "2026-11-01"
 [vars]
 # The exact origin of your site (no path, no trailing slash). Requests from other origins are refused.
 ALLOWED_ORIGIN = "https://jsiwa-nineonesix.github.io"
-# Optional: pick the model. Defaults to claude-opus-5-5. A smaller model costs much less, e.g. "claude-haiku-5-5".
-# MODEL = "claude-haiku-5-5"
+# Which AI answers: "workers-ai" (Cloudflare's own, free daily allowance, no API key) or "anthropic" (Claude, needs a key).
+PROVIDER = "workers-ai"
+# Optional model override. workers-ai default: @cf/google/gemma-4-26b-a4b-it. anthropic default: claude-opus-5-5.
+# MODEL = "@cf/meta/llama-3.3-70b-instruct-fp8-fast"
 
-# The API key is a SECRET, never put it in this file. Set it with:
+# Cloudflare Workers AI binding (used when PROVIDER = "workers-ai"). No key needed.
+[ai]
+binding = "AI"
+
+# Only for PROVIDER = "anthropic": the API key is a SECRET, never put it in this file. Set it with:
 #   npx wrangler secret put ANTHROPIC_API_KEY

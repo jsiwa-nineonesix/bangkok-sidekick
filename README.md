@@ -9,7 +9,7 @@ Open `app/index.html`, or host the `app/` folder on any static host (it has no b
 
 ## 💬 Chat assistant
 
-A chat button ("Ask") answers questions from the guide itself (free, offline). `app/chat-proxy/` contains an optional proxy to upgrade it to a real AI; see `app/chat-proxy/README.md`.
+A chat button ("Ask") answers questions from the guide itself (free, offline). `app/chat-proxy/` contains an proxy that upgrades it to a real AI when online (Cloudflare Workers AI, free allowance); see `app/chat-proxy/README.md`.
 
 ## What's inside
 

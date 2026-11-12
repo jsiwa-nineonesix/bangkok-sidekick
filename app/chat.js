@@ -7,7 +7,7 @@
   const CFG = Object.assign({ endpoint: "", dailyLimit: 30, timeoutMs: 30000 }, D.chat || {});
   const $ = (s, r = document) => r.querySelector(s);
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-  const fmt = s => esc(s).replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/\n/g, "<br>");
+  const fmt = s => esc(s).replace(/^[ \t]*[*-][ \t]+/gm, "• ").replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/\n/g, "<br>");
   const gmap = q => "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(q + " Bangkok");
   const isAndroid = /android/i.test(navigator.userAgent || "");
 
