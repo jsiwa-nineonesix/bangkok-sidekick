@@ -6,6 +6,7 @@
 - ATMs charge a foreign-card fee (commonly ฿220 per withdrawal) 🔎. Withdraw larger amounts less often.
 - Get small notes/coins: ฿20, ฿50, ฿100 and ฿10 coins for BTS machines, markets and tips.
 - Currency exchange: SuperRich offices usually have better rates than airports/hotels.
+- A SuperRich exchange office is also reported at Central Rama 9 (5th floor), a short walk from the hotel. Confirm on Google Maps or the mall directory before you go 🔎.
 - Check with your bank for foreign-transaction fees and travel notices.
 
 ## Weather & clothing

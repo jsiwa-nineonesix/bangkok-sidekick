@@ -115,7 +115,8 @@
         if (RE_APP.test(q) && d.tab === "apps" && d.title.endsWith(" app")) s += 3;
         if (topical && /\b(near|nearby|nearest|close|closest|walking)\b/i.test(q) && d.km != null) s += Math.max(0, 5 - d.km) * 1.2;
         if (topical && /\b(near|nearby|nearest|close|closest|walking)\b/i.test(q) && d.taxi) s += (20 - Math.min(d.taxi, 20)) / 8;
-        if (topical && RE_RATED.test(q) && d.rated) s += 1 + (d.rated - 4) * 6;
+        if (topical && RE_RATED.test(q) && d.rated && !/\b(exchange|currency|baht|money|superrich|atm|cash)\b/i.test(q)) s += 1 + (d.rated - 4) * 6;
+        if (/\b(exchange|currency|baht|money|superrich|super rich|atm|cash|dollars?|usd|euros?)\b|\bchange\b.*\b(money|baht|cash)\b/i.test(q) && /^Money/.test(d.title)) s += 8;
         if (RE_MALL.test(q) && d.isMall) s += 3;
         if (/\b(entry|entrance|fee|ticket|tickets|price|cost|how much|budget|afford\w*)\b/i.test(q) && d.priced) s += 4;
         if (RE_WEAR.test(q) && !/\b(buy|shop|shopping|cheap|bargain|market|store|stores)\b/i.test(q) && d.tab === "tips" && !d.title.startsWith("Thai for")) s += /clothing/i.test(d.title) ? 6 : 2.5;

@@ -31,7 +31,7 @@ const DATA = {
   // Private Check In service (names and card statuses live in Cloudflare, never in this public site).
   checkin: { api: "https://bangkok-sidekick-checkin.bangkok-sidekick-chat-proxy.workers.dev" },
   chat: { endpoint: "https://bangkok-sidekick-chat.bangkok-sidekick-chat-proxy.workers.dev/", dailyLimit: 30 },
-  version: "33",
+  version: "34",
   hotel: {
     name: "Avani Ratchada Bangkok Hotel (opposite G Tower, Rama 9)",
     thaiName: "โรงแรมอวานี รัชดา กรุงเทพ ตรงข้ามจีทาวเวอร์ พระราม 9",
@@ -172,7 +172,7 @@ const DATA = {
   ],
 
   tips: [
-    { h: "Money & payments", b: ["Currency: Thai Baht (฿). Cards work in malls and hotels; street food, markets, taxis and boats are mostly cash.", "MRT accepts contactless cards; BTS does not.", "ATMs charge a foreign-card fee (commonly ฿220) 🔎, so withdraw larger amounts less often.", "Carry small notes and coins (฿10 coins for BTS machines).", "SuperRich exchange offices usually beat airport and hotel rates."] },
+    { h: "Money & payments", b: ["Currency: Thai Baht (฿). Cards work in malls and hotels; street food, markets, taxis and boats are mostly cash.", "MRT accepts contactless cards; BTS does not.", "ATMs charge a foreign-card fee (commonly ฿220) 🔎, so withdraw larger amounts less often.", "Carry small notes and coins (฿10 coins for BTS machines).", "SuperRich exchange offices usually beat airport and hotel rates.", "A SuperRich exchange office is also reported at Central Rama 9 (5th floor), a short walk from the hotel. Confirm on Google Maps or the mall directory before you go 🔎."] },
     { h: "Weather & clothing", b: ["Hot and humid; short but heavy rain showers. Check the forecast 🔎.", "Pack light clothes, a compact umbrella, sunscreen, comfortable shoes.", "Indoor A/C is cold; bring a light layer.", "Temples: cover shoulders and knees; remove shoes where required."] },
     { h: "Health & safety", b: ["Drink bottled water.", "Pharmacies (Boots, Watsons) are common; Central Rama 9 has one.", "Watch for pickpockets in crowded markets and on trains.", "Cross at footbridges; traffic doesn't always stop at crossings.", "Rama 9 is generally safe; use normal city caution at night."] },
     { h: "Etiquette", b: ["Greet with a wai and “sawasdee krap” (male) / “sawasdee ka” (female).", "Respect the monarchy; avoid disparaging comments.", "Don't touch people's heads; don't point your feet at people or Buddha images.", "Remove shoes in homes, some shops and temples.", "Keep calm; raising your voice is impolite.", "Women should not touch monks."] },
