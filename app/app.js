@@ -7,10 +7,11 @@
 
   const isAndroid = /android/i.test(navigator.userAgent || "");
   const storeBtns = a => {
-    const ios = `<a class="btn" target="_blank" rel="noopener" href="https://apps.apple.com/th/app/id${esc(a.ios)}"><img class="store-ic" src="img/appstore.jpg" alt="" width="22" height="22"> App Store</a>`;
-    const gp = `<a class="btn" target="_blank" rel="noopener" href="https://play.google.com/store/apps/details?id=${esc(a.android)}">▶ Play Store</a>`;
+    const ios = `<a class="badge" target="_blank" rel="noopener" aria-label="Download ${esc(a.n)} on the App Store" href="https://apps.apple.com/th/app/id${esc(a.ios)}"><img src="img/app-store-badge.png" alt="Download on the App Store" width="132" height="42"></a>`;
+    const gp = `<a class="badge" target="_blank" rel="noopener" aria-label="Get ${esc(a.n)} on Google Play" href="https://play.google.com/store/apps/details?id=${esc(a.android)}"><img src="img/google-play-badge.png" alt="Get it on Google Play" width="132" height="42"></a>`;
     return isAndroid ? gp + ios : ios + gp;
   };
+
 
   const lm = D.apps.find(a => a.n === "LINE MAN");
   const lmStore = isAndroid ? `https://play.google.com/store/apps/details?id=${lm.android}` : `https://apps.apple.com/th/app/id${lm.ios}`;
