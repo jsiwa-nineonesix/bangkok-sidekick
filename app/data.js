@@ -30,7 +30,7 @@ const DATA = {
   // dash.cloudflare.com > Web Analytics to turn it on; leave empty to keep analytics off.
   analytics: { cfToken: "" },
   chat: { endpoint: "https://bangkok-sidekick-chat.bangkok-sidekick-chat-proxy.workers.dev/", dailyLimit: 30 },
-  version: "44",
+  version: "45",
   hotel: {
     name: "Avani Ratchada Bangkok Hotel (opposite G Tower, Rama 9)",
     thaiName: "โรงแรมอวานี รัชดา กรุงเทพ ตรงข้ามจีทาวเวอร์ พระราม 9",
@@ -159,6 +159,12 @@ const DATA = {
       "licUrl": "https://creativecommons.org/licenses/by-sa/4.0",
       "page": "https://commons.wikimedia.org/wiki/File:CentralWorld_exterior.jpg"
     },
+    "fortune-town": {
+      "by": "Fortune Town (photo supplied by the app owner)",
+      "lic": "Used with permission of the app owner",
+      "licUrl": "https://www.fortunetown.co.th/",
+      "page": "https://www.fortunetown.co.th/"
+    },
     "mbk": {
       "by": "Christian Henrich",
       "lic": "CC BY-SA 2.5",
@@ -224,7 +230,7 @@ const DATA = {
   places: [
     // ---- Walkable ----
     { n: "Central Rama 9", photo: "central-rama-9", cats: ["near", "malls"], km: 0.2, type: "Shopping mall", d: "Big mall: food hall, supermarket, pharmacy, cinema. A good rainy-day base.", go: "About a 4-minute walk (~250 m), across the road.", budget: "฿0 to browse · meals ฿150-450", min: 4, q: "Central Rama 9" },
-    { n: "Fortune Town", ph: "🖥️", cats: ["near", "malls"], km: 0.2, type: "IT & electronics mall", d: "Phones, laptops and gadgets. Right next to MRT Phra Ram 9.", go: "About a 3-minute walk (~200 m).", budget: "฿0 to browse · snacks ฿100-300", min: 3, q: "Fortune Town Ratchadaphisek" },
+    { n: "Fortune Town", photo: "fortune-town", cats: ["near", "malls"], km: 0.2, type: "IT & electronics mall", d: "Phones, laptops and gadgets. Right next to MRT Phra Ram 9.", go: "About a 3-minute walk (~200 m).", budget: "฿0 to browse · snacks ฿100-300", min: 3, q: "Fortune Town Ratchadaphisek" },
     { n: "G Tower", photo: "g-tower", cats: ["near"], km: 0.1, type: "Office tower with cafés", d: "The office tower opposite your hotel, with cafés and quick lunches on the lower floors.", go: "Across the street, about a 1-minute walk.", budget: "฿100-300 for a café or quick lunch", min: 1, q: "G Tower Rama 9" },
     { n: "Rama 9 Square / Grand Rama 9", photo: "rama-9-square", cats: ["near"], km: 0.4, type: "Offices, restaurants & shops", d: "An office and restaurant cluster with convenience stores.", go: "About a 7-minute walk (~450 m).", budget: "฿100-400 for a meal", min: 7, q: "Rama 9 Square" },
     // ---- Near (MRT) ----
