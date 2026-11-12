@@ -30,9 +30,11 @@ A chat button ("Ask") answers questions from the guide itself (free, offline). `
 - **Rides:** Use **Grab** (or Bolt) for taxis and bike/car, **LINE MAN** for food delivery, **MuvMI** for short electric tuk-tuk hops where it operates.
 - **Always:** Bangkok is hot and humid, carry water, dress light, bring a layer for cold AC.
 
-## ⚠️ Verify before you rely on it
+## How reliable is this guide?
 
-This pack was written from general knowledge and was **not checked against live sources**. Opening hours, fares, line coverage, app features and exact walking times change. Check anything important in Google Maps or the relevant app. The hotel's exact address and entrance are not included, so please confirm on your booking. Items marked 🔎 are the ones most worth double-checking.
+Built with AI and checked against official and map sources on 12 Nov 2026: hotel details (official Avani site + Google listing), the locations of all 21 MRT/BTS stations (OpenStreetMap), walking distances (measured from map coordinates) and the App Store / Play Store links.
+
+Things that change, so confirm them live before you rely on them: fares and travel times, opening days and hours (especially night markets), restaurant details and prices, and anything marked 🔎. AI can make mistakes. The same note is shown inside the app on the Home tab (`trust` in `app/data.js`).
 
 ## For the maintainer
 

@@ -232,3 +232,17 @@ ul { padding-left: 20px; margin: 4px 0 10px; }
   #chat-fab { bottom: 24px; right: 24px; }
   #chat { right: 24px; left: auto; bottom: 24px !important; margin: 0; border-radius: 26px; height: min(70dvh, 640px); padding-bottom: 0; }
 }
+
+/* ===== Trust note on Home ===== */
+.trust { border-radius: 20px; padding: 2px 14px; margin: 14px 0; }
+.trust summary { display: flex; gap: 10px; align-items: center; list-style: none; padding: 10px 0; cursor: pointer; }
+.trust summary::-webkit-details-marker { display: none; }
+.trust summary::after { content: "›"; margin-left: auto; font-size: 22px; color: var(--muted); transition: transform .2s; }
+.trust[open] summary::after { transform: rotate(90deg); }
+.trust .t-ic { font-size: 24px; }
+.trust summary strong { display: block; font-size: 15px; }
+.trust summary small { display: block; color: var(--muted); font-size: 12px; font-weight: 400; }
+.trust .t-body { padding: 0 2px 12px; font-size: 14px; }
+.trust .t-body p { margin: 8px 0 2px; }
+.trust .t-body ul { margin: 2px 0 6px; padding-left: 20px; color: var(--muted); }
+.trust .t-note { color: var(--muted); font-size: 13px; }

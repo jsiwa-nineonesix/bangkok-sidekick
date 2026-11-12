@@ -2,10 +2,27 @@
 const DATA = {
   appName: "Bangkok Sidekick",
   tagline: "Your travel buddy in the Big Mango",
+  // Shown on Home. Keep this honest: list only what was actually verified, and the date.
+  trust: {
+    reviewed: "12 Nov 2026",
+    verified: [
+      "Hotel name, address and phone (official Avani site + Google hotel listing)",
+      "Locations of all 21 MRT/BTS stations (OpenStreetMap)",
+      "Walking distances from the hotel (measured from map coordinates)",
+      "App Store and Play Store links (Apple and Google store records)",
+      "Every Maps button opens a well-formed search or coordinate"
+    ],
+    recheck: [
+      "Fares, travel times and train hours",
+      "Opening days and hours (especially night markets)",
+      "Restaurant details and prices",
+      "Anything marked 🔎 in the guide"
+    ]
+  },
   // Chat assistant. Leave endpoint empty to answer from the guide only (free, offline).
   // AI assistant: Cloudflare Workers AI via chat-proxy/ (free daily allowance, no API key).
   chat: { endpoint: "https://bangkok-sidekick-chat.bangkok-sidekick-chat-proxy.workers.dev/", dailyLimit: 30 },
-  version: "23",
+  version: "24",
   hotel: {
     name: "Avani Ratchada Bangkok Hotel (opposite G Tower, Rama 9)",
     thaiName: "โรงแรมอวานี รัชดา กรุงเทพ ตรงข้ามจีทาวเวอร์ พระราม 9",

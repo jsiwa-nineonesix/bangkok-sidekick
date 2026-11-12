@@ -49,7 +49,17 @@
         <li>Hot and humid. Carry water, bring a layer for cold A/C.</li>
         <li>Street food and taxis are mostly cash. Keep small notes.</li>
       </ul></div>
-      <p class="banner">⚠️ Written from general knowledge, not live-checked. Items marked 🔎 should be confirmed in Google Maps or the app before relying on them.</p>`;
+      <details class="trust">
+        <summary><span class="t-ic">🧭</span><span><strong>Built with AI, verified where it counts</strong><small>Last reviewed ${esc(D.trust.reviewed)} · tap for details</small></span></summary>
+        <div class="t-body">
+          <p><strong>✅ Checked against official and map sources</strong></p>
+          <ul>${D.trust.verified.map(x => `<li>${esc(x)}</li>`).join("")}</ul>
+          <p><strong>🔎 Worth a quick live check</strong> (these change)</p>
+          <ul>${D.trust.recheck.map(x => `<li>${esc(x)}</li>`).join("")}</ul>
+          <p class="t-note">Use the 📍 buttons to confirm in Google Maps, or ask Sidekick. AI can make mistakes, so for anything important, confirm before you rely on it.</p>
+          <button type="button" class="btn alt small" data-chat="1">💬 Ask Sidekick</button>
+        </div>
+      </details>`;
     },
 
     map() {
