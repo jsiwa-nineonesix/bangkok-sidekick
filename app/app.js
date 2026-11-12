@@ -24,7 +24,9 @@
   const filterChips = (opts, cur, attr) =>
     `<div class="chips">${opts.map(([k, l]) => `<button class="chip ${k === cur ? "on" : ""}" data-${attr}="${k}">${l}</button>`).join("")}</div>`;
 
-  const state = { places: "all", food: "all", q: "", trip: 0, explore: "near", nightSort: "rating" };
+  const state = { places: "all", food: "all", q: "", trip: 0, explore: "near", sort: {} };
+  const DEFAULT_SORT = { near: "close", nearby: "close", downtown: "rating", malls: "close", night: "rating" };
+  const sortOf = key => state.sort[key] || DEFAULT_SORT[key];
 
   // ---- Explore: one card format for Walkable / Near (MRT) / Downtown / Popular Malls / Night Out ----
   const EXPLORE = [["near", "🚶 Walkable"], ["nearby", "🚇 Near (MRT)"], ["downtown", "🏙️ Downtown"], ["malls", "🛍️ Popular Malls"], ["night", "🌙 BKK Night Out"]];
@@ -47,7 +49,7 @@
   const vcard = (v, badges, mapQuery) => `<div class="card"><h4>${esc(v.n)}</h4>
       <div class="row" style="margin:2px 0 6px">${v.rating
         ? `<span class="tag stars">⭐ ${v.rating.toFixed(1)} · ${v.reviews.toLocaleString()} reviews</span>`
-        : `<span class="tag">⭐ Rating: see Google</span>`}${v.km != null ? `<span class="tag">📏 ${v.km.toFixed(1)} km</span>` : ""}${badges}</div>
+        : `<a class="tag rate-link" target="_blank" rel="noopener" href="${gmap(mapQuery)}">⭐ Tap to see Google rating ›</a>`}${v.km != null ? `<span class="tag">📏 ${v.km.toFixed(1)} km</span>` : ""}${badges}</div>
       <p>${esc(v.type)}</p>${v.d ? `<p>${esc(v.d)}</p>` : ""}<p>🧭 ${esc(v.go)}</p>
       <div class="row"><span class="tag">💰 Per person (est.): ${esc(v.budget)}</span>${mapBtn(mapQuery)}</div></div>`;
   const badgeFor = (list, v) => {
@@ -58,17 +60,17 @@
   };
   const venueView = key => {
     const list = D.places.filter(p => p.cats.includes(key));
-    const sorted = list.slice().sort(venueSorts[state.nightSort]);
-    return `<div class="banner info">${INTRO[key]} Ratings are Google's (as of ${esc(D.explore.asOf)}) where I could read them; otherwise tap Map to see the current rating. Budgets are my estimates. 📏 is the straight-line distance from the hotel. "Top rated" weighs the stars by how many reviews back them.</div>
-      ${sortChips(state.nightSort)}
+    const sorted = list.slice().sort(venueSorts[sortOf(key)]);
+    return `<div class="banner info">${INTRO[key]} Ratings are Google's (as of ${esc(D.explore.asOf)}) where I could read them; where a card says “Tap to see Google rating”, one tap opens its Google listing. Budgets are my estimates. 📏 is the straight-line distance from the hotel. "Top rated" weighs the stars by how many reviews back them.</div>
+      ${sortChips(sortOf(key))}
       ${sorted.map(v => vcard(v, badgeFor(list, v), v.q)).join("")}`;
   };
   const nightOut = () => {
     const N = D.nightout, near = N.hotelQuery;
-    const list = N.top.slice().sort(venueSorts[state.nightSort]);
+    const list = N.top.slice().sort(venueSorts[sortOf("night")]);
     return `<div class="banner info"><strong>🌙 Dinner and drinks near the hotel.</strong> Ratings and review counts are Google's, as of ${esc(N.asOf)}. Budgets are my estimates (Google didn't show prices), so check the listing before you go. "Top rated" weighs the stars by how many reviews back them.</div>
       <h3>⭐ Top-rated spots nearby</h3>
-      ${sortChips(state.nightSort)}
+      ${sortChips(sortOf("night"))}
       ${list.map(v => vcard(v, badgeFor(N.top, v), (v.q || v.n) + " near " + near)).join("")}
       <h3>🔎 Find chill bars and cafés (live Google ratings)</h3>
       <p style="color:var(--muted);margin-top:0;font-size:14px">Google's bar and café ratings change daily, so these open Google Maps around the hotel where you can see current stars, photos and hours.</p>
@@ -236,7 +238,7 @@
     const d = t.dataset;
     if (d.tab || d.go) { render(d.tab || d.go); }
     else if (d.ev) { state.explore = d.ev; render("places"); }
-    else if (d.ns) { state.nightSort = d.ns; render("places"); }
+    else if (d.ns) { state.sort[state.explore] = d.ns; render("places"); }
     else if (d.ff) { state.food = d.ff; render("eat"); }
     else if (d.say) { try { const u = new SpeechSynthesisUtterance(d.say); u.lang = "th-TH"; speechSynthesis.cancel(); speechSynthesis.speak(u); } catch (_) { } }
     else if (d.taxi) taxi();
