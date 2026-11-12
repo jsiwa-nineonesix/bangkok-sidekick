@@ -1,7 +1,0 @@
-node_modules/
-.wrangler/
-.dev.vars
-*.local.sql
-roster*
-pins*
-seed*

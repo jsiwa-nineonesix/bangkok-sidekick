@@ -28,10 +28,8 @@ const DATA = {
   // Anonymous visit counts via Cloudflare Web Analytics (no cookies). Paste the site token from
   // dash.cloudflare.com > Web Analytics to turn it on; leave empty to keep analytics off.
   analytics: { cfToken: "" },
-  // Private Check In service (names and card statuses live in Cloudflare, never in this public site).
-  checkin: { api: "https://bangkok-sidekick-checkin.bangkok-sidekick-chat-proxy.workers.dev" },
   chat: { endpoint: "https://bangkok-sidekick-chat.bangkok-sidekick-chat-proxy.workers.dev/", dailyLimit: 30 },
-  version: "34",
+  version: "35",
   hotel: {
     name: "Avani Ratchada Bangkok Hotel (opposite G Tower, Rama 9)",
     thaiName: "โรงแรมอวานี รัชดา กรุงเทพ ตรงข้ามจีทาวเวอร์ พระราม 9",
