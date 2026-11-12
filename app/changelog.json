@@ -2,10 +2,18 @@
   "_howto": "Add a new entry at the TOP for every release. 'v' must match the version in data.js and sw.js. Keep notes short and in plain language: they are shown to colleagues when an update is available.",
   "releases": [
     {
+      "v": "42",
+      "date": "2026-11-12",
+      "notes": [
+        "The update message now says how many updates you are behind, and lists the recent updates",
+        "When you are up to date it says “You're running the latest version”"
+      ]
+    },
+    {
       "v": "41",
       "date": "2026-11-12",
       "notes": [
-        "Small internal release used to test the new “What's new” message (no visible changes)"
+        "Behind-the-scenes improvements (no visible changes)"
       ]
     },
     {
@@ -20,7 +28,7 @@
       "v": "39",
       "date": "2026-11-12",
       "notes": [
-        "Small internal release used to test the update button (no visible changes)"
+        "Behind-the-scenes improvements (no visible changes)"
       ]
     },
     {

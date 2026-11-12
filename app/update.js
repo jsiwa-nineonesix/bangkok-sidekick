@@ -1,7 +1,7 @@
 /* "New version" experience.
  *  - Checks quietly: shortly after opening, when you come back to the app, and every few minutes.
- *  - Up to date  -> a small “You're on the latest version” note (once per visit).
- *  - Behind      -> an Update button at the top right AND a message listing what changed, with Update now / Later.
+ *  - Up to date  -> a small “You're running the latest version” note (once per visit).
+ *  - Behind      -> “You're N updates behind”: an Update button at the top right AND a message listing the recent updates, with Update now / Later.
  * Nothing reloads until you tap Update. The change list comes from changelog.json, published with each release. */
 (function () {
   const btn = document.getElementById("update-btn");
@@ -12,12 +12,16 @@
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const store = { get: k => { try { return sessionStorage.getItem(k); } catch (_) { return null; } }, set: (k, v) => { try { sessionStorage.setItem(k, v); } catch (_) { } } };
 
+  // "3 updates behind": the number of releases between the version you are running and the latest one.
+  const behindBy = latest => { const n = Number(latest) - Number(current); return Number.isFinite(n) && n > 0 ? n : 0; };
+  const behindText = latest => { const n = behindBy(latest); return n ? `You're ${n} update${n === 1 ? "" : "s"} behind` : "A newer version is ready"; };
+
   /* ---------- top-right button ---------- */
   function showButton(version) {
     if (shown && btn.dataset.v === String(version)) return;
     shown = true; btn.dataset.v = String(version);
-    btn.innerHTML = `<span class="u-ic" aria-hidden="true">⟳</span><span class="u-txt"><strong>Update</strong><small>${version && version !== "new" ? "v" + esc(version) + " is ready" : "New version ready"}</small></span>`;
-    btn.setAttribute("aria-label", "A new version of Bangkok Sidekick is available. Tap to update now.");
+    btn.innerHTML = `<span class="u-ic" aria-hidden="true">⟳</span><span class="u-txt"><strong>Update</strong><small>${esc(behindText(version))}</small></span>`;
+    btn.setAttribute("aria-label", behindText(version) + ". Tap to update now.");
     btn.hidden = false;
   }
 
@@ -42,12 +46,12 @@
       return take.length ? `<h5>v${esc(rel.v)}</h5><ul>${take.map(n => `<li>${esc(n)}</li>`).join("")}</ul>` : "";
     }).join("");
     const body = sections || `<ul><li>Improvements and fixes.</li></ul>`;
-    const where = latest && latest !== "new" ? `You have <b>v${esc(current)}</b> · the latest is <b>v${esc(latest)}</b>` : `You have <b>v${esc(current)}</b> · a newer version is ready`;
+    const where = behindBy(latest) ? `You're running <b>v${esc(current)}</b> · the latest is <b>v${esc(latest)}</b>` : `You're running <b>v${esc(current)}</b> · a newer version is ready`;
     dialog = document.createElement("div");
     dialog.className = "upd-overlay";
     dialog.innerHTML = `<div class="upd-box" role="dialog" aria-modal="true" aria-labelledby="upd-title">
-        <div class="upd-head"><span class="upd-emoji" aria-hidden="true">🎉</span><div><h3 id="upd-title">A new version is ready</h3><p>${where}</p></div></div>
-        <div class="upd-notes"><h4>What's new</h4>${body}${hidden > 0 ? `<p class="upd-more">…and ${hidden} more improvement${hidden === 1 ? "" : "s"}.</p>` : ""}</div>
+        <div class="upd-head"><span class="upd-emoji" aria-hidden="true">⬆️</span><div><h3 id="upd-title">${esc(behindText(latest))}</h3><p>${where}</p></div></div>
+        <div class="upd-notes"><h4>Recent updates</h4>${body}${hidden > 0 ? `<p class="upd-more">…and ${hidden} more improvement${hidden === 1 ? "" : "s"}.</p>` : ""}</div>
         <div class="upd-actions"><button class="btn big" id="upd-go" type="button">⟳ Update now</button><button class="btn alt big" id="upd-later" type="button">Later</button></div>
         <p class="upd-foot">The app reloads once with the new version.</p></div>`;
     document.body.appendChild(dialog);
@@ -92,7 +96,7 @@
       openDialog(latest);
     } else if (v && !toastDone && document.visibilityState === "visible") {
       toastDone = true;                                   // once per visit, and only when we really could check
-      toast("✓ You're on the latest version · v" + current);
+      toast("✓ You're running the latest version · v" + current);
     }
   }
 
