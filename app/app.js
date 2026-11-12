@@ -37,16 +37,17 @@
   };
   const weighted = v => (v.rating * v.reviews + 4.3 * 100) / (v.reviews + 100); // stars adjusted for how many reviews back them
   const minsOf = v => (v.min != null ? v.min : v.walk ? 4 : v.taxi != null ? v.taxi : 999);
+  const distOf = v => (v.km != null ? v.km : minsOf(v) / 10); // straight-line km from the hotel (fallback: rough estimate from minutes)
   const venueSorts = {
-    rating: (x, y) => (y.rating ? weighted(y) : 0) - (x.rating ? weighted(x) : 0) || minsOf(x) - minsOf(y),
-    reviews: (x, y) => (y.reviews || 0) - (x.reviews || 0) || minsOf(x) - minsOf(y),
-    close: (x, y) => minsOf(x) - minsOf(y) || (y.rating ? weighted(y) : 0) - (x.rating ? weighted(x) : 0)
+    rating: (x, y) => (y.rating ? weighted(y) : 0) - (x.rating ? weighted(x) : 0) || distOf(x) - distOf(y),
+    reviews: (x, y) => (y.reviews || 0) - (x.reviews || 0) || distOf(x) - distOf(y),
+    close: (x, y) => distOf(x) - distOf(y) || (y.rating ? weighted(y) : 0) - (x.rating ? weighted(x) : 0)
   };
   const sortChips = cur => filterChips([["rating", "⭐ Top rated"], ["reviews", "🔥 Most reviewed"], ["close", "📍 Closest"]], cur, "ns");
   const vcard = (v, badges, mapQuery) => `<div class="card"><h4>${esc(v.n)}</h4>
       <div class="row" style="margin:2px 0 6px">${v.rating
         ? `<span class="tag stars">⭐ ${v.rating.toFixed(1)} · ${v.reviews.toLocaleString()} reviews</span>`
-        : `<span class="tag">⭐ Rating: see Google</span>`}${badges}</div>
+        : `<span class="tag">⭐ Rating: see Google</span>`}${v.km != null ? `<span class="tag">📏 ${v.km.toFixed(1)} km</span>` : ""}${badges}</div>
       <p>${esc(v.type)}</p>${v.d ? `<p>${esc(v.d)}</p>` : ""}<p>🧭 ${esc(v.go)}</p>
       <div class="row"><span class="tag">💰 Per person (est.): ${esc(v.budget)}</span>${mapBtn(mapQuery)}</div></div>`;
   const badgeFor = (list, v) => {
@@ -58,7 +59,7 @@
   const venueView = key => {
     const list = D.places.filter(p => p.cats.includes(key));
     const sorted = list.slice().sort(venueSorts[state.nightSort]);
-    return `<div class="banner info">${INTRO[key]} Ratings are Google's (as of ${esc(D.explore.asOf)}) where I could read them; otherwise tap Map to see the current rating. Budgets are my estimates. "Top rated" weighs the stars by how many reviews back them.</div>
+    return `<div class="banner info">${INTRO[key]} Ratings are Google's (as of ${esc(D.explore.asOf)}) where I could read them; otherwise tap Map to see the current rating. Budgets are my estimates. 📏 is the straight-line distance from the hotel. "Top rated" weighs the stars by how many reviews back them.</div>
       ${sortChips(state.nightSort)}
       ${sorted.map(v => vcard(v, badgeFor(list, v), v.q)).join("")}`;
   };

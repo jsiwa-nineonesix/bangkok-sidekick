@@ -28,9 +28,9 @@
   D.places.forEach(p => {
     if (seenPlace.has(p.n)) return; seenPlace.add(p.n);
     add({ title: p.n, ttl: p.n + " " + p.type, tab: p.cats[0], isMall: p.cats.includes("malls"), priced: true,
-      rated: p.rating ? placeWeighted(p) : undefined, taxi: p.min,
+      rated: p.rating ? placeWeighted(p) : undefined, km: p.km, taxi: p.km != null ? undefined : p.min,
       kw: p.cats.map(k => CAT_KW[k]).join(" ") + " things to do explore " + p.type,
-      text: `${p.rating ? `⭐ ${p.rating.toFixed(1)} from ${p.reviews.toLocaleString()} Google reviews (as of ${D.explore.asOf})\n` : ""}${p.d}\n🧭 ${p.go}\n💰 Per person (my estimate): ${p.budget}`,
+      text: `${p.rating ? `⭐ ${p.rating.toFixed(1)} from ${p.reviews.toLocaleString()} Google reviews (as of ${D.explore.asOf})\n` : ""}${p.d}\n${p.km != null ? `📏 ${p.km.toFixed(1)} km from the hotel\n` : ""}🧭 ${p.go}\n💰 Per person (my estimate): ${p.budget}`,
       actions: [{ label: "📍 Map", href: gmap(p.q) }] });
   });
   D.food.forEach(f => add({ title: f.n, tab: "eat", kw: `eat food restaurant hungry dinner lunch breakfast meal ${f.cat === "night" ? "night market evening" : ""} ${f.cat === "mall" ? "mall air conditioned" : ""} ${f.cat === "downtown" ? "famous" : ""} ${/Rama 9|G Tower/i.test(f.q) || f.cat === "street" ? "near hotel nearby walk walking close" : ""} cheap ${f.p}`,
@@ -83,6 +83,7 @@
     ["nightlife", "bar", "drink", "night"],
     ["cheap", "budget", "affordable"],
     ["downtown", "city", "center", "centre", "siam", "sukhumvit", "silom"],
+    ["clothe", "clothing", "fashion", "apparel", "outfit", "garment", "shirt"],
     ["team", "teams", "microsoft", "work", "meeting"]
   ];
   const stem = w => (w.length > 3 && w.endsWith("s") && !w.endsWith("ss") ? w.slice(0, -1) : w);
@@ -112,11 +113,12 @@
       if (s > 0) {
         if (RE_ROUTE.test(q) && RE_TO.test(q) && d.title.startsWith("Getting to")) s += 2.5;
         if (RE_APP.test(q) && d.tab === "apps" && d.title.endsWith(" app")) s += 3;
-        if (topical && /\b(near|nearby|close|closest|walking)\b/i.test(q) && d.taxi) s += (20 - Math.min(d.taxi, 20)) / 8;
+        if (topical && /\b(near|nearby|nearest|close|closest|walking)\b/i.test(q) && d.km != null) s += Math.max(0, 5 - d.km) * 1.2;
+        if (topical && /\b(near|nearby|nearest|close|closest|walking)\b/i.test(q) && d.taxi) s += (20 - Math.min(d.taxi, 20)) / 8;
         if (topical && RE_RATED.test(q) && d.rated) s += 1 + (d.rated - 4) * 6;
         if (RE_MALL.test(q) && d.isMall) s += 3;
         if (/\b(entry|entrance|fee|ticket|tickets|price|cost|how much|budget|afford\w*)\b/i.test(q) && d.priced) s += 4;
-        if (RE_WEAR.test(q) && d.tab === "tips" && !d.title.startsWith("Thai for")) s += /clothing/i.test(d.title) ? 6 : 2.5;
+        if (RE_WEAR.test(q) && !/\b(buy|shop|shopping|cheap|bargain|market|store|stores)\b/i.test(q) && d.tab === "tips" && !d.title.startsWith("Thai for")) s += /clothing/i.test(d.title) ? 6 : 2.5;
       }
       return { d, s };
     }).filter(x => x.s > 0).sort((a, b) => b.s - a.s);
