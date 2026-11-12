@@ -4,3 +4,5 @@ BangkokSideKick_Logo/
 **/.DS_Store
 *.zip
 node_modules/
+# Local share assets (QR code, share card, team message): not published
+share/
