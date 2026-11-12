@@ -1,4 +1,4 @@
-const CACHE = "bkk-guide-v6";
+const CACHE = "bkk-guide-v7";
 const FILES = ["./", "index.html", "styles.css", "app.js", "data.js", "manifest.webmanifest", "icon.svg", "img/appstore.jpg"];
 self.addEventListener("install", e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES))); self.skipWaiting(); });
 self.addEventListener("activate", e => {

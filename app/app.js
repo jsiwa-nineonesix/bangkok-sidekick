@@ -8,7 +8,7 @@
   const isAndroid = /android/i.test(navigator.userAgent || "");
   const storeBtns = a => {
     const ios = `<a class="btn" target="_blank" rel="noopener" href="https://apps.apple.com/th/app/id${esc(a.ios)}"><img class="store-ic" src="img/appstore.jpg" alt="" width="22" height="22"> App Store</a>`;
-    const gp = `<a class="btn" target="_blank" rel="noopener" href="https://play.google.com/store/apps/details?id=${esc(a.android)}">▶ Google Play</a>`;
+    const gp = `<a class="btn" target="_blank" rel="noopener" href="https://play.google.com/store/apps/details?id=${esc(a.android)}">▶ Play Store</a>`;
     return isAndroid ? gp + ios : ios + gp;
   };
 
