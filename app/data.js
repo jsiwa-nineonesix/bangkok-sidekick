@@ -30,7 +30,7 @@ const DATA = {
   // dash.cloudflare.com > Web Analytics to turn it on; leave empty to keep analytics off.
   analytics: { cfToken: "" },
   chat: { endpoint: "https://bangkok-sidekick-chat.bangkok-sidekick-chat-proxy.workers.dev/", dailyLimit: 30 },
-  version: "43",
+  version: "44",
   hotel: {
     name: "Avani Ratchada Bangkok Hotel (opposite G Tower, Rama 9)",
     thaiName: "โรงแรมอวานี รัชดา กรุงเทพ ตรงข้ามจีทาวเวอร์ พระราม 9",
@@ -154,10 +154,10 @@ const DATA = {
       "page": "https://commons.wikimedia.org/wiki/File:Approaching_Iconsiam_from_Chao_Phraya_River,_Bangkok.jpg"
     },
     "centralworld": {
-      "by": "Supanut Arunoprayote",
-      "lic": "CC BY 4.0",
-      "licUrl": "https://creativecommons.org/licenses/by/4.0",
-      "page": "https://commons.wikimedia.org/wiki/File:Central_World_(I).jpg"
+      "by": "Christophe95",
+      "lic": "CC BY-SA 4.0",
+      "licUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "page": "https://commons.wikimedia.org/wiki/File:CentralWorld_exterior.jpg"
     },
     "mbk": {
       "by": "Christian Henrich",

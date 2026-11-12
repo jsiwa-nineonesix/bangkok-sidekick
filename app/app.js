@@ -54,7 +54,7 @@
   const vcard = (v, labels, mapQuery) => {
     const ph = photoOf(v);
     const media = ph
-      ? `<img src="${esc(ph.src)}" alt="${esc(v.n)}" width="800" height="500" loading="lazy" decoding="async">`
+      ? `<img src="${esc(ph.src)}" alt="${esc(v.n)}" width="800" height="500" decoding="async">`
       : `<div class="vph tone-${toneOf(v.n)}" role="img" aria-label="${esc(v.n)}"><span aria-hidden="true">${v.ph || "📍"}</span></div>`;
     const meta = [esc(v.type), v.km != null ? v.km.toFixed(1) + " km away" : "", v.rating ? v.reviews.toLocaleString() + " Google reviews" : ""].filter(Boolean).join(" · ");
     return `<article class="vc"><div class="vmedia">${media}
