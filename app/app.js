@@ -270,11 +270,4 @@
     document.head.appendChild(s);
   }
 
-  if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
-    const hadController = !!navigator.serviceWorker.controller;
-    let reloaded = false;
-    // When a newer version takes over, reload once so nobody keeps running a stale copy.
-    navigator.serviceWorker.addEventListener("controllerchange", () => { if (hadController && !reloaded) { reloaded = true; location.reload(); } });
-    navigator.serviceWorker.register("sw.js").then(r => r.update()).catch(() => { });
-  }
 })();

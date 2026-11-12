@@ -264,3 +264,19 @@ a.tag.rate-link { text-decoration: none; color: var(--link); font-weight: 600; b
 
 /* ===== Brand logo ===== */
 .brand .logo { height: 30px; width: auto; flex: none; filter: drop-shadow(0 2px 3px rgba(150,90,0,.25)); }
+
+/* ===== "Update available" button (top right) ===== */
+.update-btn { position: fixed; z-index: 45; top: calc(var(--sat) + 54px); right: calc(12px + var(--sar));
+  display: flex; align-items: center; gap: 8px; padding: 8px 16px 8px 12px; border-radius: 99px; border: 1px solid rgba(255,255,255,.7);
+  background: linear-gradient(180deg, #f8b43d, #f5a623); color: #3a2300; font: inherit; cursor: pointer;
+  box-shadow: 0 8px 24px rgba(245,166,35,.55), inset 0 1px 0 rgba(255,255,255,.7); animation: u-pop .45s cubic-bezier(.2,1.4,.4,1) both, u-pulse 2.4s 1s infinite; }
+.update-btn[hidden] { display: none; }
+.update-btn:active { transform: scale(.95); }
+.update-btn.busy { animation: none; opacity: .9; cursor: default; }
+.update-btn .u-ic { font-size: 20px; line-height: 1; font-weight: 700; }
+.update-btn .u-txt { display: flex; flex-direction: column; line-height: 1.15; text-align: left; }
+.update-btn .u-txt strong { font-size: 14px; } .update-btn .u-txt small { font-size: 11px; opacity: .8; }
+.update-btn .spin { display: inline-block; animation: u-spin .9s linear infinite; }
+@keyframes u-pop { from { transform: translateY(-14px) scale(.85); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes u-pulse { 0%, 100% { box-shadow: 0 8px 24px rgba(245,166,35,.55), 0 0 0 0 rgba(245,166,35,.55), inset 0 1px 0 rgba(255,255,255,.7); } 60% { box-shadow: 0 8px 24px rgba(245,166,35,.55), 0 0 0 12px rgba(245,166,35,0), inset 0 1px 0 rgba(255,255,255,.7); } }
+@keyframes u-spin { to { transform: rotate(360deg); } }

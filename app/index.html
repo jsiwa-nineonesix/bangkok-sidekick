@@ -24,11 +24,13 @@
   <a class="brand" href="#home" aria-label="Go to Home"><img class="logo" src="icons/logo.svg" alt="" width="22" height="30"><span>Bangkok Sidekick</span><span class="edition" id="edition"></span><small class="ver" id="ver"></small></a>
 </header>
 <!-- Keep the nav OUTSIDE the header: backdrop-filter on an ancestor makes position:fixed children anchor to it, hiding the tab bar on iPhone. -->
+<button id="update-btn" class="update-btn" type="button" hidden></button>
 <nav id="nav" aria-label="Sections"></nav>
 <main id="view" tabindex="-1"></main>
 <div id="modal" class="modal" hidden></div>
 <script src="data.js"></script>
 <script src="app.js"></script>
 <script src="chat.js"></script>
+<script src="update.js"></script>
 </body>
 </html>
