@@ -1,16 +1,16 @@
 // All app content lives here. Edit this file to update the guide. 🔎 = verify before relying on it.
 const DATA = {
   hotel: {
-    name: "AVANI Hotel (opposite G Tower), Rama 9",
-    thaiName: "โรงแรมอวานี ตรงข้ามจีทาวเวอร์ พระราม 9",
-    address: "", // add exact address here
-    phone: ""    // add hotel phone here
+    name: "Avani Ratchada Bangkok Hotel (opposite G Tower, Rama 9)",
+    thaiName: "โรงแรมอวานี รัชดา กรุงเทพ ตรงข้ามจีทาวเวอร์ พระราม 9",
+    address: "1 Ratchadaphisek Road, Din Daeng, Bangkok 10400 (1 ถนนรัชดาภิเษก ดินแดง กรุงเทพฯ 10400)",
+    phone: "02 641 1500"
   },
 
   places: [
     // cat: near | nearby | downtown
     { n: "G Tower", cat: "near", d: "Office tower opposite your hotel; cafés and quick lunches on lower floors.", t: "Across the street", q: "G Tower Rama 9 Bangkok" },
-    { n: "Central Rama 9", cat: "near", d: "Big mall: food hall, supermarket, pharmacy, cinema. Rainy-day base.", t: "Short walk 🔎", q: "Central Rama 9" },
+    { n: "Central Rama 9", cat: "near", d: "Big mall: food hall, supermarket, pharmacy, cinema. Rainy-day base.", t: "Short walk (across the road per reviews)", q: "Central Rama 9" },
     { n: "Jodd Fairs Rama 9", cat: "near", d: "Evening night market: street food, grilled seafood, drinks, live music.", t: "Short walk/ride 🔎 check opening nights", q: "Jodd Fairs Rama 9" },
     { n: "Rama 9 Square / Grand Rama 9", cat: "near", d: "Office and restaurant cluster, convenience stores.", t: "Walking distance", q: "Rama 9 Square Bangkok" },
     { n: "Thailand Cultural Centre", cat: "nearby", d: "Concerts, exhibitions, Thai performances.", t: "MRT BL19, 1 stop", q: "Thailand Cultural Centre Bangkok" },
@@ -67,7 +67,7 @@ const DATA = {
     { id: "BL17", n: "Sutthisan", x: 520, y: 205, info: "Fortune Town IT mall 🔎." },
     { id: "BL18", n: "Huai Khwang", x: 550, y: 240, info: "Local street food and markets." },
     { id: "BL19", n: "Thailand Cultural Centre", x: 570, y: 268, info: "Ratchada Train Night Market, Esplanade, Cultural Centre. One stop from Phra Ram 9." },
-    { id: "BL20", n: "Phra Ram 9 ★", x: 590, y: 300, home: true, info: "YOUR STATION. Near AVANI Hotel, G Tower, Central Rama 9. Confirm best exit 🔎." },
+    { id: "BL20", n: "Phra Ram 9 ★", x: 590, y: 300, home: true, info: "YOUR STATION. About a 3-minute walk from Avani Ratchada Bangkok Hotel; also G Tower and Central Rama 9." },
     { id: "BL21", n: "Phetchaburi", x: 570, y: 355, ix: true, info: "Interchange with Airport Rail Link (Makkasan) to Suvarnabhumi Airport." },
     { id: "BL22", n: "Sukhumvit", x: 530, y: 405, ix: true, info: "Interchange with BTS Asok. Terminal 21. Gateway to Sukhumvit, Siam by BTS." },
     { id: "BL25", n: "Lumphini", x: 470, y: 495, info: "Lumphini Park." },
@@ -143,7 +143,7 @@ const DATA = {
   ],
 
   taxiCards: [
-    { en: "Please take me to AVANI Hotel, opposite G Tower, Rama 9.", th: "กรุณาพาไปโรงแรมอวานี ตรงข้ามจีทาวเวอร์ พระราม 9" },
+    { en: "Please take me to Avani Ratchada Bangkok Hotel, 1 Ratchadaphisek Road, opposite G Tower, Rama 9.", th: "กรุณาพาไปโรงแรมอวานี รัชดา กรุงเทพ เลขที่ 1 ถนนรัชดาภิเษก ตรงข้ามจีทาวเวอร์ พระราม 9" },
     { en: "Please take me to MRT Phra Ram 9.", th: "กรุณาพาไปสถานีรถไฟฟ้า MRT พระราม 9" },
     { en: "Please use the meter.", th: "กรุณาเปิดมิเตอร์" },
     { en: "Please take me to Central Rama 9.", th: "กรุณาพาไปเซ็นทรัล พระราม 9" }

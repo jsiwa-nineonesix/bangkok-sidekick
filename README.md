@@ -1,6 +1,6 @@
 # Bangkok Visit Support 🇹🇭
 
-A quick-reference pack for colleagues visiting Bangkok for one week, staying at **Avani Hotel (opposite G Tower), Rama 9 – the "New CBD"**.
+A quick-reference pack for colleagues visiting Bangkok for one week, staying at **Avani Ratchada Bangkok Hotel (opposite G Tower), Rama 9 – the "New CBD"**.
 
 ## 📱 The web app (main deliverable)
 

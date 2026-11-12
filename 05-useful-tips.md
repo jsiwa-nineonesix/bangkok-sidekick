@@ -72,6 +72,6 @@ Nearby hospitals around Rama 9 include major private hospitals 🔎. Check Googl
 - Any prescription medicines (with a copy of the prescription)
 
 ## Hotel notes
-- Hotel: **Avani, opposite G Tower** (Rama 9). 🔎 Add exact address, phone number and a Thai-language card for taxis here:
-  - Address (Thai): _to be added_
-  - Phone: _to be added_
+- Hotel: **Avani Ratchada Bangkok Hotel**, 1 Ratchadaphisek Road, Din Daeng, Bangkok 10400
+  - Phone: 02 641 1500
+  - MRT Phra Ram 9 is right in front of the hotel (about 3 min walk)
