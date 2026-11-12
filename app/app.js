@@ -58,6 +58,7 @@
       <div class="hero">
         <h1>Welcome to Bangkok 👋</h1>
         <p style="opacity:.85;margin-top:0"><em>${esc(D.appName)} · ${esc(D.tagline)}</em></p>
+        <p><span class="base-chip">📍 ${esc(D.edition)} edition</span></p>
         <p>Your base: <strong>${esc(D.hotel.name)}</strong></p>
         <p>Nearest MRT: <strong>Phra Ram 9 (BL20)</strong> · New CBD</p>
       </div>
@@ -75,6 +76,7 @@
         <li>Hot and humid. Carry water, bring a layer for cold A/C.</li>
         <li>Street food and taxis are mostly cash. Keep small notes.</li>
       </ul></div>
+      <p class="banner info base-note"><strong>📍 ${esc(D.edition)} edition.</strong> ${esc(D.editionNote)}</p>
       <details class="trust">
         <summary><span class="t-ic">🧭</span><span><strong>Built with AI, verified where it counts</strong><small>Last reviewed ${esc(D.trust.reviewed)} · tap for details</small></span></summary>
         <div class="t-body">
@@ -233,6 +235,7 @@
   render(location.hash.slice(1) || "home");
 
   const ver = $("#ver"); if (ver) ver.textContent = "v" + D.version;
+  const ed = $("#edition"); if (ed) ed.textContent = D.edition;
 
   // Optional anonymous analytics (Cloudflare Web Analytics, no cookies). Off unless a token is set in data.js.
   if (D.analytics && D.analytics.cfToken && /^https?:$/.test(location.protocol) && !/^(localhost|127\.)/.test(location.hostname)) {

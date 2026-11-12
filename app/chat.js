@@ -122,7 +122,7 @@
     if (/\b(who are you|what can you do|help me|what do you know)\b/i.test(t))
       return { text: "I answer from this guide: **getting around** (MRT, BTS, airport), **food**, **places**, **apps**, **money and safety tips**, **Thai phrases** and **your hotel**.", chips: SUGGEST.slice(0, 4) };
     if (/\b(phuket|chiang ?mai|pattaya|krabi|samui|hua hin|ayutthaya|kanchanaburi)\b/i.test(t))
-      return { text: "This guide covers **Bangkok and the Rama 9 area** only. For other places, try Google Maps.", chips: SUGGEST.slice(0, 4),
+      return { text: "This is the **Rama 9 Base** edition: it covers the Rama 9 area and the trips you are likely to take from it. For other places, try Google Maps.", chips: SUGGEST.slice(0, 4),
         actions: [{ label: "📍 Search in Google Maps", href: "https://www.google.com/maps/search/" + encodeURIComponent(t) }] };
     const live = /\b(today|tonight|tomorrow|right now|currently|live|forecast|opening hours|open now|closing time|latest)\b/i.test(t);
     const r = search(t);
@@ -206,7 +206,7 @@
   }
   function open() {
     el.box.hidden = false; el.fab.hidden = true; modeLabel();
-    if (!started) { started = true; addMsg("bot", fmt("Sawasdee! 👋 I'm your **Bangkok Sidekick**. Ask me anything about your week: getting around, food, apps, tips or your hotel.")); setChips(SUGGEST); }
+    if (!started) { started = true; addMsg("bot", fmt("Sawasdee! 👋 I'm your **Bangkok Sidekick** (Rama 9 Base edition). Ask me anything about your week: getting around, food, apps, tips or your hotel.")); setChips(SUGGEST); }
     setTimeout(() => el.input.focus(), 120); fitToViewport();
   }
   function close() { el.box.hidden = true; el.fab.hidden = false; }

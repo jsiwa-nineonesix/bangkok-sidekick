@@ -2,6 +2,8 @@
 const DATA = {
   appName: "Bangkok Sidekick",
   tagline: "Your travel buddy in the Big Mango",
+  edition: "Rama 9 Base",
+  editionNote: "Built around your hotel in Rama 9. Bangkok is huge, so this guide starts from here and covers the trips you are most likely to take from it.",
   // Shown on Home. Keep this honest: list only what was actually verified, and the date.
   trust: {
     reviewed: "12 Nov 2026",
@@ -26,7 +28,7 @@ const DATA = {
   // dash.cloudflare.com > Web Analytics to turn it on; leave empty to keep analytics off.
   analytics: { cfToken: "" },
   chat: { endpoint: "https://bangkok-sidekick-chat.bangkok-sidekick-chat-proxy.workers.dev/", dailyLimit: 30 },
-  version: "27",
+  version: "28",
   hotel: {
     name: "Avani Ratchada Bangkok Hotel (opposite G Tower, Rama 9)",
     thaiName: "โรงแรมอวานี รัชดา กรุงเทพ ตรงข้ามจีทาวเวอร์ พระราม 9",

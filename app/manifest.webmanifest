@@ -1,7 +1,7 @@
 {
   "name": "Bangkok Sidekick",
   "short_name": "BKK Sidekick",
-  "description": "Rama 9 / New CBD visitor guide: transit, food, apps and tips",
+  "description": "Rama 9 Base edition: Bangkok visitor guide around the Rama 9 / New CBD area. Transit, food, apps and tips",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
