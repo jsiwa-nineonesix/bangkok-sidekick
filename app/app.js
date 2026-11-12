@@ -178,7 +178,7 @@
       } else {
         body = D.food.filter(f => state.food === "all" || f.cat === state.food).map(f => `
           <div class="card"><h4>${esc(f.n)} <span class="tag">${esc(f.p)}</span></h4><p>${esc(f.d)}</p>
-          <div class="row">${mapBtn(f.q)}<a class="btn alt" target="_blank" rel="noopener" href="https://www.wongnai.com/restaurants?q=${encodeURIComponent(f.wn || f.order || f.n)}">Wongnai</a>${f.order ? `<a class="btn alt" target="_blank" rel="noopener" data-lm="${esc(f.order)}" href="${lmStore}">🛵 LINE MAN</a>` : ""}</div>${f.order ? `<p class="small lmnote" style="color:var(--muted);margin:6px 0 0">LINE MAN: the name is copied for you. Paste it in the app search. Delivery range varies.</p>` : ""}</div>`).join("");
+          <div class="row">${mapBtn(f.q)}<a class="btn alt" target="_blank" rel="noopener" href="https://www.wongnai.com/restaurants?q=${encodeURIComponent(f.wn || f.order || f.n)}">Wongnai</a>${f.lm ? `<a class="btn alt" target="_blank" rel="noopener" href="${esc(f.lm)}">🛵 LINE MAN</a>` : ""}</div></div>`).join("");
       }
       return `<h2>Eat</h2><p style="color:var(--muted);margin-top:0">Places and types; check current hours & reviews in Maps. 🔎</p>${filterChips(cats, state.food, "ff")}${body}`;
     },
@@ -248,7 +248,6 @@
 
   // Events
   document.addEventListener("click", e => {
-    const lmEl = e.target.closest("[data-lm]"); if (lmEl && navigator.clipboard) navigator.clipboard.writeText(lmEl.dataset.lm).catch(() => {});
     const t = e.target.closest("[data-credit],[data-tab],[data-go],[data-pf],[data-ff],[data-ev],[data-ns],[data-say],[data-taxi],[data-sos],[data-close],[data-st]");
     if (!t) return;
     const d = t.dataset;
