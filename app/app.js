@@ -180,7 +180,7 @@
       const [type, id] = d.st.split(":");
       const s = (type === "mrt" ? D.stations : D.btsStations).find(x => x.id === id);
       $("#stinfo").innerHTML = `<h4>${esc(s.n)} <span class="tag">${type.toUpperCase()} ${esc(s.id)}</span></h4><p>${esc(s.info)}</p>
-        <a class="btn alt" target="_blank" rel="noopener" href="${gmap(s.n + " station")}">📍 Open in Maps</a>`;
+        <a class="btn alt" target="_blank" rel="noopener" href="${s.ll ? "https://www.google.com/maps/search/?api=1&query=" + s.ll : gmap(s.n.replace(/[^\w\s\/]/g, "").trim() + " station")}">📍 Open in Maps</a>`;
     }
   });
   document.addEventListener("change", e => { if (e.target.id === "tripsel") { state.trip = +e.target.value; render("go"); } });

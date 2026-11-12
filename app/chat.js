@@ -37,7 +37,8 @@
   D.tips.forEach(s => add({ title: s.h, tab: "tips", kw: "tip tips advice" + (/clothing/i.test(s.h) ? " wear dress clothes outfit temple dress code modest shoes" : ""), text: s.b.map(x => "• " + x).join("\n") }));
   D.phrases.forEach(([en, th, ro]) => add({ title: `Thai for "${en}"`, tab: "tips", kw: "thai say phrase speak language word translate how to say",
     text: `${th}\n${ro}`, actions: [{ label: "🔊 Hear it", say: th }] }));
-  D.stations.concat(D.btsStations).forEach(s => add({ title: `${s.n} station`, tab: "map", kw: "station mrt bts stop line", text: s.info }));
+  D.stations.concat(D.btsStations).forEach(s => add({ title: `${s.n.replace(/[^\w\s\/]/g, "").trim()} station`, tab: "map", kw: "station mrt bts stop line", text: s.info,
+    actions: s.ll ? [{ label: "📍 Map", href: "https://www.google.com/maps/search/?api=1&query=" + s.ll }] : [] }));
   add({ title: "Avoid scams and bad rides", tab: "apps", kw: "scam avoid cheat taxi meter tuk tuk safe safety ripoff overcharge", text: D.avoid.map(x => "• " + x).join("\n") });
 
   /* ---------- 2. Matching ---------- */

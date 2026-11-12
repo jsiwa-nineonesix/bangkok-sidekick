@@ -5,7 +5,7 @@ const DATA = {
   // Chat assistant. Leave endpoint empty to answer from the guide only (free, offline).
   // AI assistant: Cloudflare Workers AI via chat-proxy/ (free daily allowance, no API key).
   chat: { endpoint: "https://bangkok-sidekick-chat.bangkok-sidekick-chat-proxy.workers.dev/", dailyLimit: 30 },
-  version: "20",
+  version: "21",
   hotel: {
     name: "Avani Ratchada Bangkok Hotel (opposite G Tower, Rama 9)",
     thaiName: "โรงแรมอวานี รัชดา กรุงเทพ ตรงข้ามจีทาวเวอร์ พระราม 9",
@@ -67,29 +67,29 @@ const DATA = {
   // Map & transit
   stations: [
     // id, name, x, y, labelDx, labelDy, info, ix(interchange), line
-    { id: "BL13", n: "Chatuchak Park", x: 360, y: 70, ix: true, info: "Interchange with BTS Mo Chit. Chatuchak Weekend Market, Queen Sirikit Park." },
-    { id: "BL15", n: "Lat Phrao", x: 420, y: 120, info: "Interchange with MRT Yellow Line." },
-    { id: "BL16", n: "Ratchadaphisek", x: 480, y: 165, info: "Nightlife and restaurants along Ratchadaphisek Rd." },
-    { id: "BL17", n: "Sutthisan", x: 520, y: 205, info: "Fortune Town IT mall 🔎." },
-    { id: "BL18", n: "Huai Khwang", x: 550, y: 240, info: "Local street food and markets." },
-    { id: "BL19", n: "Thailand Cultural Centre", x: 570, y: 268, info: "Ratchada Train Night Market, Esplanade, Cultural Centre. One stop from Phra Ram 9." },
-    { id: "BL20", n: "Phra Ram 9 ★", x: 590, y: 300, home: true, info: "YOUR STATION. About a 3-minute walk from Avani Ratchada Bangkok Hotel; also G Tower and Central Rama 9." },
-    { id: "BL21", n: "Phetchaburi", x: 570, y: 355, ix: true, info: "Interchange with Airport Rail Link (Makkasan) to Suvarnabhumi Airport." },
-    { id: "BL22", n: "Sukhumvit / Asok", x: 530, y: 405, ix: true, info: "Interchange with BTS Asok. Terminal 21. Gateway to Sukhumvit, Siam by BTS." },
-    { id: "BL25", n: "Lumphini", x: 470, y: 495, info: "Lumphini Park." },
-    { id: "BL26", n: "Silom", x: 395, y: 520, ix: true, info: "Interchange with BTS Sala Daeng. Silom, Patpong, Lumphini Park." },
-    { id: "BL28", n: "Hua Lamphong", x: 360, y: 595, info: "Main railway station." },
-    { id: "BL29", n: "Wat Mangkon", x: 330, y: 625, info: "Chinatown (Yaowarat)." },
-    { id: "BL31", n: "Sanam Chai", x: 300, y: 655, info: "Wat Pho and Grand Palace (walk 10–15 min or taxi) 🔎." }
+    { id: "BL13", ll: "13.8029643,100.5532845", n: "Chatuchak Park", x: 360, y: 70, ix: true, info: "Interchange with BTS Mo Chit. Chatuchak Weekend Market, Queen Sirikit Park." },
+    { id: "BL15", ll: "13.806503,100.5728701", n: "Lat Phrao", x: 420, y: 120, info: "Interchange with MRT Yellow Line." },
+    { id: "BL16", ll: "13.7989706,100.5745537", n: "Ratchadaphisek", x: 480, y: 165, info: "Nightlife and restaurants along Ratchadaphisek Rd." },
+    { id: "BL17", ll: "13.7894884,100.5740801", n: "Sutthisan", x: 520, y: 205, info: "Fortune Town IT mall 🔎." },
+    { id: "BL18", ll: "13.7786878,100.5735662", n: "Huai Khwang", x: 550, y: 240, info: "Local street food and markets." },
+    { id: "BL19", ll: "13.7661576,100.5701188", n: "Thailand Cultural Centre", x: 570, y: 268, info: "Ratchada Train Night Market, Esplanade, Cultural Centre. One stop from Phra Ram 9." },
+    { id: "BL20", ll: "13.7578166,100.5652774", n: "Phra Ram 9 ★", x: 590, y: 300, home: true, info: "YOUR STATION. About a 3-minute walk from Avani Ratchada Bangkok Hotel; also G Tower and Central Rama 9." },
+    { id: "BL21", ll: "13.7491853,100.5634165", n: "Phetchaburi", x: 570, y: 355, ix: true, info: "Interchange with Airport Rail Link (Makkasan) to Suvarnabhumi Airport." },
+    { id: "BL22", ll: "13.7374671,100.561498", n: "Sukhumvit / Asok", x: 530, y: 405, ix: true, info: "Interchange with BTS Asok. Terminal 21. Gateway to Sukhumvit, Siam by BTS." },
+    { id: "BL25", ll: "13.7256066,100.5457249", n: "Lumphini", x: 470, y: 495, info: "Lumphini Park." },
+    { id: "BL26", ll: "13.7291982,100.5370702", n: "Silom", x: 395, y: 520, ix: true, info: "Interchange with BTS Sala Daeng. Silom, Patpong, Lumphini Park." },
+    { id: "BL28", ll: "13.7375708,100.517135", n: "Hua Lamphong", x: 360, y: 595, info: "Main railway station." },
+    { id: "BL29", ll: "13.7422095,100.5099097", n: "Wat Mangkon", x: 330, y: 625, info: "Chinatown (Yaowarat)." },
+    { id: "BL31", ll: "13.7443259,100.4946239", n: "Sanam Chai", x: 300, y: 655, info: "Wat Pho and Grand Palace (walk 10–15 min or taxi) 🔎." }
   ],
   btsStations: [
-    { id: "N8", n: "Mo Chit", left: true, x: 300, y: 60, info: "BTS terminus; Chatuchak area." },
-    { id: "N3", n: "Victory Monument", left: true, x: 300, y: 200, info: "Busy hub; boat noodle alley." },
-    { id: "CEN", n: "Siam", x: 300, y: 350, ix: true, info: "BTS interchange: Sukhumvit + Silom lines. Paragon, MBK, Center One." },
-    { id: "W1", n: "National Stadium", left: true, x: 190, y: 370, info: "Jim Thompson House, MBK." },
-    { id: "E4", n: "Asok", nolabel: true, x: 530, y: 405, ix: true, info: "Interchange with MRT Sukhumvit. Terminal 21." },
-    { id: "E6", n: "Thong Lo", x: 640, y: 430, info: "Cafés, bars, restaurants." },
-    { id: "S6", n: "Saphan Taksin", left: true, x: 330, y: 590, info: "River boats to Asiatique / ICONSIAM shuttle." }
+    { id: "N8", ll: "13.8025991,100.5537913", n: "Mo Chit", left: true, x: 300, y: 60, info: "BTS terminus; Chatuchak area." },
+    { id: "N3", ll: "13.7627589,100.5370529", n: "Victory Monument", left: true, x: 300, y: 200, info: "Busy hub; boat noodle alley." },
+    { id: "CEN", ll: "13.7456236,100.5342199", n: "Siam", x: 300, y: 350, ix: true, info: "BTS interchange: Sukhumvit + Silom lines. Paragon, MBK, Center One." },
+    { id: "W1", ll: "13.74651,100.5290855", n: "National Stadium", left: true, x: 190, y: 370, info: "Jim Thompson House, MBK." },
+    { id: "E4", ll: "13.7370432,100.5603571", n: "Asok", nolabel: true, x: 530, y: 405, ix: true, info: "Interchange with MRT Sukhumvit. Terminal 21." },
+    { id: "E6", ll: "13.7242264,100.5785054", n: "Thong Lo", x: 640, y: 430, info: "Cafés, bars, restaurants." },
+    { id: "S6", ll: "13.7187781,100.5142128", n: "Saphan Taksin", left: true, x: 330, y: 590, info: "River boats to Asiatique / ICONSIAM shuttle." }
   ],
 
   trips: [
