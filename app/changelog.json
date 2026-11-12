@@ -2,6 +2,14 @@
   "_howto": "Add a new entry at the TOP for every release. 'v' must match the version in data.js and sw.js. Keep notes short and in plain language: they are shown to colleagues when an update is available.",
   "releases": [
     {
+      "v": "48",
+      "date": "2026-11-12",
+      "notes": [
+        "Eat has a new Indian section with restaurant picks",
+        "Restaurants now have Map, Wongnai and LINE MAN buttons. The LINE MAN button copies the restaurant name so you can paste it into the app search"
+      ]
+    },
+    {
       "v": "47",
       "date": "2026-11-12",
       "notes": [
