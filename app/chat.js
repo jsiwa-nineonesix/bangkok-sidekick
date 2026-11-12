@@ -8,7 +8,7 @@
   const $ = (s, r = document) => r.querySelector(s);
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const fmt = s => esc(s).replace(/^[ \t]*[*-][ \t]+/gm, "• ").replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/\n/g, "<br>");
-  const gmap = q => "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(q + " Bangkok");
+  const gmap = q => "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(/bangkok/i.test(q) ? q : q + " Bangkok");
   const isAndroid = /android/i.test(navigator.userAgent || "");
 
   /* ---------- 1. Knowledge base built from the guide ---------- */
@@ -29,7 +29,7 @@
   add({ title: "Thai dishes to try", tab: "eat", kw: "dish dishes food thai try order menu pad thai curry tom yum som tam spicy",
     text: D.dishes.map(([a, b]) => `**${a}:** ${b}`).join("\n") + "\n\nSay **mai phet** (ไม่เผ็ด) for not spicy." });
   D.trips.forEach(t => add({ title: `Getting to ${t.to}`, tab: "go", kw: "how get go travel route train mrt bts taxi grab reach directions way transport",
-    text: `${t.route}\n⏱ ${t.time}\n💳 ${t.pay}`, actions: [{ label: "🧭 Directions", href: "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(t.to + " Bangkok") + "&travelmode=transit" }] }));
+    text: `${t.route}\n⏱ ${t.time}\n💳 ${t.pay}`, actions: [{ label: "🧭 Directions", href: "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(t.dest || t.to) + "&travelmode=transit" }] }));
   D.pay.forEach(p => add({ title: `Paying: ${p.sys}`, tab: "go", kw: "pay payment card cash tap", text: `${p.ok ? "Card accepted ✓" : "No card ✗"}\n${p.note}` }));
   D.apps.forEach(a => add({ title: `${a.n} app`, tab: "apps", kw: `app download install phone ${a.grp} ${/food|delivery/i.test(a.use) ? "delivery deliver order food grocery" : ""}`,
     text: `**${a.use}**\n${a.tips.map(x => "• " + x).join("\n")}`,

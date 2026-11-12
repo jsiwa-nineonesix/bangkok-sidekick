@@ -11,7 +11,7 @@
  Chatuchak Park (BL13)  ── interchange BTS Mo Chit, Chatuchak Weekend Market, Queen Sirikit Park
  Lat Phrao (BL15)       ── interchange MRT Yellow Line
  Ratchadaphisek (BL16)
- Sutthisan (BL17)       ── near Fortune Town
+ Sutthisan (BL17)
  Huai Khwang (BL18)
  Thailand Cultural Centre (BL19) ── Ratchada Train Night Market, Esplanade
  ★ PHRA RAM 9 (BL20)    ◄── YOU ARE HERE

@@ -10,18 +10,18 @@ Rama 9 (Huai Khwang / Din Daeng district) is Bangkok's **"New CBD"**: modern off
 |-------|--------|---------------|
 | **G Tower** | Office tower right opposite your hotel; cafés and food on the lower floors | Across the street |
 | **MRT Phra Ram 9 (BL20)** | Your gateway to the whole city | Short walk 🔎 |
-| **Central Rama 9** | Large mall: food hall, supermarket, cinema, services, cafés. Rainy-day base | Short walk or one MRT stop area 🔎 |
-| **Rama 9 Square / Grand Rama 9** | Office/commercial cluster with restaurants, convenience stores | Walking distance |
+| **Central Rama 9** | Large mall: food hall, supermarket, cinema, services, cafés. Rainy-day base | About a 4-minute walk (~250 m), across the road |
+| **Rama 9 Square / Grand Rama 9** | Office/commercial cluster with restaurants, convenience stores | Walking distance (~450 m) |
+| **Fortune Town** | IT/electronics mall (phones, laptops, gadgets), next to MRT Phra Ram 9 | About a 3-minute walk (~200 m) |
 
 ## Nearby (5–15 min by MRT or Grab)
 
 | Place | Why go | Nearest MRT |
 |-------|--------|-------------|
 | **Thailand Cultural Centre** | Concerts, exhibitions, Thai performances | Thailand Cultural Centre (BL19) |
-| **Jodd Fairs Ratchada** | Evening night market: street food, drinks, live music. The old Rama 9 branch has closed | Ratchada area 🔎 check route and opening nights |
+| **Jodd Fairs Ratchada** | Evening night market: street food, drinks, live music. The old Rama 9 branch has closed | About 1.4 km: 20-25 min walk or a short Grab ride 🔎 check opening nights |
 | **Ratchada Train Night Market** | Retro vibe, street food, drinks, shopping | Thailand Cultural Centre (BL19) 🔎 |
 | **Esplanade Ratchada** | Mall with cinema, restaurants, ice rink-type attractions | Thailand Cultural Centre (BL19) |
-| **Fortune Town** | IT/electronics mall (phones, laptops, gadgets) | Sutthisan / Ratchadaphisek 🔎 |
 | **Terminal 21 Asok** | Travel-themed mall, cheap food court | Sukhumvit (BL22) / BTS Asok |
 | **Queen Sirikit National Convention Centre** | Conferences and expos | MRT QSNCC (BL23) |
 | **Benchakitti / Benjakitti Park** | Big lakeside park, lovely at sunset, cycling | MRT QSNCC (BL23) 🔎 |

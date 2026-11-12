@@ -2,7 +2,7 @@
   const D = DATA;
   const $ = (s, r = document) => r.querySelector(s);
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-  const gmap = q => "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(q + " Bangkok");
+  const gmap = q => "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(/bangkok/i.test(q) ? q : q + " Bangkok");
   const mapBtn = q => `<a class="btn alt" target="_blank" rel="noopener" href="${gmap(q)}">📍 Map</a>`;
 
   const isAndroid = /android/i.test(navigator.userAgent || "");
@@ -109,7 +109,7 @@
       <h3>Trip planner (from Phra Ram 9)</h3>
       <select id="tripsel">${D.trips.map((x, i) => `<option value="${i}" ${i === state.trip ? "selected" : ""}>${esc(x.to)}</option>`).join("")}</select>
       <div class="card"><h4>${esc(t.to)}</h4><p>${esc(t.route)}</p>
-        <div class="row"><span class="tag">⏱ ${esc(t.time)}</span><span class="tag">💳 ${esc(t.pay)}</span><a class="btn alt" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(t.to + " Bangkok")}&travelmode=transit">Open in Maps</a></div></div>
+        <div class="row"><span class="tag">⏱ ${esc(t.time)}</span><span class="tag">💳 ${esc(t.pay)}</span><a class="btn alt" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(t.dest || t.to)}&travelmode=transit">Open in Maps</a></div></div>
       <h3>How to pay</h3>
       <div class="card"><table>${D.pay.map(p => `<tr><td><strong>${esc(p.sys)}</strong></td><td class="${p.ok ? "yes" : "no"}">${p.ok ? "Card ✓" : "No card"}</td><td>${esc(p.note)}</td></tr>`).join("")}</table></div>
       <h3>MRT vs BTS</h3>

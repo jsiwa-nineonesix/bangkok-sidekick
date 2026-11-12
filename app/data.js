@@ -5,7 +5,7 @@ const DATA = {
   // Chat assistant. Leave endpoint empty to answer from the guide only (free, offline).
   // AI assistant: Cloudflare Workers AI via chat-proxy/ (free daily allowance, no API key).
   chat: { endpoint: "https://bangkok-sidekick-chat.bangkok-sidekick-chat-proxy.workers.dev/", dailyLimit: 30 },
-  version: "21",
+  version: "22",
   hotel: {
     name: "Avani Ratchada Bangkok Hotel (opposite G Tower, Rama 9)",
     thaiName: "โรงแรมอวานี รัชดา กรุงเทพ ตรงข้ามจีทาวเวอร์ พระราม 9",
@@ -16,13 +16,13 @@ const DATA = {
   places: [
     // cat: near | nearby | downtown
     { n: "G Tower", cat: "near", d: "Office tower opposite your hotel; cafés and quick lunches on lower floors.", t: "Across the street", q: "G Tower Rama 9 Bangkok" },
-    { n: "Central Rama 9", cat: "near", d: "Big mall: food hall, supermarket, pharmacy, cinema. Rainy-day base.", t: "Short walk (across the road per reviews)", q: "Central Rama 9" },
-    { n: "Jodd Fairs Ratchada", cat: "nearby", d: "Evening night market: street food, grilled seafood, drinks, live music. (The old Rama 9 branch has closed; this is the current one.)", t: "Ratchada area, ask Maps for the best route 🔎 check opening nights", q: "Jodd Fairs Ratchada" },
-    { n: "Rama 9 Square / Grand Rama 9", cat: "near", d: "Office and restaurant cluster, convenience stores.", t: "Walking distance", q: "Rama 9 Square Bangkok" },
-    { n: "Thailand Cultural Centre", cat: "nearby", d: "Concerts, exhibitions, Thai performances.", t: "MRT BL19, 1 stop", q: "Thailand Cultural Centre Bangkok" },
+    { n: "Central Rama 9", cat: "near", d: "Big mall: food hall, supermarket, pharmacy, cinema. Rainy-day base.", t: "About a 4-minute walk (~250 m), across the road", q: "Central Rama 9" },
+    { n: "Jodd Fairs Ratchada", cat: "nearby", d: "Evening night market: street food, grilled seafood, drinks, live music. (The old Rama 9 branch has closed; this is the current one.)", t: "About 1.4 km: a 20-25 min walk or a short Grab ride 🔎 check opening nights", q: "Jodd Fairs Ratchada" },
+    { n: "Rama 9 Square / Grand Rama 9", cat: "near", d: "Office and restaurant cluster, convenience stores.", t: "Walking distance (~450 m)", q: "Rama 9 Square Bangkok" },
+    { n: "Thailand Cultural Centre", cat: "nearby", d: "Concerts, exhibitions, Thai performances.", t: "MRT BL19, 1 stop (~1.2 km)", q: "Thailand Cultural Centre Bangkok" },
     { n: "Ratchada Train Night Market", cat: "nearby", d: "Retro market, street food, bars. Mostly Thu–Sun evenings 🔎", t: "MRT BL19", q: "Ratchada Train Night Market" },
     { n: "Esplanade Ratchada", cat: "nearby", d: "Mall with restaurants and cinema.", t: "MRT BL19", q: "Esplanade Ratchada" },
-    { n: "Fortune Town", cat: "nearby", d: "IT and electronics mall (phones, laptops, gadgets).", t: "MRT Sutthisan BL17 🔎", q: "Fortune Town Bangkok" },
+    { n: "Fortune Town", cat: "near", d: "IT and electronics mall (phones, laptops, gadgets). Right next to MRT Phra Ram 9.", t: "About a 3-minute walk (~200 m)", q: "Fortune Town Ratchadaphisek" },
     { n: "Terminal 21 Asok", cat: "nearby", d: "Travel-themed mall with cheap food court.", t: "MRT Sukhumvit BL22 · BTS Asok", q: "Terminal 21 Asok" },
     { n: "Benchakitti Park", cat: "nearby", d: "Big lakeside park, lovely at sunset, cycling.", t: "MRT QSNCC BL23 🔎", q: "Benchakitti Park" },
     { n: "Grand Palace", cat: "downtown", d: "Top sight. Cover shoulders and knees. Go early. Ignore strangers saying it's closed (common scam).", t: "MRT Sanam Chai BL31 + walk/taxi 🔎", q: "Grand Palace Bangkok" },
@@ -49,7 +49,7 @@ const DATA = {
     { n: "Yaowarat (Chinatown) street food", cat: "night", d: "Seafood, roast duck, dim sum, dessert. Go after 18:00.", p: "฿฿", q: "Yaowarat Road street food" },
     { n: "Thip Samai", cat: "downtown", d: "Famous pad thai in the old town 🔎", p: "฿฿", q: "Thip Samai Pad Thai" },
     { n: "Jay Fai", cat: "downtown", d: "Michelin-starred street food, very long queues 🔎", p: "฿฿฿", q: "Jay Fai Bangkok" },
-    { n: "Krua Apsorn", cat: "downtown", d: "Home-style Thai, crab omelette 🔎", p: "฿฿", q: "Krua Apsorn" },
+    { n: "Krua Apsorn", cat: "downtown", d: "Home-style Thai, crab omelette 🔎", p: "฿฿", q: "Krua Apsorn Dinso Road" },
     { n: "Soi Polo Fried Chicken", cat: "downtown", d: "Garlicky fried chicken, Lumphini area 🔎", p: "฿", q: "Soi Polo Fried Chicken" }
   ],
 
@@ -70,7 +70,7 @@ const DATA = {
     { id: "BL13", ll: "13.8029643,100.5532845", n: "Chatuchak Park", x: 360, y: 70, ix: true, info: "Interchange with BTS Mo Chit. Chatuchak Weekend Market, Queen Sirikit Park." },
     { id: "BL15", ll: "13.806503,100.5728701", n: "Lat Phrao", x: 420, y: 120, info: "Interchange with MRT Yellow Line." },
     { id: "BL16", ll: "13.7989706,100.5745537", n: "Ratchadaphisek", x: 480, y: 165, info: "Nightlife and restaurants along Ratchadaphisek Rd." },
-    { id: "BL17", ll: "13.7894884,100.5740801", n: "Sutthisan", x: 520, y: 205, info: "Fortune Town IT mall 🔎." },
+    { id: "BL17", ll: "13.7894884,100.5740801", n: "Sutthisan", x: 520, y: 205, info: "Restaurants and offices along Ratchadaphisek Rd. (Fortune Town mall is actually next to Phra Ram 9.)" },
     { id: "BL18", ll: "13.7786878,100.5735662", n: "Huai Khwang", x: 550, y: 240, info: "Local street food and markets." },
     { id: "BL19", ll: "13.7661576,100.5701188", n: "Thailand Cultural Centre", x: 570, y: 268, info: "Ratchada Train Night Market, Esplanade, Cultural Centre. One stop from Phra Ram 9." },
     { id: "BL20", ll: "13.7578166,100.5652774", n: "Phra Ram 9 ★", x: 590, y: 300, home: true, info: "YOUR STATION. About a 3-minute walk from Avani Ratchada Bangkok Hotel; also G Tower and Central Rama 9." },
@@ -93,14 +93,14 @@ const DATA = {
   ],
 
   trips: [
-    { to: "Terminal 21 / Asok", route: "MRT Blue Line → Sukhumvit (BL22) → walk to BTS Asok / Terminal 21", time: "~10 min", pay: "Card tap at MRT" },
-    { to: "Siam (shopping)", route: "MRT → Sukhumvit (BL22) → exit and enter BTS Asok → BTS west to Siam", time: "~25–30 min", pay: "MRT card tap; BTS needs Rabbit / QR / coins" },
-    { to: "Silom / Lumphini Park", route: "MRT toward Hua Lamphong → Lumphini (BL25) or Silom (BL26)", time: "~15–20 min", pay: "Card tap" },
-    { to: "Chinatown", route: "MRT → Wat Mangkon (BL29)", time: "~25 min", pay: "Card tap" },
-    { to: "Wat Pho / Grand Palace", route: "MRT → Sanam Chai (BL31), then walk (10–15 min) or taxi", time: "~30–35 min", pay: "Card tap" },
-    { to: "Chatuchak Weekend Market", route: "MRT toward Chatuchak Park (BL13) or Kamphaeng Phet (BL14)", time: "~25 min", pay: "Card tap" },
-    { to: "Suvarnabhumi Airport", route: "MRT → Phetchaburi (BL21) → transfer to Airport Rail Link at Makkasan → airport", time: "~35–45 min", pay: "ARL has its own ticket/tokens" },
-    { to: "Don Mueang Airport", route: "Grab / taxi (≈45–60 min depending on traffic)", time: "~45–60 min", pay: "Grab app or cash" }
+    { to: "Terminal 21 / Asok", dest: "Terminal 21 Asok Bangkok", route: "MRT Blue Line → Sukhumvit (BL22) → walk to BTS Asok / Terminal 21", time: "~10 min", pay: "Card tap at MRT" },
+    { to: "Siam (shopping)", dest: "Siam Paragon Bangkok", route: "MRT → Sukhumvit (BL22) → exit and enter BTS Asok → BTS west to Siam", time: "~25–30 min", pay: "MRT card tap; BTS needs Rabbit / QR / coins" },
+    { to: "Silom / Lumphini Park", dest: "Lumphini Park Bangkok", route: "MRT toward Hua Lamphong → Lumphini (BL25) or Silom (BL26)", time: "~15–20 min", pay: "Card tap" },
+    { to: "Chinatown", dest: "Yaowarat Road Bangkok", route: "MRT → Wat Mangkon (BL29)", time: "~25 min", pay: "Card tap" },
+    { to: "Wat Pho / Grand Palace", dest: "Wat Pho Bangkok", route: "MRT → Sanam Chai (BL31), then walk (10–15 min) or taxi", time: "~30–35 min", pay: "Card tap" },
+    { to: "Chatuchak Weekend Market", dest: "Chatuchak Weekend Market Bangkok", route: "MRT toward Chatuchak Park (BL13) or Kamphaeng Phet (BL14)", time: "~25 min", pay: "Card tap" },
+    { to: "Suvarnabhumi Airport", dest: "Suvarnabhumi Airport", route: "MRT → Phetchaburi (BL21) → transfer to Airport Rail Link at Makkasan → airport", time: "~35–45 min", pay: "ARL has its own ticket/tokens" },
+    { to: "Don Mueang Airport", dest: "Don Mueang International Airport", route: "Grab / taxi (≈45–60 min depending on traffic)", time: "~45–60 min", pay: "Grab app or cash" }
   ],
 
   pay: [
