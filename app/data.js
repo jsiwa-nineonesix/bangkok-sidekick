@@ -30,7 +30,7 @@ const DATA = {
   // dash.cloudflare.com > Web Analytics to turn it on; leave empty to keep analytics off.
   analytics: { cfToken: "" },
   chat: { endpoint: "https://bangkok-sidekick-chat.bangkok-sidekick-chat-proxy.workers.dev/", dailyLimit: 30 },
-  version: "48",
+  version: "49",
   hotel: {
     name: "Avani Ratchada Bangkok Hotel (opposite G Tower, Rama 9)",
     thaiName: "โรงแรมอวานี รัชดา กรุงเทพ ตรงข้ามจีทาวเวอร์ พระราม 9",
@@ -282,7 +282,6 @@ const DATA = {
     { n: "Thip Samai", order: "Thip Samai Pad Thai", cat: "downtown", d: "Famous pad thai in the old town 🔎", p: "฿฿", q: "Thip Samai Pad Thai" },
     { n: "Jay Fai", cat: "downtown", d: "Michelin-starred street food, very long queues 🔎", p: "฿฿฿", q: "Jay Fai Bangkok" },
     { n: "Krua Apsorn", order: "Krua Apsorn", cat: "downtown", d: "Home-style Thai, crab omelette 🔎", p: "฿฿", q: "Krua Apsorn Dinso Road" },
-    { n: "Indian near Rama 9 (search)", cat: "indian", d: "No top-rated Indian restaurant is confirmed within walking distance of Rama 9. Open Maps or Wongnai, search Indian, and sort by rating. Rang Mahal and Sutra below are good picks if you head downtown.", p: "฿฿", q: "Indian restaurant near Rama 9", wn: "Indian restaurant Rama 9" },
     { n: "Rang Mahal (rooftop)", order: "Rang Mahal", cat: "indian", d: "Classic North Indian dining on the roof of the Rembrandt Hotel, Sukhumvit Soi 18. Dressier and pricier; book ahead. MRT to Sukhumvit (BL22) 🔎", p: "฿฿฿", q: "Rang Mahal Rembrandt Hotel Bangkok" },
     { n: "Sutra Indian Restaurant", order: "Sutra Indian Restaurant", cat: "indian", d: "North Indian curries and tandoor on Narathiwat Rd, near Chong Nonsi. Listed on OpenStreetMap; check rating and hours 🔎", p: "฿฿", q: "Sutra Indian Restaurant Narathiwat" },
     { n: "Sri Bhavan", order: "Sri Bhavan", cat: "indian", d: "Indian restaurant on Ratchaprarop Soi 3 (Phaya Thai side). Listed on OpenStreetMap; check the menu and hours 🔎", p: "฿", q: "Sri Bhavan Ratchaprarop Soi 3" },
