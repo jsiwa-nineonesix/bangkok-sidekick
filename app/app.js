@@ -5,6 +5,13 @@
   const gmap = q => "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(q + " Bangkok");
   const mapBtn = q => `<a class="btn alt" target="_blank" rel="noopener" href="${gmap(q)}">📍 Map</a>`;
 
+  const isAndroid = /android/i.test(navigator.userAgent || "");
+  const storeBtns = a => {
+    const ios = `<a class="btn" target="_blank" rel="noopener" href="https://apps.apple.com/th/app/id${esc(a.ios)}">🍎 App Store</a>`;
+    const gp = `<a class="btn" target="_blank" rel="noopener" href="https://play.google.com/store/apps/details?id=${esc(a.android)}">▶ Google Play</a>`;
+    return isAndroid ? gp + ios : ios + gp;
+  };
+
   const TABS = [
     ["home", "Home", "🏠"], ["map", "Map", "🗺️"], ["places", "Explore", "📸"], ["eat", "Eat", "🍜"],
     ["go", "Transit", "🚇"], ["apps", "Apps", "📱"], ["tips", "Tips", "💡"]
@@ -113,7 +120,7 @@
     apps() {
       return `<h2>Apps</h2><p style="color:var(--muted);margin-top:0">Install and add your payment method before you land.</p>
       ${D.apps.map(a => `<div class="card"><h4>${esc(a.n)}</h4><p><strong>${esc(a.use)}</strong></p><ul>${a.tips.map(x => `<li>${esc(x)}</li>`).join("")}</ul>
-        <a class="btn alt" target="_blank" rel="noopener" href="${esc(a.link)}">Website</a></div>`).join("")}
+        <div class="row">${storeBtns(a)}</div></div>`).join("")}
       <h3>Avoid</h3><div class="card"><ul>${D.avoid.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div>`;
     },
 

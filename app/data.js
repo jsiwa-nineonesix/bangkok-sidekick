@@ -107,12 +107,12 @@ const DATA = {
   ],
 
   apps: [
-    { n: "Grab", use: "Cars, taxis, motorbike taxis, food", tips: ["Set pickup to the hotel entrance. The hotel and G Tower face each other, so pick the right side.", "Price is shown up-front and includes surge in rain or rush hour.", "Use in-app chat if the driver calls in Thai (auto-translates).", "Toll roads may be paid in cash.", "GrabBike is fast in traffic but riskier."], link: "https://www.grab.com/th/en/" },
-    { n: "LINE MAN", use: "Food, groceries, 7-Eleven, pharmacy, motorbike rides", tips: ["Needs a LINE account.", "In the address note add hotel name, room number and a phone number.", "Delivery fee ~฿10–40; more in rain or at distance.", "Foreign cards can fail; keep cash as backup 🔎"], link: "https://lineman.line.me/" },
-    { n: "MuvMI", use: "Electric tuk-tuk for short hops", tips: ["Service is limited to set zones; check the app map for Rama 9 coverage 🔎.", "Fixed fare, shared rides, in-app payment.", "Great for last-mile between a station and a mall."], link: "https://www.muvmi.com/" },
-    { n: "Bolt", use: "Cheaper cars/taxis", tips: ["Often cheaper than Grab; availability varies."], link: "https://bolt.eu/en-th/" },
-    { n: "Google Maps", use: "Navigation, transit, reviews", tips: ["Download an offline map of Rama 9 and the city centre."], link: "https://maps.google.com" },
-    { n: "Google Translate", use: "Thai menus and signs", tips: ["Download the Thai offline pack; use the camera mode."], link: "https://translate.google.com" }
+    { n: "Grab", use: "Cars, taxis, motorbike taxis, food", tips: ["Set pickup to the hotel entrance. The hotel and G Tower face each other, so pick the right side.", "Price is shown up-front and includes surge in rain or rush hour.", "Use in-app chat if the driver calls in Thai (auto-translates).", "Toll roads may be paid in cash.", "GrabBike is fast in traffic but riskier."], ios: "647268330", android: "com.grabtaxi.passenger" },
+    { n: "LINE MAN", use: "Food, groceries, 7-Eleven, pharmacy, motorbike rides", tips: ["Needs a LINE account.", "In the address note add hotel name, room number and a phone number.", "Delivery fee ~฿10–40; more in rain or at distance.", "Foreign cards can fail; keep cash as backup 🔎"], ios: "1076238296", android: "com.linecorp.linemanth" },
+    { n: "MuvMI", use: "Electric tuk-tuk for short hops", tips: ["Service is limited to set zones; check the app map for Rama 9 coverage 🔎.", "Fixed fare, shared rides, in-app payment.", "Great for last-mile between a station and a mall."], ios: "1410088538", android: "co.muvmi.passenger" },
+    { n: "Bolt", use: "Cheaper cars/taxis", tips: ["Often cheaper than Grab; availability varies."], ios: "675033630", android: "ee.mtakso.client" },
+    { n: "Google Maps", use: "Navigation, transit, reviews", tips: ["Download an offline map of Rama 9 and the city centre."], ios: "585027354", android: "com.google.android.apps.maps" },
+    { n: "Google Translate", use: "Thai menus and signs", tips: ["Download the Thai offline pack; use the camera mode."], ios: "414706506", android: "com.google.android.apps.translate" }
   ],
   avoid: [
     "Taxis that refuse the meter or quote a high flat price.",
