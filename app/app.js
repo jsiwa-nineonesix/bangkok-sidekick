@@ -56,6 +56,7 @@
           <ul>${D.trust.verified.map(x => `<li>${esc(x)}</li>`).join("")}</ul>
           <p><strong>🔎 Worth a quick live check</strong> (these change)</p>
           <ul>${D.trust.recheck.map(x => `<li>${esc(x)}</li>`).join("")}</ul>
+          ${D.analytics && D.analytics.cfToken ? `<p class="t-note">📊 We count anonymous visits (no cookies, no personal data) to see if the guide is useful.</p>` : ""}
           <p class="t-note">Use the 📍 buttons to confirm in Google Maps, or ask Sidekick. AI can make mistakes, so for anything important, confirm before you rely on it.</p>
           <button type="button" class="btn alt small" data-chat="1">💬 Ask Sidekick</button>
         </div>
@@ -201,6 +202,14 @@
   render(location.hash.slice(1) || "home");
 
   const ver = $("#ver"); if (ver) ver.textContent = "v" + D.version;
+
+  // Optional anonymous analytics (Cloudflare Web Analytics, no cookies). Off unless a token is set in data.js.
+  if (D.analytics && D.analytics.cfToken && /^https?:$/.test(location.protocol) && !/^(localhost|127\.)/.test(location.hostname)) {
+    const s = document.createElement("script");
+    s.defer = true; s.src = "https://static.cloudflareinsights.com/beacon.min.js";
+    s.setAttribute("data-cf-beacon", JSON.stringify({ token: D.analytics.cfToken }));
+    document.head.appendChild(s);
+  }
 
   if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
     const hadController = !!navigator.serviceWorker.controller;

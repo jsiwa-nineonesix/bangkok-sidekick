@@ -21,8 +21,11 @@ const DATA = {
   },
   // Chat assistant. Leave endpoint empty to answer from the guide only (free, offline).
   // AI assistant: Cloudflare Workers AI via chat-proxy/ (free daily allowance, no API key).
+  // Anonymous visit counts via Cloudflare Web Analytics (no cookies). Paste the site token from
+  // dash.cloudflare.com > Web Analytics to turn it on; leave empty to keep analytics off.
+  analytics: { cfToken: "" },
   chat: { endpoint: "https://bangkok-sidekick-chat.bangkok-sidekick-chat-proxy.workers.dev/", dailyLimit: 30 },
-  version: "24",
+  version: "25",
   hotel: {
     name: "Avani Ratchada Bangkok Hotel (opposite G Tower, Rama 9)",
     thaiName: "โรงแรมอวานี รัชดา กรุงเทพ ตรงข้ามจีทาวเวอร์ พระราม 9",

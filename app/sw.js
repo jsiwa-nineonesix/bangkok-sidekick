@@ -1,4 +1,4 @@
-const CACHE = "bangkok-sidekick-v24";
+const CACHE = "bangkok-sidekick-v25";
 const FILES = ["./", "index.html", "styles.css", "app.js", "data.js", "chat.js", "manifest.webmanifest", "icon.svg", "img/app-store-badge.png", "img/google-play-badge.png"];
 self.addEventListener("install", e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES))); self.skipWaiting(); });
 self.addEventListener("activate", e => {
@@ -8,6 +8,7 @@ self.addEventListener("activate", e => {
 // Network first so content updates arrive; fall back to cache offline.
 self.addEventListener("fetch", e => {
   if (e.request.method !== "GET") return;
+  if (new URL(e.request.url).origin !== location.origin) return; // let analytics and other third-party requests pass straight through
   e.respondWith(fetch(e.request, { cache: "no-cache" }).then(r => {
     const copy = r.clone();
     if (new URL(e.request.url).origin === location.origin) caches.open(CACHE).then(c => c.put(e.request, copy));
