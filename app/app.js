@@ -60,7 +60,7 @@
     return `<article class="vc"><div class="vmedia">${media}
         ${v.rating ? `<span class="vchip r">⭐ ${v.rating.toFixed(1)}</span>` : ""}
         ${labels.length ? `<div class="vlabels">${labels.map(l => `<span class="vchip">${l}</span>`).join("")}</div>` : ""}
-        ${ph ? `<button class="vinfo" type="button" data-credit="1" aria-label="Photo credit">i</button><div class="vcredit">${creditHtml(ph.c)}</div>` : ""}</div>
+        </div>
       <div class="vbody"><h4>${esc(v.n)}</h4><p class="vmeta">${meta}</p>
         ${v.d ? `<p class="vdesc">${esc(v.d)}</p>` : ""}<p class="vgo">🧭 ${esc(v.go)}</p>
         <div class="vfoot"><span class="vbudget"><b>${esc(v.budget)}</b><small>per person · estimate</small></span>
@@ -72,10 +72,7 @@
     const most = rated.length ? rated.reduce((m, x) => (x.reviews > m.reviews ? x : m), rated[0]) : null;
     return [v === best ? "🏆 Top rated" : "", v === most ? "🔥 Most reviewed" : ""].filter(Boolean);
   };
-  const creditsList = items => {
-    const rows = items.filter(photoOf).map(v => { const c = photoOf(v).c; return `<li><strong>${esc(v.n)}</strong>: ${esc(c.by)}, <a target="_blank" rel="noopener" href="${esc(c.licUrl)}">${esc(c.lic)}</a>, <a target="_blank" rel="noopener" href="${esc(c.page)}">source</a></li>`; }).join("");
-    return rows ? `<details class="vcredits"><summary>Photo credits</summary><ul>${rows}</ul><p>Photos are from Wikimedia Commons and have been cropped and resized. A plain tile means there is no free photo of that exact place.</p></details>` : "";
-  };
+  const creditsList = () => "";
   const venueView = key => {
     const list = D.places.filter(p => p.cats.includes(key));
     const sorted = list.slice().sort(venueSorts[sortOf(key)]);
