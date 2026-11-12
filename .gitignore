@@ -1,2 +1,6 @@
 # Original brand masters (kept locally; the app uses the optimised copies in app/icons)
 BangkokSideKick_Logo/
+.DS_Store
+**/.DS_Store
+*.zip
+node_modules/
