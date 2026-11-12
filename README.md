@@ -1,4 +1,5 @@
-# Bangkok Visit Support 🇹🇭
+# Siam Sidekick 🇹🇭
+_Bangkok Visit Support pack: your travel buddy in the Big Mango_
 
 A quick-reference pack for colleagues visiting Bangkok for one week, staying at **Avani Ratchada Bangkok Hotel (opposite G Tower), Rama 9 – the "New CBD"**.
 

@@ -31,6 +31,7 @@
       return `
       <div class="hero">
         <h1>Welcome to Bangkok 👋</h1>
+        <p style="opacity:.85;margin-top:0"><em>${esc(D.appName)} · ${esc(D.tagline)}</em></p>
         <p>Your base: <strong>${esc(D.hotel.name)}</strong></p>
         <p>Nearest MRT: <strong>Phra Ram 9 (BL20)</strong> · New CBD</p>
       </div>

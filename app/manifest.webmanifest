@@ -1,6 +1,6 @@
 {
-  "name": "Bangkok Visit Support",
-  "short_name": "BKK Guide",
+  "name": "Siam Sidekick",
+  "short_name": "Siam Sidekick",
   "description": "Rama 9 / New CBD visitor guide: transit, food, apps and tips",
   "start_url": "./index.html",
   "scope": "./",
