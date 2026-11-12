@@ -5,7 +5,7 @@ const DATA = {
   // Chat assistant. Leave endpoint empty to answer from the guide only (free, offline).
   // To turn on the AI assistant, deploy chat-proxy/ and paste its URL here.
   chat: { endpoint: "", dailyLimit: 30 },
-  version: "17",
+  version: "18",
   hotel: {
     name: "Avani Ratchada Bangkok Hotel (opposite G Tower, Rama 9)",
     thaiName: "โรงแรมอวานี รัชดา กรุงเทพ ตรงข้ามจีทาวเวอร์ พระราม 9",

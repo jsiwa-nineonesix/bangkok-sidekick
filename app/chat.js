@@ -155,7 +155,12 @@
   const history = [];
   let busy = false, started = false;
 
-  const modeLabel = () => { el.mode.textContent = CFG.endpoint ? "AI assistant · uses the guide" : "Answers from the guide"; };
+  const modeLabel = () => {
+    const online = navigator.onLine !== false;
+    el.mode.textContent = !CFG.endpoint ? (online ? "Answers from the guide" : "Offline · answers from the guide")
+      : online ? "AI assistant · uses the guide" : "Offline · answers from the guide";
+  };
+  window.addEventListener("online", modeLabel); window.addEventListener("offline", modeLabel);
 
   function addMsg(who, html, extra) {
     const m = document.createElement("div"); m.className = "msg " + who; m.innerHTML = html;
