@@ -1,32 +1,71 @@
 {
   "_howto": "Add a new entry at the TOP for every release. 'v' must match the version in data.js and sw.js. Keep notes short and in plain language: they are shown to colleagues when an update is available.",
   "releases": [
-    { "v": "40", "date": "2026-11-12", "notes": [
-      "New: when a newer version is available you now see what changed before you update",
-      "New: a quick “You're on the latest version” note when the app is up to date"
-    ] },
-    { "v": "39", "date": "2026-11-12", "notes": [
-      "Small internal release used to test the update button (no visible changes)"
-    ] },
-    { "v": "38", "date": "2026-11-12", "notes": [
-      "New: an orange Update button appears at the top right when a newer version is ready",
-      "The app no longer reloads by itself; it waits until you tap Update"
-    ] },
-    { "v": "37", "date": "2026-11-12", "notes": [
-      "Fixed the browser-tab and iPhone icons so they use the real Bangkok Sidekick logo"
-    ] },
-    { "v": "36", "date": "2026-11-12", "notes": [
-      "New Bangkok Sidekick logo (the mango pin) in the header and as the app icon"
-    ] },
-    { "v": "34", "date": "2026-11-12", "notes": [
-      "Tips: added the SuperRich exchange office reported at Central Rama 9 (5th floor)"
-    ] },
-    { "v": "32", "date": "2026-11-12", "notes": [
-      "Popular Malls, Walkable and Near (MRT) now list the closest places first",
-      "Cards without a rating now have a “Tap to see Google rating” link"
-    ] },
-    { "v": "31", "date": "2026-11-12", "notes": [
-      "Popular Malls: 7 more malls added, and every card now shows its distance from the hotel"
-    ] }
+    {
+      "v": "41",
+      "date": "2026-11-12",
+      "notes": [
+        "Small internal release used to test the new “What's new” message (no visible changes)"
+      ]
+    },
+    {
+      "v": "40",
+      "date": "2026-11-12",
+      "notes": [
+        "New: when a newer version is available you now see what changed before you update",
+        "New: a quick “You're on the latest version” note when the app is up to date"
+      ]
+    },
+    {
+      "v": "39",
+      "date": "2026-11-12",
+      "notes": [
+        "Small internal release used to test the update button (no visible changes)"
+      ]
+    },
+    {
+      "v": "38",
+      "date": "2026-11-12",
+      "notes": [
+        "New: an orange Update button appears at the top right when a newer version is ready",
+        "The app no longer reloads by itself; it waits until you tap Update"
+      ]
+    },
+    {
+      "v": "37",
+      "date": "2026-11-12",
+      "notes": [
+        "Fixed the browser-tab and iPhone icons so they use the real Bangkok Sidekick logo"
+      ]
+    },
+    {
+      "v": "36",
+      "date": "2026-11-12",
+      "notes": [
+        "New Bangkok Sidekick logo (the mango pin) in the header and as the app icon"
+      ]
+    },
+    {
+      "v": "34",
+      "date": "2026-11-12",
+      "notes": [
+        "Tips: added the SuperRich exchange office reported at Central Rama 9 (5th floor)"
+      ]
+    },
+    {
+      "v": "32",
+      "date": "2026-11-12",
+      "notes": [
+        "Popular Malls, Walkable and Near (MRT) now list the closest places first",
+        "Cards without a rating now have a “Tap to see Google rating” link"
+      ]
+    },
+    {
+      "v": "31",
+      "date": "2026-11-12",
+      "notes": [
+        "Popular Malls: 7 more malls added, and every card now shows its distance from the hotel"
+      ]
+    }
   ]
 }
