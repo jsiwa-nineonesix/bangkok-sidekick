@@ -22,8 +22,17 @@
     text: `**MRT: card tap works ✓**\n${D.pay[0].note}\n\n**BTS: no direct card tap ✗**\n${D.pay[1].note}` });
   add({ title: "Emergency numbers", tab: "tips", kw: "emergency police ambulance fire sos help hospital tourist danger robbed lost accident medical 191 1155 1669 199",
     text: D.emergency.map(([n, no]) => `**${n}:** ${no}`).join("\n"), actions: [{ label: "🆘 Open emergency", fn: "sos" }] });
-  D.places.forEach(p => add({ title: p.n, tab: "places", kw: `${p.cat === "near" ? "near hotel walk walking nearby close" : p.cat === "nearby" ? "near nearby mrt close" : "downtown city center sightseeing visit see attraction tourist"} things to do explore`,
-    text: `${p.d}\n🚶 ${p.t}`, actions: [{ label: "📍 Map", href: gmap(p.q) }] }));
+  const CAT_KW = { near: "near hotel walk walking nearby close", nearby: "near nearby mrt close", downtown: "downtown city center sightseeing visit see attraction tourist", malls: "mall malls shopping shop buy" };
+  const placeWeighted = p => (p.rating * p.reviews + 4.3 * 100) / (p.reviews + 100);
+  const seenPlace = new Set();
+  D.places.forEach(p => {
+    if (seenPlace.has(p.n)) return; seenPlace.add(p.n);
+    add({ title: p.n, ttl: p.n + " " + p.type, tab: p.cats[0], isMall: p.cats.includes("malls"), priced: true,
+      rated: p.rating ? placeWeighted(p) : undefined, taxi: p.min,
+      kw: p.cats.map(k => CAT_KW[k]).join(" ") + " things to do explore " + p.type,
+      text: `${p.rating ? `⭐ ${p.rating.toFixed(1)} from ${p.reviews.toLocaleString()} Google reviews (as of ${D.explore.asOf})\n` : ""}${p.d}\n🧭 ${p.go}\n💰 Per person (my estimate): ${p.budget}`,
+      actions: [{ label: "📍 Map", href: gmap(p.q) }] });
+  });
   D.food.forEach(f => add({ title: f.n, tab: "eat", kw: `eat food restaurant hungry dinner lunch breakfast meal ${f.cat === "night" ? "night market evening" : ""} ${f.cat === "mall" ? "mall air conditioned" : ""} ${f.cat === "downtown" ? "famous" : ""} ${/Rama 9|G Tower/i.test(f.q) || f.cat === "street" ? "near hotel nearby walk walking close" : ""} cheap ${f.p}`,
     text: `${f.d}\nPrice: ${f.p}`, actions: [{ label: "📍 Map", href: gmap(f.q) }] }));
   add({ title: "Thai dishes to try", tab: "eat", kw: "dish dishes food thai try order menu pad thai curry tom yum som tam spicy",
@@ -40,13 +49,13 @@
   const NO = D.nightout;
   const weighted = v => (v.rating * v.reviews + 4.3 * 100) / (v.reviews + 100); // rating adjusted for how many reviews back it
   NO.top.forEach(v => add({ title: v.n, ttl: v.n + " " + v.type.replace(/\(.*\)/, ""), tab: "night", rated: weighted(v), taxi: v.walk ? 3 : v.taxi, kw: `night out dinner drinks restaurant eat chill popular best top rated google rating review ${v.type}`,
-    text: `⭐ ${v.rating.toFixed(1)} from ${v.reviews.toLocaleString()} Google reviews (as of ${NO.asOf})\n${v.type}\n🧭 ${v.go}\n💰 About ${v.budget} per person (my estimate)`,
+    text: `⭐ ${v.rating.toFixed(1)} from ${v.reviews.toLocaleString()} Google reviews (as of ${NO.asOf})\n${v.type}\n🧭 ${v.go}\n💰 Per person (my estimate): ${v.budget}`,
     actions: [{ label: "📍 Map", href: gmap((v.q || v.n) + " near " + NO.hotelQuery) }] }));
   NO.find.forEach(f => add({ title: `${f.n} near the hotel`, tab: "night", kw: "night out bar pub drink chill cafe rooftop cocktail music late night live ratings best popular",
-    text: `Open Google Maps around the hotel for live ratings, photos and hours.\n💰 About ${f.budget} per person (estimate)`,
+    text: `Open Google Maps around the hotel for live ratings, photos and hours.\n💰 Per person (my estimate): ${f.budget}`,
     actions: [{ label: "📍 Find on Maps", href: gmap(f.q + " " + NO.hotelQuery) }] }));
   NO.districts.forEach(x => add({ title: `Night out: ${x.n}`, tab: "night", kw: "night out nightlife bar pub drink district area go downtown",
-    text: `${x.note}\n🧭 ${x.how}\n💰 About ${x.budget} per person (estimate)`, actions: [{ label: "📍 Map", href: gmap(x.n.split(" / ")[0] + " Bangkok") }] }));
+    text: `${x.note}\n🧭 ${x.how}\n💰 Per person (my estimate): ${x.budget}`, actions: [{ label: "📍 Map", href: gmap(x.n.split(" / ")[0] + " Bangkok") }] }));
   add({ title: "Night-out tips", tab: "night", kw: "night out late home last train midnight grab budget", text: NO.tips.map(x => "• " + x).join("\n") });
   D.stations.concat(D.btsStations).forEach(s => add({ title: `${s.n.replace(/[^\w\s\/]/g, "").trim()} station`, tab: "map", kw: "station mrt bts stop line", text: s.info,
     actions: s.ll ? [{ label: "📍 Map", href: "https://www.google.com/maps/search/?api=1&query=" + s.ll }] : [] }));
@@ -105,8 +114,9 @@
         if (RE_APP.test(q) && d.tab === "apps" && d.title.endsWith(" app")) s += 3;
         if (topical && /\b(near|nearby|close|closest|walking)\b/i.test(q) && d.taxi) s += (20 - Math.min(d.taxi, 20)) / 8;
         if (topical && RE_RATED.test(q) && d.rated) s += 1 + (d.rated - 4) * 6;
-        if (RE_MALL.test(q) && (d.tab === "places" || d.tab === "eat") && /\bmall\b/i.test(d.text)) s += 3;
-        if (RE_WEAR.test(q) && d.tab === "tips" && !d.title.startsWith("Thai for")) s += 2.5;
+        if (RE_MALL.test(q) && d.isMall) s += 3;
+        if (/\b(entry|entrance|fee|ticket|tickets|price|cost|how much|budget|afford\w*)\b/i.test(q) && d.priced) s += 4;
+        if (RE_WEAR.test(q) && d.tab === "tips" && !d.title.startsWith("Thai for")) s += /clothing/i.test(d.title) ? 6 : 2.5;
       }
       return { d, s };
     }).filter(x => x.s > 0).sort((a, b) => b.s - a.s);

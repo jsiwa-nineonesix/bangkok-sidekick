@@ -7,9 +7,9 @@ A quick-reference pack for colleagues visiting Bangkok for one week, staying at 
 
 Open `app/index.html`, or host the `app/` folder on any static host (it has no build step). On a phone, use "Add to Home Screen" and it works offline. All content is in `app/data.js`. The Markdown files below are the same material in document form.
 
-## 🌙 BKK Night Out
+## 🧭 Explore (Walkable · Near (MRT) · Downtown · Popular Malls · BKK Night Out)
 
-Explore > BKK Night Out lists top-rated dinner and drinks spots near the hotel (Google ratings as of 12 Nov 2026, budgets are estimates), one-tap searches for bars and cafés with live Google ratings, and the main night-out areas with train routes. Data lives in `nightout` in `app/data.js`.
+Every section uses the same card: Google rating and review count (where it could be read, as of 12 Nov 2026), how to get there from the hotel, a per-person budget estimate, and a Map button, with Top rated / Most reviewed / Closest sorting. Places without a rating on their card show "Rating: see Google". Budgets are estimates. Data lives in `places` and `nightout` in `app/data.js`.
 
 ## 💬 Chat assistant
 
