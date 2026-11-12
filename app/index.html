@@ -17,8 +17,9 @@
 <body>
 <header class="top">
   <div class="brand">🇹🇭 <span>Bangkok Visit Support</span></div>
-  <nav id="nav" aria-label="Sections"></nav>
 </header>
+<!-- Keep the nav OUTSIDE the header: backdrop-filter on an ancestor makes position:fixed children anchor to it, hiding the tab bar on iPhone. -->
+<nav id="nav" aria-label="Sections"></nav>
 <main id="view" tabindex="-1"></main>
 <div id="modal" class="modal" hidden></div>
 <script src="data.js"></script>
