@@ -72,7 +72,7 @@
   docs.forEach(d => { d.t = new Set(tok(d.title)); d.b = new Set(tok(d.kw + " " + d.text)); });
 
   const RE_ROUTE = /\b(get|go|going|reach|travel|commute|directions?|route|way)\b/i, RE_TO = /\b(to|from)\b/i;
-  const RE_APP = /\b(app|apps|download|install|delivery|deliver)\b/i, RE_WEAR = /\b(wear|dress|clothes|clothing|outfit|pack|packing|bring)\b/i;
+  const RE_MALL = /\b(mall|malls|shopping)\b/i, RE_APP = /\b(app|apps|download|install|delivery|deliver)\b/i, RE_WEAR = /\b(wear|dress|clothes|clothing|outfit|pack|packing|bring)\b/i;
   function search(q) {
     const qt = [...new Set(tok(q))];
     if (!qt.length) return [];
@@ -85,6 +85,7 @@
       if (s > 0) {
         if (RE_ROUTE.test(q) && RE_TO.test(q) && d.title.startsWith("Getting to")) s += 2.5;
         if (RE_APP.test(q) && d.tab === "apps" && d.title.endsWith(" app")) s += 3;
+        if (RE_MALL.test(q) && (d.tab === "places" || d.tab === "eat") && /\bmall\b/i.test(d.text)) s += 3;
         if (RE_WEAR.test(q) && d.tab === "tips" && !d.title.startsWith("Thai for")) s += 2.5;
       }
       return { d, s };

@@ -5,7 +5,7 @@ const DATA = {
   // Chat assistant. Leave endpoint empty to answer from the guide only (free, offline).
   // AI assistant: Cloudflare Workers AI via chat-proxy/ (free daily allowance, no API key).
   chat: { endpoint: "https://bangkok-sidekick-chat.bangkok-sidekick-chat-proxy.workers.dev/", dailyLimit: 30 },
-  version: "22",
+  version: "23",
   hotel: {
     name: "Avani Ratchada Bangkok Hotel (opposite G Tower, Rama 9)",
     thaiName: "โรงแรมอวานี รัชดา กรุงเทพ ตรงข้ามจีทาวเวอร์ พระราม 9",
