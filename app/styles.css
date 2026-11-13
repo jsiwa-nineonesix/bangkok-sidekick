@@ -28,21 +28,21 @@
 }
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --text: #eaf1fa; --muted: #a9b9cc; --brand: #9cc4f5; --link: #7db8ff;
+  --text: #f1f6fc; --muted: #bccadb; --brand: #a9cdf7; --link: #8cc2ff;
   --ok: #5fd68a; --no: #ff8080;
-  --glass: linear-gradient(145deg, rgba(255,255,255,.1) 0%, rgba(255,255,255,.015) 46%, rgba(255,255,255,.05) 100%);
-  --glass-strong: rgba(26,38,62,.8);
-  --glass-border: rgba(255,255,255,.2); --glass-edge: rgba(255,255,255,.4);
+  --glass: linear-gradient(145deg, rgba(255,255,255,.17) 0%, rgba(255,255,255,.05) 46%, rgba(255,255,255,.1) 100%);
+  --glass-strong: rgba(44,60,92,.82);
+  --glass-border: rgba(255,255,255,.26); --glass-edge: rgba(255,255,255,.5);
   --glass-glow: inset 0 -12px 18px -12px rgba(150,190,255,.25), inset 0 0 0 1px rgba(255,255,255,.06);
-  --shadow: 0 10px 36px rgba(0,0,0,.5);
-  --chip: rgba(255,255,255,.1); --line: rgba(255,255,255,.14);
+  --shadow: 0 10px 32px rgba(0,0,0,.32);
+  --chip: rgba(255,255,255,.14); --line: rgba(255,255,255,.18);
   --warn: rgba(140,105,20,.45); --warnb: rgba(240,200,80,.45);
   --goodbg: rgba(30,110,65,.45); --goodb: rgba(80,190,120,.5);
-  --nav-bg: linear-gradient(145deg, rgba(60,80,120,.36), rgba(20,30,52,.36));
+  --nav-bg: linear-gradient(145deg, rgba(86,110,158,.42), rgba(44,58,92,.42));
   --nav-on: linear-gradient(180deg, rgba(255,255,255,.28), rgba(255,255,255,.1));
-  --sheet: rgba(14,22,40,.95); --bubble: rgba(40,56,86,.9); --card-solid: rgba(24,36,60,.86); --map-bg: rgba(255,255,255,.88);
-  --overlay: rgba(2,6,14,.6);
-  --bg-base: #0b1424; --b1: #5a1f4a; --b2: #14407a; --b3: #5a4310; --b4: #0f4a3c;
+  --sheet: rgba(30,42,68,.95); --bubble: rgba(56,74,110,.9); --card-solid: rgba(40,56,88,.86); --map-bg: rgba(255,255,255,.88);
+  --overlay: rgba(6,12,24,.5);
+  --bg-base: #1a2a45; --b1: #7d3570; --b2: #2a62ad; --b3: #7d6126; --b4: #1f6e5a;
   --tint-info: rgba(40,90,170,.45); --tint-info-b: rgba(110,170,255,.45); --tint-star: rgba(160,120,20,.5); --tint-hot: rgba(170,60,50,.5);
 }
 /* Smooth cross-fade for ~0.5s when the user taps the switch */
@@ -440,10 +440,10 @@ a.tag.rate-link { text-decoration: none; color: var(--link); font-weight: 600; b
 .cbd3d .rdname.jn { fill: #14202d; font-size: 14px; font-weight: 700; }
 .cbd3d .lbl text { fill: #14202d; font-size: 17px; font-weight: 700; text-anchor: middle; paint-order: stroke; stroke: rgba(255,255,255,.92); stroke-width: 4px; stroke-linejoin: round; }
 .cbd3d .osm { fill: #7a8aa0; font-size: 9px; }
-:root[data-theme="dark"] .cbd3d .ground { fill: rgba(255,255,255,.06); stroke: rgba(255,255,255,.2); }
+:root[data-theme="dark"] .cbd3d .ground { fill: rgba(255,255,255,.1); stroke: rgba(255,255,255,.26); }
 :root[data-theme="dark"] .cbd3d .rd { stroke: #34445e; } :root[data-theme="dark"] .cbd3d .rd-m { stroke: #3e5070; } :root[data-theme="dark"] .cbd3d .rd-x { stroke: #4a5d80; }
 :root[data-theme="dark"] .cbd3d .rd-c { stroke: #8fa6c8; opacity: .6; }
-:root[data-theme="dark"] .cbd3d .bld .w1 { fill: rgba(120,145,190,.38); } :root[data-theme="dark"] .cbd3d .bld .w2 { fill: rgba(90,112,155,.4); } :root[data-theme="dark"] .cbd3d .bld .w3 { fill: rgba(60,78,115,.45); }
+:root[data-theme="dark"] .cbd3d .bld .w1 { fill: rgba(150,175,220,.42); } :root[data-theme="dark"] .cbd3d .bld .w2 { fill: rgba(115,138,182,.44); } :root[data-theme="dark"] .cbd3d .bld .w3 { fill: rgba(84,104,144,.48); }
 :root[data-theme="dark"] .cbd3d .bld:not(.key) .roof { fill: rgba(150,175,220,.42); }
 :root[data-theme="dark"] .cbd3d .bld polygon { stroke: rgba(170,200,255,.18); }
 :root[data-theme="dark"] .cbd3d .rdname { fill: #a9bbd6; stroke: rgba(10,18,34,.85); }

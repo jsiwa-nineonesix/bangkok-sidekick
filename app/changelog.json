@@ -2,6 +2,13 @@
   "_howto": "Add a new entry at the TOP for every release. 'v' must match the version in data.js and sw.js. Keep notes short and in plain language: they are shown to colleagues when an update is available.",
   "releases": [
     {
+      "v": "74",
+      "date": "2026-11-13",
+      "notes": [
+        "Dark mode is a little brighter: lighter background, clearer glass cards and a brighter 3D map"
+      ]
+    },
+    {
       "v": "73",
       "date": "2026-11-13",
       "notes": [
