@@ -30,7 +30,7 @@ const DATA = {
   // dash.cloudflare.com > Web Analytics to turn it on; leave empty to keep analytics off.
   analytics: { cfToken: "" },
   chat: { endpoint: "https://bangkok-sidekick-chat.bangkok-sidekick-chat-proxy.workers.dev/", dailyLimit: 30 },
-  version: "57",
+  version: "58",
   hotel: {
     name: "Avani Ratchada Bangkok Hotel (opposite G Tower, Rama 9)",
     thaiName: "โรงแรมอวานี รัชดา กรุงเทพ ตรงข้ามจีทาวเวอร์ พระราม 9",
@@ -243,7 +243,8 @@ const DATA = {
     "yentafo-wat-kaek": { "by": "Phoebus 28", "lic": "CC BY 4.0", "licUrl": "https://creativecommons.org/licenses/by/4.0", "page": "https://commons.wikimedia.org/wiki/File:Yen_Ta_Fo_Wat_Kaek_(original).jpg" },
     "somboon-surawong": { "by": "jetalone", "lic": "CC BY 2.0", "licUrl": "https://creativecommons.org/licenses/by/2.0", "page": "https://www.flickr.com/photos/92203585@N00/2160390403" },
     "mbk-food-court": { "by": "goodiesfirst", "lic": "CC BY 2.0", "licUrl": "https://creativecommons.org/licenses/by/2.0", "page": "https://www.flickr.com/photos/49215102@N00/7797217712" },
-    "have-a-zeed": { "by": "Bangkok Sidekick (own photo)", "lic": "Own photo", "licUrl": "", "page": "" }
+    "have-a-zeed": { "by": "Bangkok Sidekick (own photo)", "lic": "Own photo", "licUrl": "", "page": "" },
+    "baan-ying-rama9": { "by": "Baan Ying (restaurant's own promo photo)", "lic": "Provided by user", "licUrl": "", "page": "" }
   },
 
   places: [
@@ -286,6 +287,8 @@ const DATA = {
     // cat: mall | street | night | classic | downtown | indian
     // photo = key in photos (only a photo of that exact restaurant or food hall; leave it out otherwise)
     { n: "Have A Zeed (Central Rama 9, 7th floor) ⭐ Sidekick pick", wn: "Have A Zeed", photo: "have-a-zeed", cat: "mall", d: "Our favourite! Thai Esarn (Isaan) comfort food, just renovated with a cosy new look. Ask staff for their best dishes. 7th floor of Central Rama 9, about a 4-min walk from the hotel. Google 4.5 (214 reviews)", p: "฿", q: "Have A Zeed Central Rama 9" },
+    { n: "Baan Ying (Central Rama 9) ⭐ Sidekick pick", wn: "Baan Ying", photo: "baan-ying-rama9", cat: "mall", d: "Another favourite! Baan Ying Original Siam Kitchen: home-style Thai classics in a bright, leafy dining room. Inside Central Rama 9, about a 4-min walk from the hotel. Open daily 10:00-22:00; check the floor in the mall directory 🔎", p: "฿฿", q: "Baan Ying Central Rama 9" },
+    { n: "Laem Charoen Seafood (Central Rama 9, 7th floor)", wn: "Laem Charoen Seafood", cat: "mall", d: "Popular Thai seafood chain, best known for its deep-fried sea bass with fish sauce. Great for a group dinner. 7th floor of Central Rama 9, next to the hotel 🔎", p: "฿฿฿", q: "Laem Charoen Seafood Central Rama 9" },
     { n: "Tops Flavour (Central Rama 9)", photo: "tops-flavour-rama9", cat: "mall", d: "Bright food hall by the Tops supermarket inside Central Rama 9: Thai rice and noodle dishes with seats. The closest sit-down meal to the hotel. Photo from Sept 2025; check the floor in the mall directory 🔎", p: "฿", q: "Tops Flavour Central Rama 9" },
     { n: "Ootoya (Central Rama 9)", photo: "ootoya-rama9", cat: "mall", d: "Japanese set meals (teishoku): grilled fish, chicken katsu, rice and miso soup. Photo is from 2012, so check it is still there 🔎", p: "฿฿", q: "Ootoya Central Rama 9" },
     { n: "Central Rama 9 food court / food hall", cat: "mall", d: "Thai dishes, noodles, rice plates, desserts. Buy a food-court card at the counter and refund the balance before leaving.", p: "฿", q: "Central Rama 9 food court" },

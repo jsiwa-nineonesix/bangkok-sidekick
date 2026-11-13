@@ -2,6 +2,13 @@
   "_howto": "Add a new entry at the TOP for every release. 'v' must match the version in data.js and sw.js. Keep notes short and in plain language: they are shown to colleagues when an update is available.",
   "releases": [
     {
+      "v": "58",
+      "date": "2026-11-13",
+      "notes": [
+        "Eat: Baan Ying (another favourite, with photo) and Laem Charoen Seafood, both at Central Rama 9"
+      ]
+    },
+    {
       "v": "57",
       "date": "2026-11-13",
       "notes": [
