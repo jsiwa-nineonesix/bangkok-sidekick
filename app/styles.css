@@ -496,3 +496,13 @@ a.tag.rate-link { text-decoration: none; color: var(--link); font-weight: 600; b
 .res-line { background: linear-gradient(180deg, #19c35a, #06a447); color: #fff; }
 .res-fb { background: linear-gradient(180deg, #2f8bff, #0866ff); color: #fff; }
 .res-note, .res-tip { font-size: 13px; color: var(--muted); }
+/* Calendar icon with today's date (Reserve) */
+.cal { display: inline-flex; flex-direction: column; align-items: stretch; width: 1.35em; height: 1.4em; margin-right: .4em; vertical-align: -.28em;
+  border-radius: .28em; overflow: hidden; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.25); font-style: normal; line-height: 1; }
+.cal b { display: block; background: #e8452c; color: #fff; font-size: .36em; font-weight: 800; letter-spacing: .02em; text-align: center; padding: .18em 0 .14em; }
+.cal i { display: flex; flex: 1; align-items: center; justify-content: center; color: #1d2433; font-style: normal; font-weight: 800; font-size: .7em; }
+.btn.res .cal { box-shadow: 0 1px 2px rgba(0,0,0,.3), 0 0 0 1px rgba(255,255,255,.6); }
+.res-h { display: flex; align-items: center; }
+.btn.res { display: inline-flex; align-items: center; justify-content: center; }
+.btn.res .cal, .res-h .cal { vertical-align: middle; flex: none; }
+.btn.res .cal { width: 1.25em; height: 1.3em; }

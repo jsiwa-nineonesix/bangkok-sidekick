@@ -3,6 +3,13 @@
   const $ = (s, r = document) => r.querySelector(s);
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const gmap = q => "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(/bangkok/i.test(q) ? q : q + " Bangkok");
+  // Little calendar icon showing TODAY (Bangkok time), instead of the emoji's fixed "17"
+  const calIcon = () => {
+    const d = new Date(), o = { timeZone: "Asia/Bangkok" };
+    const mon = d.toLocaleDateString("en-GB", Object.assign({ month: "short" }, o)).toUpperCase();
+    const day = d.toLocaleDateString("en-GB", Object.assign({ day: "numeric" }, o));
+    return `<span class="cal" aria-hidden="true"><b>${mon}</b><i>${day}</i></span>`;
+  };
   const mapBtn = q => `<a class="btn alt" target="_blank" rel="noopener" href="${gmap(q)}">📍 Map</a>`;
 
   const isAndroid = /android/i.test(navigator.userAgent || "");
@@ -181,7 +188,7 @@
       } else {
         body = D.food.filter(f => state.food === "all" || f.cat === state.food).map(f => { const ph = photoOf(f); return `
           <div class="card${ph ? " has-photo" : ""}">${ph ? `<div class="eimg"><img src="${esc(ph.src)}" alt="${esc(f.n)}" width="800" height="500" loading="lazy" decoding="async"></div>` : ""}<h4>${esc(f.n)} <span class="tag">${esc(f.p)}</span></h4><p>${esc(f.d)}</p>
-          <div class="row">${f.nores ? "" : `<button type="button" class="btn res" data-res="${D.food.indexOf(f)}">📅 Reserve</button>`}${mapBtn(f.q)}<a class="btn alt" target="_blank" rel="noopener" href="https://www.wongnai.com/restaurants?q=${encodeURIComponent(f.wn || f.order || f.n)}">Wongnai</a>${f.lm ? `<a class="btn alt" target="_blank" rel="noopener" href="${esc(f.lm)}">🛵 LINE MAN</a>` : ""}</div></div>`; }).join("");
+          <div class="row">${f.nores ? "" : `<button type="button" class="btn res" data-res="${D.food.indexOf(f)}">${calIcon()}Reserve</button>`}${mapBtn(f.q)}<a class="btn alt" target="_blank" rel="noopener" href="https://www.wongnai.com/restaurants?q=${encodeURIComponent(f.wn || f.order || f.n)}">Wongnai</a>${f.lm ? `<a class="btn alt" target="_blank" rel="noopener" href="${esc(f.lm)}">🛵 LINE MAN</a>` : ""}</div></div>`; }).join("");
       }
       return `<h2>Eat</h2><p style="color:var(--muted);margin-top:0">Places and types; check current hours & reviews in Maps. 🔎</p>${filterChips(cats, state.food, "ff")}${body}`;
     },
@@ -313,7 +320,7 @@
     const top = r.walkIn ? `<div class="banner"><strong>Walk-in only.</strong> ${esc(r.note || "They don't take bookings: go early or expect a queue.")}</div>`
       : !btns.length ? `<div class="banner">We couldn't confirm a booking contact for this place yet. Google Maps usually lists their phone number.</div>`
       : r.note ? `<p class="res-note">${esc(r.note)}</p>` : "";
-    modal(`<h2>📅 Reserve</h2><h3 class="res-name">${esc(name)}</h3>${top}<div class="res-btns">${btns.join("")}
+    modal(`<h2 class="res-h">${calIcon()}Reserve</h2><h3 class="res-name">${esc(name)}</h3>${top}<div class="res-btns">${btns.join("")}
       <a class="btn big alt" target="_blank" rel="noopener" href="${gmap(f.q)}">📍 Phone & hours on Google Maps</a></div>
       ${r.walkIn ? "" : `<p class="res-tip">Tip: say <strong>“jong toh”</strong> (จองโต๊ะ) = book a table, and give the time and number of people. Many places answer in Thai; LINE and Messenger work well with a translation app.</p>`}`);
   }
