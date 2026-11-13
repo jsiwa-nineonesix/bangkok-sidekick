@@ -2,6 +2,13 @@
   "_howto": "Add a new entry at the TOP for every release. 'v' must match the version in data.js and sw.js. Keep notes short and in plain language: they are shown to colleagues when an update is available.",
   "releases": [
     {
+      "v": "83",
+      "date": "2026-11-14",
+      "notes": [
+        "Eat: removed photos that showed a different branch, so every photo is of the place you'll actually visit"
+      ]
+    },
+    {
       "v": "82",
       "date": "2026-11-14",
       "notes": [
