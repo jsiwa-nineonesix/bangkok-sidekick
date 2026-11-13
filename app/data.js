@@ -30,7 +30,7 @@ const DATA = {
   // dash.cloudflare.com > Web Analytics to turn it on; leave empty to keep analytics off.
   analytics: { cfToken: "" },
   chat: { endpoint: "https://bangkok-sidekick-chat.bangkok-sidekick-chat-proxy.workers.dev/", dailyLimit: 30 },
-  version: "59",
+  version: "60",
   hotel: {
     name: "Avani Ratchada Bangkok Hotel (opposite G Tower, Rama 9)",
     thaiName: "โรงแรมอวานี รัชดา กรุงเทพ ตรงข้ามจีทาวเวอร์ พระราม 9",
@@ -245,7 +245,8 @@ const DATA = {
     "mbk-food-court": { "by": "goodiesfirst", "lic": "CC BY 2.0", "licUrl": "https://creativecommons.org/licenses/by/2.0", "page": "https://www.flickr.com/photos/49215102@N00/7797217712" },
     "have-a-zeed": { "by": "Bangkok Sidekick (own photo)", "lic": "Own photo", "licUrl": "", "page": "" },
     "baan-ying-rama9": { "by": "Baan Ying (restaurant's own promo photo)", "lic": "Provided by user", "licUrl": "", "page": "" },
-    "laem-charoen-rama9": { "by": "Provided by user", "lic": "Provided by user", "licUrl": "", "page": "" }
+    "laem-charoen-rama9": { "by": "Provided by user", "lic": "Provided by user", "licUrl": "", "page": "" },
+    "central-rama9-food-court": { "by": "Provided by user", "lic": "Provided by user", "licUrl": "", "page": "" }
   },
 
   places: [
@@ -292,7 +293,7 @@ const DATA = {
     { n: "Laem Charoen Seafood (Central Rama 9, 7th floor)", wn: "Laem Charoen Seafood", photo: "laem-charoen-rama9", cat: "mall", d: "Popular Thai seafood chain, best known for its deep-fried sea bass with fish sauce. Great for a group dinner. 7th floor of Central Rama 9, next to the hotel 🔎", p: "฿฿฿", q: "Laem Charoen Seafood Central Rama 9" },
     { n: "Tops Flavour (Central Rama 9)", photo: "tops-flavour-rama9", cat: "mall", d: "Bright food hall by the Tops supermarket inside Central Rama 9: Thai rice and noodle dishes with seats. The closest sit-down meal to the hotel. Photo from Sept 2025; check the floor in the mall directory 🔎", p: "฿", q: "Tops Flavour Central Rama 9" },
     { n: "Ootoya (Central Rama 9)", photo: "ootoya-rama9", cat: "mall", d: "Japanese set meals (teishoku): grilled fish, chicken katsu, rice and miso soup. Photo is from 2012, so check it is still there 🔎", p: "฿฿", q: "Ootoya Central Rama 9" },
-    { n: "Central Rama 9 food court / food hall", cat: "mall", d: "Thai dishes, noodles, rice plates, desserts. Buy a food-court card at the counter and refund the balance before leaving.", p: "฿", q: "Central Rama 9 food court" },
+    { n: "Central Rama 9 food court (6th floor)", wn: "Central Rama 9 food court", photo: "central-rama9-food-court", cat: "mall", d: "Big, bright food court on the 6th floor: Thai dishes, noodles, rice plates, desserts. Buy a food-court card at the counter and refund the balance before leaving.", p: "฿", q: "Central Rama 9 food court" },
     { n: "Central Rama 9 restaurant floors", cat: "mall", d: "Japanese (sushi, ramen, tonkatsu), Korean BBQ, hot pot, Thai chains. Top-rated Thai picks here, Kumpoon and Have A Zeed, are in Explore › Night Out.", p: "฿฿", q: "Central Rama 9 restaurants" },
     { n: "Pier 21 food court (Terminal 21 Asok)", wn: "Pier 21 Terminal 21", cat: "mall", d: "One of the cheapest good food courts in a big mall: Thai dishes from about ฿40-80. Load a card at the counter, refund what's left. MRT to Sukhumvit (BL22), 3 stops 🔎", p: "฿", q: "Pier 21 food court Terminal 21 Asok" },
     { n: "Siam Paragon food hall (Gourmet Paradise, GF)", wn: "Gourmet Paradise Siam Paragon", photo: "paragon-food-hall", cat: "mall", d: "Huge ground-floor food hall: Thai stalls, famous restaurant branches, sweets and a gourmet market. BTS Siam 🔎", p: "฿฿", q: "Gourmet Paradise Siam Paragon" },
