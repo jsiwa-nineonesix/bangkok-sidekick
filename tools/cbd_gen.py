@@ -16,7 +16,7 @@ RANGE = 355                              # metres from centre to keep
 TILT = math.radians(30)                  # 90 = straight down; lower = more side-on, like a street view
 LEVEL_H = 3.8                            # metres per floor
 ZX = 1.45                                # height exaggeration so towers read as towers
-VIEWS = [("north", 32), ("east", 122), ("south", 212), ("west", 302)]   # camera looks towards ...
+VIEWS = [("nw", -48), ("ne", 42), ("se", 132), ("sw", 222)]   # camera looks towards north-west, north-east, south-east, south-west
 
 KEYS = {   # OSM way id -> (key, label, colour)
     390013453: ("gtower", "G Tower", "#2f6fd0"),
@@ -239,7 +239,7 @@ def render(name, deg):
         if not b["key"] or b["key"][0] in done: continue
         done.add(b["key"][0])
         X, Y = P(*b["c"], b["h"])
-        sm = " sm" if b["key"][0] in ("c195", "cmobi", "cashton", "cline", "bkkcity") else ""
+        sm = " sm" if b["key"][0] in ("c195", "cmobi", "cashton", "cline", "bkkcity") else (" hl" if b["key"][0] in ("gtower", "hotel") else "")
         labels.append(f'<g class="lbl{sm}" data-k="{b["key"][0]}" transform="translate({X:.1f},{Y - 6:.1f})"><text>{b["key"][1]}</text></g>')
 
     grads = ""

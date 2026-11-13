@@ -232,7 +232,7 @@
   const cbdInfo = k => {
     const p = D.cbd.places[k];
     if (!p) return `<p>Tap a building, or the <b>M</b>, to learn more. Swipe or use ↺ ↻ to turn the view.</p>`;
-    return `${p.photo ? `<div class="cbd-photo${p.tall ? " tall" : ""}"><img src="${esc(p.photo)}" alt="${esc(p.n)}" loading="lazy"></div>` : ""}<h4>${esc(p.n)}</h4><p class="cbd-tag">${esc(p.tag)}</p><p>${esc(p.d)}</p><div class="row">${mapBtn(p.q)}</div>`;
+    return `${p.photo ? `<div class="cbd-photo${p.tall ? " tall" : ""}"><img src="${esc(p.photo)}" alt="${esc(p.n)}" loading="lazy"></div>` : ""}<h4>${esc(p.n)}</h4><p class="cbd-tag">${esc(p.tag)}</p><p>${esc(p.d)}</p>${p.tenants ? `<h5 class="cbd-th">🏢 Companies here</h5><ul class="cbd-ten">${p.tenants.map(t => `<li class="${t.allianz ? "az" : ""}">${t.allianz ? `<span class="allianz-logo sm" role="img" aria-label="Allianz"></span>` : ""}<span><b>${esc(t.n)}</b>${t.f ? ` · ${esc(t.f)}` : ""}${t.note ? `<small>${esc(t.note)}</small>` : ""}</span></li>`).join("")}</ul><p class="cbd-note">${esc(p.tenantsNote || "")}</p>` : ""}<div class="row">${mapBtn(p.q)}</div>`;
   };
   const cbdWalk = () => `<div class="card cbd-walk"><h4>🚶 Hotel → G Tower, underground</h4><ol>${D.cbd.walk.map(x => `<li>${esc(x)}</li>`).join("")}</ol><p class="cbd-note">${esc(D.cbd.walkNote)}</p></div>`;
   function cbdPanel() {

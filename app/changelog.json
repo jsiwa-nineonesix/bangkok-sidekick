@@ -2,6 +2,14 @@
   "_howto": "Add a new entry at the TOP for every release. 'v' must match the version in data.js and sw.js. Keep notes short and in plain language: they are shown to colleagues when an update is available.",
   "releases": [
     {
+      "v": "69",
+      "date": "2026-11-13",
+      "notes": [
+        "Map 3D: new camera angles so G Tower's 'G' shows clearly; G Tower and Avani Hotel labels in red",
+        "Tap G Tower to see the companies there, with Allianz Technology Thailand (10th floor) highlighted"
+      ]
+    },
+    {
       "v": "68",
       "date": "2026-11-13",
       "notes": [

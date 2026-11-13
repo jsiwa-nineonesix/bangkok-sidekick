@@ -30,7 +30,7 @@ const DATA = {
   // dash.cloudflare.com > Web Analytics to turn it on; leave empty to keep analytics off.
   analytics: { cfToken: "" },
   chat: { endpoint: "https://bangkok-sidekick-chat.bangkok-sidekick-chat-proxy.workers.dev/", dailyLimit: 30 },
-  version: "68",
+  version: "69",
   hotel: {
     name: "Avani Ratchada Bangkok Hotel (opposite G Tower, Rama 9)",
     thaiName: "โรงแรมอวานี รัชดา กรุงเทพ ตรงข้ามจีทาวเวอร์ พระราม 9",
@@ -289,11 +289,17 @@ const DATA = {
 
   // 3D New CBD view (Map tab). Pictures are generated from OpenStreetMap by tools/cbd_gen.py into img/cbd/cbd-0..3.svg.
   cbd: {
-    views: ["Looking north", "Looking east", "Looking south", "Looking west"],
-    start: 3,   // open on "Looking west": hotel and G Tower side by side, with the G shape visible
+    views: ["Looking north-west", "Looking north-east", "Looking south-east", "Looking south-west"],
+    start: 0,   // opens looking north-west: G Tower's "G" side, the hotel beside it and the Rama 9 Intersection in front
     places: {
       hotel: { n: "Avani Ratchada Bangkok Hotel", tag: "Your base · 30 floors", d: "On the west side of Ratchadaphisek Rd, right opposite G Tower. MRT Phra Ram 9 Exit 1 is about 80 m north, next to Fortune Town.", q: "Avani Ratchada Bangkok Hotel" },
-      gtower: { n: "G Tower", photo: "img/places/g-tower-render.jpg", tall: true, tag: "Office tower · 36 floors · 159 m", d: "Bangkok's iconic 'G'-shaped glass tower: a slim full-height tower with a huge arm jutting out at the top, a slit of sky, and a shorter tower leaning outward, all on one podium. On the east side of Ratchadaphisek Rd, directly opposite the hotel. Our office building. Reach it underground through MRT Phra Ram 9, no road crossing.", q: "G Tower Rama 9" },
+      gtower: { n: "G Tower", photo: "img/places/g-tower-render.jpg", tall: true,
+        tenants: [
+          { n: "Allianz Technology Thailand", f: "10th floor", note: "Our office", allianz: true },
+          { n: "Huawei Technologies", f: "Anchor tenant" },
+          { n: "Corporate Serviced Offices (CSO)", f: "Level 32", note: "Serviced offices & meeting rooms" }
+        ],
+        tenantsNote: "Some of the companies in G Tower, from their own sites and office listings 🔎", tag: "Office tower · 36 floors · 159 m", d: "Bangkok's iconic 'G'-shaped glass tower: a slim full-height tower with a huge arm jutting out at the top, a slit of sky, and a shorter tower leaning outward, all on one podium. On the east side of Ratchadaphisek Rd, directly opposite the hotel. Our office building. Reach it underground through MRT Phra Ram 9, no road crossing.", q: "G Tower Rama 9" },
       central: { n: "Central Rama 9", photo: "img/places/central-rama-9.jpg", tag: "Shopping mall · 14 floors", d: "Food court on 6, Have A Zeed and Laem Charoen on 7, Rosniyom on B1, plus a supermarket. Linked to MRT Phra Ram 9 and next to G Tower.", q: "Central Rama 9" },
       fortune: { n: "Fortune Town", photo: "img/places/fortune-town.jpg", tag: "IT mall", d: "Phones, laptops, chargers, SIM cards and repairs. Right next to the hotel, on the same side of the road as MRT Exit 1.", q: "Fortune Town Bangkok" },
       ninth: { n: "The Ninth Towers", tag: "Twin office towers · 36 & 34 floors", d: "Office towers on the Grand Rama 9 side, a few minutes' walk east of G Tower and Central Rama 9.", q: "The Ninth Towers Grand Rama 9" },
@@ -308,7 +314,7 @@ const DATA = {
       "Leave the hotel and walk north along Ratchadaphisek Rd towards Fortune Town, about 80 m.",
       "Go down MRT Phra Ram 9 Exit 1 into the station concourse.",
       "Walk through the concourse under Ratchadaphisek Rd to the G Tower / Central Rama 9 side. No ticket needed, don't go through the gates.",
-      "Follow the G Tower signs up to the building. About 5 min in total, all in the shade."
+      "Follow the G Tower signs: G Tower connects to the station at its B2 level (through Central Rama 9). About 5 min in total, all in the shade."
     ],
     walkNote: "Exit numbers and passage signs can change, so follow the 'G Tower' signs in the station 🔎"
   },

@@ -460,7 +460,7 @@ a.tag.rate-link { text-decoration: none; color: var(--link); font-weight: 600; b
 .cbd-load { padding: 120px 16px; text-align: center; color: var(--muted); font-size: 14px; }
 .cbd-ctl { position: absolute; left: 50%; bottom: 10px; transform: translateX(-50%); display: flex; align-items: center; gap: 6px; padding: 4px; border-radius: 99px;
   background: var(--glass); -webkit-backdrop-filter: var(--blur-bar); backdrop-filter: var(--blur-bar); border: 1px solid var(--glass-border); box-shadow: 0 6px 18px rgba(20,50,90,.18), inset 0 1px 0 var(--glass-edge); }
-.cbd-ctl span { font-family: "Outfit", -apple-system, sans-serif; font-size: 13px; font-weight: 600; min-width: 104px; text-align: center; color: var(--text); }
+.cbd-ctl span { font-family: "Outfit", -apple-system, sans-serif; font-size: 13px; font-weight: 600; min-width: 132px; white-space: nowrap; text-align: center; color: var(--text); }
 .cbd-rot { width: 36px; height: 36px; border-radius: 50%; border: 0; font-size: 20px; line-height: 1; cursor: pointer; color: #fff; background: linear-gradient(180deg, #2d86e6, #0a5cc4); box-shadow: inset 0 1px 0 rgba(255,255,255,.45); }
 .cbd-rot:active { transform: scale(.92); }
 .cbd-actions { margin: 0 0 10px; }
@@ -475,3 +475,15 @@ a.tag.rate-link { text-decoration: none; color: var(--link); font-weight: 600; b
 .cbd-photo.tall { aspect-ratio: 573 / 600; }
 .cbd-photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
 #cbdinfo { overflow: hidden; }
+.cbd3d .lbl.hl text { fill: #e0262b; font-weight: 800; }
+:root[data-theme="dark"] .cbd3d .lbl.hl text { fill: #ff6b6b; }
+.cbd-th { margin: 12px 0 6px; font-size: 14px; }
+.cbd-ten { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.cbd-ten li { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 12px; background: rgba(255,255,255,.35); border: 1px solid var(--glass-border); font-size: 14px; }
+.cbd-ten li small { display: block; color: var(--muted); font-size: 12px; }
+.cbd-ten li.az { background: linear-gradient(135deg, rgba(0,55,129,.16), rgba(0,55,129,.06)); border: 1.5px solid rgba(0,55,129,.55); box-shadow: 0 0 0 3px rgba(0,55,129,.08); }
+.cbd-ten li.az b { color: #003781; }
+.allianz-logo.sm { width: 64px; flex: none; }
+:root[data-theme="dark"] .cbd-ten li { background: rgba(255,255,255,.06); }
+:root[data-theme="dark"] .cbd-ten li.az { background: linear-gradient(135deg, rgba(90,150,255,.28), rgba(90,150,255,.1)); border-color: rgba(140,180,255,.7); }
+:root[data-theme="dark"] .cbd-ten li.az b { color: #fff; }
