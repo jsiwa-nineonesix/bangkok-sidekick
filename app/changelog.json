@@ -2,6 +2,14 @@
   "_howto": "Add a new entry at the TOP for every release. 'v' must match the version in data.js and sw.js. Keep notes short and in plain language: they are shown to colleagues when an update is available.",
   "releases": [
     {
+      "v": "51",
+      "date": "2026-11-13",
+      "notes": [
+        "New Light / Dark mode button at the top right. Light is the default and your choice is remembered",
+        "Glass look is now more liquid: clearer, shinier glass with a softly moving background"
+      ]
+    },
+    {
       "v": "50",
       "date": "2026-11-12",
       "notes": [
