@@ -30,7 +30,7 @@ const DATA = {
   // dash.cloudflare.com > Web Analytics to turn it on; leave empty to keep analytics off.
   analytics: { cfToken: "" },
   chat: { endpoint: "https://bangkok-sidekick-chat.bangkok-sidekick-chat-proxy.workers.dev/", dailyLimit: 30 },
-  version: "64",
+  version: "65",
   hotel: {
     name: "Avani Ratchada Bangkok Hotel (opposite G Tower, Rama 9)",
     thaiName: "โรงแรมอวานี รัชดา กรุงเทพ ตรงข้ามจีทาวเวอร์ พระราม 9",
@@ -292,10 +292,14 @@ const DATA = {
     views: ["Looking north", "Looking east", "Looking south", "Looking west"],
     places: {
       hotel: { n: "Avani Ratchada Bangkok Hotel", tag: "Your base · 30 floors", d: "On the west side of Ratchadaphisek Rd, right opposite G Tower. MRT Phra Ram 9 Exit 1 is about 80 m north, next to Fortune Town.", q: "Avani Ratchada Bangkok Hotel" },
-      gtower: { n: "G Tower", tag: "Office tower · 36 floors · 159 m", d: "Bangkok's iconic 'G'-shaped glass tower: a tall north block, an arm across the top and a huge see-through hole in the middle. On the east side of Ratchadaphisek Rd, directly opposite the hotel. Our office building. Reach it underground through MRT Phra Ram 9, no road crossing.", q: "G Tower Rama 9" },
+      gtower: { n: "G Tower", tag: "Office tower · 36 floors · 159 m", d: "Bangkok's iconic 'G'-shaped glass tower: two slim towers on a shared podium, joined by an arm across the top that frames a huge glowing void. On the east side of Ratchadaphisek Rd, directly opposite the hotel. Our office building. Reach it underground through MRT Phra Ram 9, no road crossing.", q: "G Tower Rama 9" },
       central: { n: "Central Rama 9", tag: "Shopping mall · 14 floors", d: "Food court on 6, Have A Zeed and Laem Charoen on 7, Rosniyom on B1, plus a supermarket. Linked to MRT Phra Ram 9 and next to G Tower.", q: "Central Rama 9" },
       fortune: { n: "Fortune Town", tag: "IT mall", d: "Phones, laptops, chargers, SIM cards and repairs. Right next to the hotel, on the same side of the road as MRT Exit 1.", q: "Fortune Town Bangkok" },
       ninth: { n: "The Ninth Towers", tag: "Twin office towers · 36 & 34 floors", d: "Office towers on the Grand Rama 9 side, a few minutes' walk east of G Tower and Central Rama 9.", q: "The Ninth Towers Grand Rama 9" },
+      c195: { n: "One9Five Asoke–Rama 9", tag: "Condominium · twin towers, about 248 m", d: "The two tallest towers around here, just east of G Tower on Rama 9 Soi 5.", q: "One9Five Asoke Rama 9" },
+      cmobi: { n: "Ideo Mobi Rama 9", tag: "Condominium · 28 floors", d: "On Rama IX Rd, just south of the Rama 9 Intersection and a short walk from the hotel.", q: "Ideo Mobi Rama 9" },
+      cashton: { n: "Ashton Asoke–Rama 9", tag: "Condominium · twin towers", d: "Two towers by Asok–Din Daeng Rd, just west of the Rama 9 Intersection.", q: "Ashton Asoke Rama 9" },
+      cline: { n: "The Line Asoke–Ratchada", tag: "Condominium · 40 floors", d: "On Asok–Din Daeng Rd, a few minutes' walk west of the hotel.", q: "The Line Asoke Ratchada" },
       mrt: { n: "MRT Phra Ram 9 (BL20)", tag: "Blue Line · your station", d: "Runs under Ratchadaphisek Rd between the hotel side and the G Tower / Central side. Its underground concourse is the easy, air-conditioned way across the road. You don't need a ticket to walk through the concourse.", q: "MRT Phra Ram 9" }
     },
     walk: [

@@ -11,8 +11,8 @@ import json, math, sys, os
 
 osm_path, avani_path, out_dir = sys.argv[1], sys.argv[2], sys.argv[3]
 
-LAT0, LON0 = 13.75770, 100.56640        # between the hotel, G Tower and The Ninth Towers
-RANGE = 300                              # metres from centre to keep
+LAT0, LON0 = 13.75700, 100.56560        # around the hotel / G Tower; wide enough for the Asok-Din Daeng condos
+RANGE = 355                              # metres from centre to keep
 TILT = math.radians(40)                  # 90 = straight down
 LEVEL_H = 3.8                            # metres per floor
 ZX = 1.45                                # height exaggeration so towers read as towers
@@ -25,6 +25,17 @@ KEYS = {   # OSM way id -> (key, label, colour)
     176298735: ("fortune", "Fortune Town", "#8a63ff"),
     1339874482: ("ninth", "The Ninth Towers", "#1fb07a"),
     1339874483: ("ninth", "The Ninth Towers", "#1fb07a"),
+    # condominiums (same soft-teal glass so they read as one family)
+    720474551: ("c195", "One9Five", "#25a9c9"),
+    532749607: ("cmobi", "Ideo Mobi Rama 9", "#25a9c9"),
+    1199961655: ("cashton", "Ashton Asoke–Rama 9", "#25a9c9"),
+    1199961656: ("cashton", "Ashton Asoke–Rama 9", "#25a9c9"),
+    1199961652: ("cline", "The Line Asoke–Ratchada", "#25a9c9"),
+}
+LEVELS_OVERRIDE = {   # OSM has no floor count for these
+    720474551: 248 / 3.8,     # One9Five: twin towers about 248 m (Wikimedia Commons description)
+    390013453: 159 / 3.8,     # G Tower: 159 m (Wikimedia Commons description); OSM says 36 floors
+    1199961655: 45, 1199961656: 45,   # Ashton Asoke-Rama 9: estimate
 }
 MRT = (13.75782, 100.56528)
 WALK = [   # hotel -> MRT Exit 1 -> concourse under Ratchadaphisek -> G Tower (approx. except the OSM points)
@@ -61,41 +72,68 @@ for e in els:
     pts = pts[:-1]
     cx = sum(p[0] for p in pts) / len(pts); cy = sum(p[1] for p in pts) / len(pts)
     if math.hypot(cx, cy) > RANGE: continue
-    lv = levels(t); h = (lv if lv else 2) * LEVEL_H
+    lv = LEVELS_OVERRIDE.get(e["id"]) or levels(t); h = (lv if lv else 2) * LEVEL_H
     if not (e["id"] in KEYS or h > 9 or math.hypot(cx, cy) < 260): continue
     area = sum(pts[i][0] * pts[(i+1) % len(pts)][1] - pts[(i+1) % len(pts)][0] * pts[i][1] for i in range(len(pts)))
     if area < 0: pts = pts[::-1]
     blds.append({"ring": pts, "h": h, "lv": lv or 2, "key": KEYS.get(e["id"]), "c": (cx, cy)})
 
-# ---- G Tower is shaped like a giant "G": tall north block, a top arm reaching south over a see-through void,
-# a small hook at the tip, and a lower block below (from photos on Wikimedia Commons). Build it from boxes on the
-# real OSM footprint, aligned with the footprint's long side.
-def g_tower(b):
+# ---- custom massing on the real OSM footprints -------------------------------------------------------------
+def frame(b):
+    """oriented box of a footprint: centre, long axis u (pointing north), short axis v, extents"""
     r = b["ring"]
     edges = [(r[i], r[(i + 1) % len(r)]) for i in range(len(r))]
     (p1, p2) = max(edges, key=lambda e: math.hypot(e[1][0] - e[0][0], e[1][1] - e[0][1]))
     ux, uy = p2[0] - p1[0], p2[1] - p1[1]; L = math.hypot(ux, uy); ux, uy = ux / L, uy / L
-    if uy < 0: ux, uy = -ux, -uy                       # u points north
+    if uy < 0: ux, uy = -ux, -uy
     vx, vy = -uy, ux
     cx, cy = b["c"]
     us = [(x - cx) * ux + (y - cy) * uy for x, y in r]; vs = [(x - cx) * vx + (y - cy) * vy for x, y in r]
-    s0, s1, t0, t1 = min(us), max(us), min(vs), max(vs)
-    box = lambda a, c: [(cx + ux * a + vx * t0, cy + uy * a + vy * t0), (cx + ux * c + vx * t0, cy + uy * c + vy * t0),
-                        (cx + ux * c + vx * t1, cy + uy * c + vy * t1), (cx + ux * a + vx * t1, cy + uy * a + vy * t1)]
-    H = b["h"]; cut = s0 + (s1 - s0) * 0.45; hook = s0 + (s1 - s0) * 0.12
-    parts = [((cut, s1), 0, H),            # tall north block, full height
-             ((s0, cut), 0, H * 0.42),     # lower south block
-             ((s0, cut), H * 0.78, H),     # top arm over the void
-             ((s0, hook), H * 0.68, H * 0.78)]   # the hook of the "G"
+    return cx, cy, ux, uy, vx, vy, min(us), max(us), min(vs), max(vs)
+
+def boxes(b, spec):
+    """spec: list of (s0, s1, t0, t1, z0, z1, extra) in 0..1 of the footprint's long/short extents and height"""
+    cx, cy, ux, uy, vx, vy, S0, S1, T0, T1 = frame(b); H = b["h"]
     out = []
-    for (a, c), z0, z1 in parts:
-        ring = box(a, c)
-        area = sum(ring[i][0] * ring[(i+1) % 4][1] - ring[(i+1) % 4][0] * ring[i][1] for i in range(4))
+    for s0, s1, t0, t1, z0, z1, extra in spec:
+        a, c = S0 + (S1 - S0) * s0, S0 + (S1 - S0) * s1
+        d, e = T0 + (T1 - T0) * t0, T0 + (T1 - T0) * t1
+        ring = [(cx + ux * a + vx * d, cy + uy * a + vy * d), (cx + ux * c + vx * d, cy + uy * c + vy * d),
+                (cx + ux * c + vx * e, cy + uy * c + vy * e), (cx + ux * a + vx * e, cy + uy * a + vy * e)]
+        area = sum(ring[i][0] * ring[(i + 1) % 4][1] - ring[(i + 1) % 4][0] * ring[i][1] for i in range(4))
         if area < 0: ring = ring[::-1]
-        mx_ = sum(p[0] for p in ring) / 4; my_ = sum(p[1] for p in ring) / 4
-        out.append({"ring": ring, "z0": z0, "h": z1, "lv": (z1 - z0) / LEVEL_H, "key": b["key"], "c": (mx_, my_)})
+        part = {"ring": ring, "z0": H * z0, "h": H * z1, "lv": H * (z1 - z0) / LEVEL_H, "key": b["key"],
+                "c": (sum(p[0] for p in ring) / 4, sum(p[1] for p in ring) / 4)}
+        part.update(extra or {})
+        out.append(part)
     return out
-blds = [p for b in blds for p in (g_tower(b) if b["key"] and b["key"][0] == "gtower" else [b])]
+
+def g_tower(b):
+    # G Tower (from the architect's rendering + photos): two slim glass towers on a shared podium.
+    # The tall north tower rises the full height; a shorter south tower stands slightly offset in front; an arm
+    # across the top with a small hook frames a huge glowing void above the south tower: together a giant "G".
+    return boxes(b, [
+        (0.00, 1.00, 0.00, 1.00, 0.00, 0.13, {"podium": True}),       # podium
+        (0.52, 1.00, 0.00, 0.70, 0.13, 1.00, {"mull": True}),         # tall north tower (slim)
+        (0.00, 0.48, 0.30, 1.00, 0.13, 0.70, {"mull": True}),         # shorter south tower, offset in front
+        (0.505, 0.52, 0.02, 0.68, 0.70, 0.86, {"glow": True}),        # lit inner wall of the void
+        (0.00, 0.52, 0.00, 0.70, 0.86, 1.00, {"mull": True}),         # top arm
+        (0.00, 0.11, 0.00, 0.70, 0.78, 0.86, {}),                     # hook at the tip
+    ])
+
+def twin(b, gap=0.24):
+    # twin towers on a low podium (One9Five)
+    return boxes(b, [(0.00, 1.00, 0.00, 1.00, 0.00, 0.05, {"podium": True}),
+                     (0.00, 0.5 - gap / 2, 0.08, 0.92, 0.05, 1.00, {"mull": True}),
+                     (0.5 + gap / 2, 1.00, 0.08, 0.92, 0.05, 1.00, {"mull": True})])
+
+def massing(b):
+    k = b["key"][0] if b["key"] else None
+    if k == "gtower": return g_tower(b)
+    if k == "c195": return twin(b)
+    if b["key"] and b["lv"] >= 20: b["mull"] = True
+    return [b]
+blds = [p for b in blds for p in massing(b)]
 
 W = {"motorway": 16, "trunk": 22, "primary": 20, "secondary": 11, "tertiary": 9, "motorway_link": 8, "primary_link": 8, "trunk_link": 8}
 ORDER = ["tertiary", "secondary", "primary_link", "trunk_link", "motorway_link", "primary", "trunk", "motorway"]
@@ -151,21 +189,30 @@ def render(name, deg):
             lit = -nxr / L                      # +1 = faces left (lit), -1 = faces right
             quad = [P(x1, y1, z0), P(x2, y2, z0), P(x2, y2, h), P(x1, y1, h)]
             d = rot((x1 + x2) / 2, (y1 + y2) / 2)[1]
+            if b.get("glow"):
+                faces.append((d - 0.01, f'<polygon class="glow" points="{ps(quad)}"/>')); continue
             if key:
-                col = shade(key[2], 0.12 * lit - 0.12)
+                col = f"url(#gk-{key[0]}-{'a' if lit > 0.35 else ('b' if lit > -0.35 else 'c')})"
                 lines = ""
                 step = 3 if b["lv"] > 12 else 2
                 for f in range(step, int(b["lv"]), step):
                     z = z0 + f * LEVEL_H
                     a1, a2 = P(x1, y1, z), P(x2, y2, z)
                     lines += f"M{a1[0]:.1f},{a1[1]:.1f}L{a2[0]:.1f},{a2[1]:.1f}"
+                if b.get("mull"):    # vertical mullions every ~7 m for a curtain-wall look
+                    seg = math.hypot(x2 - x1, y2 - y1); n = int(seg // 7)
+                    for m in range(1, n + 1):
+                        f_ = m / (n + 1); xa, ya = x1 + (x2 - x1) * f_, y1 + (y2 - y1) * f_
+                        a1, a2 = P(xa, ya, z0), P(xa, ya, h)
+                        lines += f"M{a1[0]:.1f},{a1[1]:.1f}L{a2[0]:.1f},{a2[1]:.1f}"
                 faces.append((d, f'<polygon points="{ps(quad)}" fill="{col}"/>' + (f'<path class="fl" d="{lines}"/>' if lines else "")))
             else:
                 cls = "w1" if lit > 0.35 else ("w2" if lit > -0.35 else "w3")
                 faces.append((d, f'<polygon class="{cls}" points="{ps(quad)}"/>'))
         faces.sort(key=lambda f: -f[0])
         roof = [P(x, y, h) for x, y in r]
-        roof_svg = f'<polygon class="roof" points="{ps(roof)}"' + (f' style="fill:{shade(key[2], 0.45)}"' if key else "") + "/>"
+        if b.get("glow"): roof_svg = ""
+        else: roof_svg = f'<polygon class="roof" points="{ps(roof)}"' + (f' style="fill:{shade(key[2], 0.5)}"' if key else "") + "/>"
         attr = f' class="bld key" data-k="{key[0]}"' if key else ' class="bld"'
         out_b.append(f"<g{attr}>" + "".join(f for _, f in faces) + roof_svg + "</g>")
 
@@ -188,9 +235,17 @@ def render(name, deg):
         if not b["key"] or b["key"][0] in done: continue
         done.add(b["key"][0])
         X, Y = P(*b["c"], b["h"])
-        labels.append(f'<g class="lbl" data-k="{b["key"][0]}" transform="translate({X:.1f},{Y - 6:.1f})"><text>{b["key"][1]}</text></g>')
+        sm = " sm" if b["key"][0] in ("c195", "cmobi", "cashton", "cline") else ""
+        labels.append(f'<g class="lbl{sm}" data-k="{b["key"][0]}" transform="translate({X:.1f},{Y - 6:.1f})"><text>{b["key"][1]}</text></g>')
 
+    grads = ""
+    for k, col in {v[0]: v[2] for v in KEYS.values()}.items():
+        for tag, f in (("a", 0.10), ("b", -0.08), ("c", -0.26)):
+            top, bot = shade(col, min(0.6, f + 0.38)), shade(col, f - 0.06)
+            grads += (f'<linearGradient id="gk-{k}-{tag}" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="{top}"/>'
+                      f'<stop offset=".55" stop-color="{shade(col, f)}"/><stop offset="1" stop-color="{bot}"/></linearGradient>')
     svg = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{" ".join(f"{v:.0f}" for v in vb)}" class="cbd3d" data-view="{name}">'
+           f'<defs>{grads}<linearGradient id="gk-glow" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff3d6"/><stop offset="1" stop-color="#ffc56b"/></linearGradient></defs>'
            f'<polygon class="ground" points="{ps(octo)}"/>'
            f'<g class="roads">{"".join(out_roads)}</g><g class="under">{under}</g>'
            f'<g class="blds">{"".join(out_b)}</g><g class="rdnames">{"".join(names)}</g><g class="lbls">{"".join(labels)}</g>'
