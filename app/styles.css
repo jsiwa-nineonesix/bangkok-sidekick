@@ -1,4 +1,6 @@
 /* Liquid-glass theme with a Light (default) / Dark switch (the phone's own dark setting is intentionally ignored; see theme.js) · Liquid-glass theme · iPhone safe areas · dual-screen (foldable) support */
+/* Brand font: Outfit (SIL Open Font License, see fonts/OFL.txt). Self-hosted so it works offline. Used only for the header title and edition pill. */
+@font-face { font-family: "Outfit"; font-style: normal; font-weight: 100 900; font-display: swap; src: url("fonts/outfit-latin.woff2") format("woff2"); }
 :root {
   color-scheme: light;
   --text: #14202d; --muted: #4f6070; --brand: #12355b; --accent: #ff4d4f;
@@ -90,7 +92,7 @@ a { color: var(--link); }
 }
 .top-in { display: flex; align-items: center; gap: 10px; max-width: 900px; margin: 0 auto; }
 .top-in .brand { flex: 1; min-width: 0; margin: 0; max-width: none; }
-.brand { display: flex; align-items: center; gap: 6px; font-weight: 700; font-size: 17px; letter-spacing: .2px; max-width: 900px; margin: 0 auto; color: var(--text); text-decoration: none; }
+.brand { display: flex; align-items: center; gap: 6px; font-family: "Outfit", -apple-system, BlinkMacSystemFont, sans-serif; font-weight: 700; font-size: 18px; letter-spacing: -.2px; max-width: 900px; margin: 0 auto; color: var(--text); text-decoration: none; }
 .ver { margin-left: auto; font-size: 11px; font-weight: 500; color: var(--muted); opacity: .8; }
 
 /* Floating pill nav */
@@ -272,6 +274,14 @@ ul { padding-left: 20px; margin: 4px 0 10px; }
 
 /* ===== Trust note on Home ===== */
 .trust { border-radius: 20px; padding: 2px 14px; margin: 14px 0; }
+
+/* ===== Sponsor (Allianz Technology Thailand) ===== */
+.sponsor { display: flex; flex-direction: column; align-items: center; gap: 8px; margin: 18px 0 76px; padding: 16px 14px 14px; border-radius: 20px; text-align: center; }
+.sponsor small { font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.allianz-logo { display: block; width: 132px; aspect-ratio: 399.76 / 99.15; background: #003781;
+  -webkit-mask: url("img/allianz-logo.svg") center / contain no-repeat; mask: url("img/allianz-logo.svg") center / contain no-repeat; }
+.sponsor-name { font-family: "Outfit", -apple-system, sans-serif; font-size: 14px; font-weight: 600; color: var(--text); }
+:root[data-theme="dark"] .allianz-logo { background: #fff; }
 .trust summary { display: flex; gap: 10px; align-items: center; list-style: none; padding: 10px 0; cursor: pointer; }
 .trust summary::-webkit-details-marker { display: none; }
 .trust summary::after { content: "›"; margin-left: auto; font-size: 22px; color: var(--muted); transition: transform .2s; }
@@ -291,7 +301,7 @@ ul { padding-left: 20px; margin: 4px 0 10px; }
 a.tile { display: block; }
 
 /* ===== Rama 9 Base edition ===== */
-.brand .edition { font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 99px; color: #fff; white-space: nowrap;
+.brand .edition { font-size: 11px; font-weight: 600; letter-spacing: .2px; padding: 3px 9px; border-radius: 99px; color: #fff; white-space: nowrap;
   background: linear-gradient(180deg, #2d86e6, #0a5cc4); border: 1px solid rgba(255,255,255,.55); box-shadow: inset 0 1px 0 rgba(255,255,255,.5); }
 .base-chip { display: inline-block; font-size: 13px; font-weight: 700; padding: 4px 12px; border-radius: 99px;
   background: rgba(255,255,255,.22); border: 1px solid rgba(255,255,255,.55); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }

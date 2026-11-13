@@ -133,7 +133,8 @@
           <p class="t-note">Use the 📍 buttons to confirm in Google Maps, or ask Sidekick. AI can make mistakes, so for anything important, confirm before you rely on it.</p>
           <button type="button" class="btn alt small" data-chat="1">💬 Ask Sidekick</button>
         </div>
-      </details>`;
+      </details>
+      <div class="glass sponsor"><small>Proudly supported by</small><span class="allianz-logo" role="img" aria-label="Allianz"></span><span class="sponsor-name">Allianz Technology Thailand</span></div>`;
     },
 
     map() {
