@@ -38,7 +38,7 @@ const DATA = {
       text: "**Fastest (about 3 min walk):** SuperRich 1965 (orange sign) inside **MRT Phra Ram 9 station**, open daily 10:00–20:00.\n**Also close:** OH! RiCH by SuperRich Thailand (green sign) on **Central Rama 9, 5th floor**, open during mall hours.\nBring your **passport**: you need it to exchange cash. Both usually beat airport and hotel rates.",
       actions: [{ label: "📍 SuperRich at MRT Phra Ram 9", q: "SuperRich 1965 MRT Rama 9" }, { label: "📍 OH! RiCH Central Rama 9", q: "OH RiCH SuperRich Thailand Central Rama 9" }], tab: "tips" }
   ],
-  version: "85",
+  version: "86",
   hotel: {
     name: "Avani Ratchada Bangkok Hotel (opposite G Tower, Rama 9)",
     thaiName: "โรงแรมอวานี รัชดา กรุงเทพ ตรงข้ามจีทาวเวอร์ พระราม 9",

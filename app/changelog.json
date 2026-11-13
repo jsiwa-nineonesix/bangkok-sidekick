@@ -2,6 +2,13 @@
   "_howto": "Add a new entry at the TOP for every release. 'v' must match the version in data.js and sw.js. Keep notes short and in plain language: they are shown to colleagues when an update is available.",
   "releases": [
     {
+      "v": "86",
+      "date": "2026-11-14",
+      "notes": [
+        "Home: new note, \"Built with AI, inspired by humans\""
+      ]
+    },
+    {
       "v": "85",
       "date": "2026-11-14",
       "notes": [

@@ -147,7 +147,7 @@
       ${feedbackCard()}
       <p class="banner info base-note"><strong>📍 ${esc(D.edition)} edition.</strong> ${esc(D.editionNote)}</p>
       <details class="trust">
-        <summary><span class="t-ic">🧭</span><span><strong>Built with AI, verified where it counts</strong><small>Last reviewed ${esc(D.trust.reviewed)} · tap for details</small></span></summary>
+        <summary><span class="t-ic">🧭</span><span><strong>Built with AI, inspired by humans</strong><small>Last reviewed ${esc(D.trust.reviewed)} · tap for details</small></span></summary>
         <div class="t-body">
           <p><strong>✅ Checked against official and map sources</strong></p>
           <ul>${D.trust.verified.map(x => `<li>${esc(x)}</li>`).join("")}</ul>
