@@ -2,6 +2,13 @@
   "_howto": "Add a new entry at the TOP for every release. 'v' must match the version in data.js and sw.js. Keep notes short and in plain language: they are shown to colleagues when an update is available.",
   "releases": [
     {
+      "v": "81",
+      "date": "2026-11-14",
+      "notes": [
+        "Eat: photos for 12 more places, incl. Sushiro, ZEN, Mo-Mo-Paradise, Hachiban, Bonchon, Wattana Panich and Ratchada Train Night Market"
+      ]
+    },
+    {
       "v": "80",
       "date": "2026-11-14",
       "notes": [
