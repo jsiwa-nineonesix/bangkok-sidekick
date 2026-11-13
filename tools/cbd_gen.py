@@ -182,9 +182,45 @@ def render(name, deg):
 
     out_b = []
     depth = lambda p: rot(*p)[1]
-    # painter's order: whole buildings far-to-near; inside a multi-part building the podium first, then the
-    # wings far-to-near, then anything high up (the arm), so no wing is ever painted over by its own podium
-    for b in sorted(blds, key=lambda b: (-round(depth(b.get("gc", b["c"])), 1), b.get("gid", id(b)), b.get("rank", 1), -depth(b["c"]))):
+    # painter's order: whole buildings far-to-near. Inside a multi-part building: the podium first; a piece that
+    # rests on top of another (e.g. the arm above the south tower) after it; otherwise far-to-near, so the arm and
+    # the north tower it belongs to are layered correctly from every side.
+    from functools import cmp_to_key
+    def bbox(p_):
+        xs_ = [q[0] for q in p_["ring"]]; ys_ = [q[1] for q in p_["ring"]]
+        return min(xs_), max(xs_), min(ys_), max(ys_)
+    def overlap(a, b):
+        ax0, ax1, ay0, ay1 = bbox(a); bx0, bx1, by0, by1 = bbox(b)
+        return ax0 < bx1 - 0.5 and bx0 < ax1 - 0.5 and ay0 < by1 - 0.5 and by0 < ay1 - 0.5
+    def cmp(a, b):
+        if a.get("podium") != b.get("podium"): return -1 if a.get("podium") else 1
+        if a.get("z0", 0) >= b["h"] - 0.01 and overlap(a, b): return 1      # a sits on top of b
+        if b.get("z0", 0) >= a["h"] - 0.01 and overlap(a, b): return -1
+        da, db = depth(a["c"]), depth(b["c"])
+        return -1 if da > db else (1 if da < db else 0)
+    groups = {}
+    for b in blds: groups.setdefault(b.get("gid", id(b)), []).append(b)
+    order = []
+    for g_ in sorted(groups.values(), key=lambda g_: -depth(g_[0].get("gc", g_[0]["c"]))):
+        if len(g_) == 1: order += g_; continue
+        rest = sorted(g_, key=lambda p_: -depth(p_["c"]))
+        while rest:          # pick the next part that nothing remaining must come before (stable, cycle-safe)
+            for i_, cand in enumerate(rest):
+                if all(cmp(cand, o) <= 0 for o in rest if o is not cand): break
+            else: i_ = 0
+            order.append(rest.pop(i_))
+    ggrads, gref = "", {}
+    for gid_, g_ in groups.items():
+        if len(g_) < 2 or not g_[0]["key"]: continue
+        top = min(P(x, y, p_["h"])[1] for p_ in g_ for x, y in p_["ring"])
+        bot = max(P(x, y, 0)[1] for p_ in g_ for x, y in p_["ring"])
+        col = g_[0]["key"][2]; n_ = len(gref)
+        for tag, f in (("a", 0.10), ("b", -0.08), ("c", -0.26)):
+            ggrads += (f'<linearGradient id="gu{n_}-{tag}" gradientUnits="userSpaceOnUse" x1="0" y1="{top:.1f}" x2="0" y2="{bot:.1f}">'
+                       f'<stop offset="0" stop-color="{shade(col, min(0.6, f + 0.38))}"/><stop offset=".55" stop-color="{shade(col, f)}"/>'
+                       f'<stop offset="1" stop-color="{shade(col, f - 0.06)}"/></linearGradient>')
+        gref[gid_] = f"gu{n_}"
+    for b in order:
         r, h, key, z0 = b["ring"], b["h"], b["key"], b.get("z0", 0)
         sh = b.get("shift", (0.0, 0.0)); span = max(1e-6, h - z0)
         Q = lambda x, y, z: P(x + sh[0] * (z - z0) / span, y + sh[1] * (z - z0) / span, z)
@@ -200,7 +236,9 @@ def render(name, deg):
             if b.get("glow"):
                 faces.append((d - 0.01, f'<polygon class="glow" points="{ps(quad)}"/>')); continue
             if key:
-                col = f"url(#gk-{key[0]}-{'p' if b.get('podium') else ''}{'a' if lit > 0.35 else ('b' if lit > -0.35 else 'c')})"
+                tg = 'a' if lit > 0.35 else ('b' if lit > -0.35 else 'c')
+                if b.get("gid") in gref and not b.get("podium"): col = f"url(#{gref[b['gid']]}-{tg})"
+                else: col = f"url(#gk-{key[0]}-{'p' if b.get('podium') else ''}{tg})"
                 lines = ""
                 step = 3 if b["lv"] > 12 else 2
                 for f in range(step, int(b["lv"]), step):
@@ -256,7 +294,7 @@ def render(name, deg):
             grads += (f'<linearGradient id="gk-{k}-p{tag}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{shade(pc, 0.25)}"/>'
                       f'<stop offset="1" stop-color="{shade(pc, -0.12)}"/></linearGradient>')
     svg = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{" ".join(f"{v:.0f}" for v in vb)}" class="cbd3d" data-view="{name}">'
-           f'<defs>{grads}<linearGradient id="gk-glow" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff3d6"/><stop offset="1" stop-color="#ffc56b"/></linearGradient></defs>'
+           f'<defs>{grads}{ggrads}<linearGradient id="gk-glow" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff3d6"/><stop offset="1" stop-color="#ffc56b"/></linearGradient></defs>'
            f'<polygon class="ground" points="{ps(octo)}"/>'
            f'<g class="roads">{"".join(out_roads)}</g><g class="under">{under}</g>'
            f'<g class="blds">{"".join(out_b)}</g><g class="rdnames">{"".join(names)}</g><g class="lbls">{"".join(labels)}</g>'

@@ -30,7 +30,7 @@ const DATA = {
   // dash.cloudflare.com > Web Analytics to turn it on; leave empty to keep analytics off.
   analytics: { cfToken: "" },
   chat: { endpoint: "https://bangkok-sidekick-chat.bangkok-sidekick-chat-proxy.workers.dev/", dailyLimit: 30 },
-  version: "71",
+  version: "72",
   hotel: {
     name: "Avani Ratchada Bangkok Hotel (opposite G Tower, Rama 9)",
     thaiName: "โรงแรมอวานี รัชดา กรุงเทพ ตรงข้ามจีทาวเวอร์ พระราม 9",
