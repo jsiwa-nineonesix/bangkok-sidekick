@@ -472,6 +472,6 @@ a.tag.rate-link { text-decoration: none; color: var(--link); font-weight: 600; b
 .cbd3d .lbl.sm text { font-size: 12.5px; font-weight: 600; fill: #0e5c70; }
 :root[data-theme="dark"] .cbd3d .lbl.sm text { fill: #9fe3f5; }
 .cbd-photo { margin: -14px -16px 12px; aspect-ratio: 16 / 10; overflow: hidden; border-radius: inherit; border-bottom-left-radius: 0; border-bottom-right-radius: 0; background: rgba(150,170,200,.25); }
-.cbd-photo.tall { aspect-ratio: 4 / 5; }
+.cbd-photo.tall { aspect-ratio: 573 / 600; }
 .cbd-photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
 #cbdinfo { overflow: hidden; }
