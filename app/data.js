@@ -30,7 +30,7 @@ const DATA = {
   // dash.cloudflare.com > Web Analytics to turn it on; leave empty to keep analytics off.
   analytics: { cfToken: "" },
   chat: { endpoint: "https://bangkok-sidekick-chat.bangkok-sidekick-chat-proxy.workers.dev/", dailyLimit: 30 },
-  version: "51",
+  version: "52",
   hotel: {
     name: "Avani Ratchada Bangkok Hotel (opposite G Tower, Rama 9)",
     thaiName: "โรงแรมอวานี รัชดา กรุงเทพ ตรงข้ามจีทาวเวอร์ พระราม 9",
@@ -230,7 +230,17 @@ const DATA = {
       "lic": "CC BY-SA 4.0",
       "licUrl": "https://creativecommons.org/licenses/by-sa/4.0",
       "page": "https://commons.wikimedia.org/wiki/File:Thong_Lo_Station_platform.jpg"
-    }
+    },
+    "tops-flavour-rama9": { "by": "Jothefiredragon", "lic": "CC BY-SA 4.0", "licUrl": "https://creativecommons.org/licenses/by-sa/4.0", "page": "https://commons.wikimedia.org/wiki/File:Central_Rama_9_shopping_mall_20250912_212449.jpg" },
+    "ootoya-rama9": { "by": "Mj-bird", "lic": "CC BY-SA 3.0", "licUrl": "https://creativecommons.org/licenses/by-sa/3.0", "page": "https://commons.wikimedia.org/wiki/File:OOTOYA,_at_Central_Plaza_Grand_Rama_9,_Bangkok.jpg" },
+    "paragon-food-hall": { "by": "Wpcpey", "lic": "CC BY-SA 4.0", "licUrl": "https://creativecommons.org/licenses/by-sa/4.0", "page": "https://commons.wikimedia.org/wiki/File:Siam_Paragon_Gourmet_Garden_201801.jpg" },
+    "eathai": { "by": "Wpcpey", "lic": "CC BY-SA 4.0", "licUrl": "https://creativecommons.org/licenses/by-sa/4.0", "page": "https://commons.wikimedia.org/wiki/File:Central_Embassy_Eathai_201801.jpg" },
+    "sooksiam": { "by": "Jpatokal", "lic": "CC BY-SA 4.0", "licUrl": "https://creativecommons.org/licenses/by-sa/4.0", "page": "https://commons.wikimedia.org/wiki/File:Sooksiam_Indoor_Floating_Market.jpg" },
+    "after-you-silom": { "by": "Sry85", "lic": "CC BY-SA 4.0", "licUrl": "https://creativecommons.org/licenses/by-sa/4.0", "page": "https://commons.wikimedia.org/wiki/File:After_You_at_Central_Silom_Complex.jpg" },
+    "go-ang-pratunam": { "by": "กสิณธร ราชโอรส", "lic": "CC BY-SA 4.0", "licUrl": "https://creativecommons.org/licenses/by-sa/4.0", "page": "https://commons.wikimedia.org/wiki/File:Go-ang_Kaomunkai_Pratunam_(2).jpg" },
+    "jay-fai": { "by": "Christine Rondeau", "lic": "CC BY 2.0", "licUrl": "https://creativecommons.org/licenses/by/2.0", "page": "https://commons.wikimedia.org/wiki/File:Jay_Fai,_Bangkok.jpg" },
+    "thip-samai": { "by": "LWYang from USA", "lic": "CC BY 2.0", "licUrl": "https://creativecommons.org/licenses/by/2.0", "page": "https://commons.wikimedia.org/wiki/File:Thipsamai_(September_2016).jpeg" },
+    "yentafo-wat-kaek": { "by": "Phoebus 28", "lic": "CC BY 4.0", "licUrl": "https://creativecommons.org/licenses/by/4.0", "page": "https://commons.wikimedia.org/wiki/File:Yen_Ta_Fo_Wat_Kaek_(original).jpg" }
   },
 
   places: [
@@ -270,17 +280,35 @@ const DATA = {
   ],
 
   food: [
-    // cat: mall | street | night | classic | downtown
+    // cat: mall | street | night | classic | downtown | indian
+    // photo = key in photos (only a photo of that exact restaurant or food hall; leave it out otherwise)
+    { n: "Tops Flavour (Central Rama 9)", photo: "tops-flavour-rama9", cat: "mall", d: "Bright food hall by the Tops supermarket inside Central Rama 9: Thai rice and noodle dishes with seats. The closest sit-down meal to the hotel. Photo from Sept 2025; check the floor in the mall directory 🔎", p: "฿", q: "Tops Flavour Central Rama 9" },
+    { n: "Ootoya (Central Rama 9)", photo: "ootoya-rama9", cat: "mall", d: "Japanese set meals (teishoku): grilled fish, chicken katsu, rice and miso soup. Photo is from 2012, so check it is still there 🔎", p: "฿฿", q: "Ootoya Central Rama 9" },
     { n: "Central Rama 9 food court / food hall", cat: "mall", d: "Thai dishes, noodles, rice plates, desserts. Buy a food-court card at the counter and refund the balance before leaving.", p: "฿", q: "Central Rama 9 food court" },
-    { n: "Central Rama 9 restaurant floors", cat: "mall", d: "Japanese (sushi, ramen, tonkatsu), Korean BBQ, hot pot, Thai chains.", p: "฿฿", q: "Central Rama 9 restaurants" },
+    { n: "Central Rama 9 restaurant floors", cat: "mall", d: "Japanese (sushi, ramen, tonkatsu), Korean BBQ, hot pot, Thai chains. Top-rated Thai picks here, Kumpoon and Have A Zeed, are in Explore › Night Out.", p: "฿฿", q: "Central Rama 9 restaurants" },
+    { n: "Pier 21 food court (Terminal 21 Asok)", wn: "Pier 21 Terminal 21", cat: "mall", d: "One of the cheapest good food courts in a big mall: Thai dishes from about ฿40-80. Load a card at the counter, refund what's left. MRT to Sukhumvit (BL22), 3 stops 🔎", p: "฿", q: "Pier 21 food court Terminal 21 Asok" },
+    { n: "Siam Paragon food hall (Gourmet Paradise, GF)", wn: "Gourmet Paradise Siam Paragon", photo: "paragon-food-hall", cat: "mall", d: "Huge ground-floor food hall: Thai stalls, famous restaurant branches, sweets and a gourmet market. BTS Siam 🔎", p: "฿฿", q: "Gourmet Paradise Siam Paragon" },
+    { n: "Eathai (Central Embassy)", photo: "eathai", cat: "mall", d: "Thai street-food hall in the basement of Central Embassy, with regional dishes from all over Thailand under one roof. BTS Phloen Chit. Photo from 2018 🔎", p: "฿฿", q: "Eathai Central Embassy" },
+    { n: "SookSiam (ICONSIAM, GF)", wn: "SookSiam", photo: "sooksiam", cat: "mall", d: "Indoor 'floating market' floor with food and crafts from every region of Thailand. Pair it with the river view 🔎", p: "฿฿", q: "SookSiam ICONSIAM" },
+    { n: "MBK Center food court", wn: "MBK food court", cat: "mall", d: "Big, cheap Thai food court on an upper floor of MBK, handy after shopping. BTS National Stadium 🔎", p: "฿", q: "MBK Center food court" },
+    { n: "Nara Thai Cuisine (CentralWorld)", wn: "Nara Thai Cuisine", cat: "mall", d: "Popular sit-down Thai restaurant: curries, pad thai, som tam. Safe choice for a group dinner in town 🔎", p: "฿฿", q: "Nara Thai Cuisine CentralWorld" },
+    { n: "After You (Central Silom Complex)", wn: "After You Dessert Cafe", photo: "after-you-silom", cat: "mall", d: "Bangkok's famous dessert café: Shibuya honey toast and Thai-tea kakigori (shaved ice). Right at MRT Silom (BL26) 🔎", p: "฿฿", q: "After You Central Silom Complex" },
     { n: "G Tower lower floors", cat: "street", d: "Office-worker lunches. Avoid 12:00–13:00 queues 🔎", p: "฿", q: "G Tower Rama 9 restaurants" },
     { n: "Sois around Rama 9", cat: "street", d: "Small Thai shops and stalls: noodle soup, grilled pork (moo ping), papaya salad, rice with curry.", p: "฿", q: "restaurants near Rama 9 MRT" },
     { n: "7-Eleven / FamilyMart", wn: "7-Eleven", cat: "street", d: "24h water, toasties, onigiri, snacks. Staff will heat food for you.", p: "฿", q: "7-Eleven near Rama 9" },
     { n: "Jodd Fairs Ratchada", cat: "night", d: "Grilled seafood, spicy salads, mala skewers, drinks, music. Busy on weekends. The Rama 9 branch has closed. Check opening nights 🔎", p: "฿฿", q: "Jodd Fairs Ratchada" },
     { n: "Ratchada Train Night Market", cat: "night", d: "Retro market, street food and bars.", p: "฿฿", q: "Ratchada Train Night Market" },
     { n: "Yaowarat (Chinatown) street food", cat: "night", d: "Seafood, roast duck, dim sum, dessert. Go after 18:00.", p: "฿฿", q: "Yaowarat Road street food" },
-    { n: "Thip Samai", wn: "Thip Samai Pad Thai", cat: "downtown", d: "Famous pad thai in the old town 🔎", p: "฿฿", q: "Thip Samai Pad Thai" },
-    { n: "Jay Fai", cat: "downtown", d: "Michelin-starred street food, very long queues 🔎", p: "฿฿฿", q: "Jay Fai Bangkok" },
+    { n: "Nai Ek Roll Noodles (Yaowarat)", wn: "Nai Ek Roll Noodles", cat: "night", d: "Peppery rolled rice-noodle soup with crispy pork, a Chinatown classic 🔎", p: "฿", q: "Nai Ek Roll Noodles Yaowarat" },
+    { n: "T&K Seafood (Yaowarat)", wn: "T&K Seafood", cat: "night", d: "Busy street-corner seafood in Chinatown: grilled prawns, crab, fish. Staff in green shirts; evenings 🔎", p: "฿฿", q: "T&K Seafood Yaowarat" },
+    { n: "Thip Samai", wn: "Thip Samai Pad Thai", photo: "thip-samai", cat: "downtown", d: "Famous pad thai in the old town 🔎", p: "฿฿", q: "Thip Samai Pad Thai" },
+    { n: "Jay Fai", photo: "jay-fai", cat: "downtown", d: "Michelin-starred street food, very long queues 🔎", p: "฿฿฿", q: "Jay Fai Bangkok" },
+    { n: "Go-Ang Kaomunkai Pratunam", wn: "Go-Ang Kaomunkai Pratunam", photo: "go-ang-pratunam", cat: "downtown", d: "The famous 'pink' Hainanese chicken rice shop in Pratunam. Fast turnover, cheap. Near Platinum mall 🔎", p: "฿", q: "Go-Ang Kaomunkai Pratunam" },
+    { n: "Wat Kaek Yentafo (Silom)", wn: "Yentafo Wat Kaek", photo: "yentafo-wat-kaek", cat: "downtown", d: "Long-running shop near Wat Khaek (Sri Maha Mariamman) for yentafo, the pink noodle soup. The photo shows its yentafo 🔎", p: "฿", q: "Yentafo Wat Kaek Silom" },
+    { n: "Somtum Der (Sala Daeng)", wn: "Somtum Der", cat: "downtown", d: "Isaan (north-eastern) food done well: som tam, grilled chicken, larb. Near MRT Silom / BTS Sala Daeng 🔎", p: "฿฿", q: "Somtum Der Sala Daeng" },
+    { n: "Somboon Seafood", cat: "downtown", d: "Known for the original curry crab (poo pad pong karee). Several branches; Banthat Thong is near MRT Sam Yan 🔎", p: "฿฿฿", q: "Somboon Seafood Banthat Thong" },
+    { n: "Jeh O Chula", cat: "downtown", d: "Late-night Thai-Chinese spot near Chula, famous for its tom yum 'mama' noodle pot. Evenings only, expect a queue 🔎", p: "฿฿", q: "Jeh O Chula" },
+    { n: "Wattana Panich (Ekkamai)", wn: "Wattana Panich", cat: "downtown", d: "Beef noodle soup from a giant pot that has been simmering for decades. BTS Ekkamai, then a short Grab 🔎", p: "฿", q: "Wattana Panich Ekkamai" },
     { n: "Krua Apsorn", cat: "downtown", d: "Home-style Thai, crab omelette 🔎", p: "฿฿", q: "Krua Apsorn Dinso Road" },
     { n: "Rang Mahal (rooftop)", wn: "Rang Mahal", cat: "indian", d: "Classic North Indian dining on the roof of the Rembrandt Hotel, Sukhumvit Soi 18. Dressier and pricier; book ahead. MRT to Sukhumvit (BL22) 🔎", p: "฿฿฿", q: "Rang Mahal Rembrandt Hotel Bangkok" },
     { n: "Sutra Indian Restaurant", cat: "indian", d: "North Indian curries and tandoor on Narathiwat Rd, near Chong Nonsi. Listed on OpenStreetMap; check rating and hours 🔎", p: "฿฿", q: "Sutra Indian Restaurant Narathiwat" },

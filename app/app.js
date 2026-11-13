@@ -176,9 +176,9 @@
         body = `<div class="card"><table>${D.dishes.map(([a, b]) => `<tr><td><strong>${esc(a)}</strong></td><td>${esc(b)}</td></tr>`).join("")}</table></div>
         <div class="banner"><strong>Order smart:</strong> “mai phet” = not spicy · “check bin” = bill · Tipping isn't expected; rounding up is appreciated. Drink bottled water.</div>`;
       } else {
-        body = D.food.filter(f => state.food === "all" || f.cat === state.food).map(f => `
-          <div class="card"><h4>${esc(f.n)} <span class="tag">${esc(f.p)}</span></h4><p>${esc(f.d)}</p>
-          <div class="row">${mapBtn(f.q)}<a class="btn alt" target="_blank" rel="noopener" href="https://www.wongnai.com/restaurants?q=${encodeURIComponent(f.wn || f.order || f.n)}">Wongnai</a>${f.lm ? `<a class="btn alt" target="_blank" rel="noopener" href="${esc(f.lm)}">🛵 LINE MAN</a>` : ""}</div></div>`).join("");
+        body = D.food.filter(f => state.food === "all" || f.cat === state.food).map(f => { const ph = photoOf(f); return `
+          <div class="card${ph ? " has-photo" : ""}">${ph ? `<div class="eimg"><img src="${esc(ph.src)}" alt="${esc(f.n)}" width="800" height="500" loading="lazy" decoding="async"></div>` : ""}<h4>${esc(f.n)} <span class="tag">${esc(f.p)}</span></h4><p>${esc(f.d)}</p>
+          <div class="row">${mapBtn(f.q)}<a class="btn alt" target="_blank" rel="noopener" href="https://www.wongnai.com/restaurants?q=${encodeURIComponent(f.wn || f.order || f.n)}">Wongnai</a>${f.lm ? `<a class="btn alt" target="_blank" rel="noopener" href="${esc(f.lm)}">🛵 LINE MAN</a>` : ""}</div></div>`; }).join("");
       }
       return `<h2>Eat</h2><p style="color:var(--muted);margin-top:0">Places and types; check current hours & reviews in Maps. 🔎</p>${filterChips(cats, state.food, "ff")}${body}`;
     },

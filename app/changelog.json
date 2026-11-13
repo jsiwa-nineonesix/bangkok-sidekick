@@ -2,6 +2,14 @@
   "_howto": "Add a new entry at the TOP for every release. 'v' must match the version in data.js and sw.js. Keep notes short and in plain language: they are shown to colleagues when an update is available.",
   "releases": [
     {
+      "v": "52",
+      "date": "2026-11-13",
+      "notes": [
+        "Eat: 17 named restaurants and food halls added, including ones inside malls (Central Rama 9, Siam Paragon, Terminal 21, ICONSIAM, Central Embassy, CentralWorld)",
+        "Eat cards now show a photo of the restaurant when a free photo of that exact place exists"
+      ]
+    },
+    {
       "v": "51",
       "date": "2026-11-13",
       "notes": [
