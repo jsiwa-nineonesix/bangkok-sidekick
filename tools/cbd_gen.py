@@ -67,6 +67,36 @@ for e in els:
     if area < 0: pts = pts[::-1]
     blds.append({"ring": pts, "h": h, "lv": lv or 2, "key": KEYS.get(e["id"]), "c": (cx, cy)})
 
+# ---- G Tower is shaped like a giant "G": tall north block, a top arm reaching south over a see-through void,
+# a small hook at the tip, and a lower block below (from photos on Wikimedia Commons). Build it from boxes on the
+# real OSM footprint, aligned with the footprint's long side.
+def g_tower(b):
+    r = b["ring"]
+    edges = [(r[i], r[(i + 1) % len(r)]) for i in range(len(r))]
+    (p1, p2) = max(edges, key=lambda e: math.hypot(e[1][0] - e[0][0], e[1][1] - e[0][1]))
+    ux, uy = p2[0] - p1[0], p2[1] - p1[1]; L = math.hypot(ux, uy); ux, uy = ux / L, uy / L
+    if uy < 0: ux, uy = -ux, -uy                       # u points north
+    vx, vy = -uy, ux
+    cx, cy = b["c"]
+    us = [(x - cx) * ux + (y - cy) * uy for x, y in r]; vs = [(x - cx) * vx + (y - cy) * vy for x, y in r]
+    s0, s1, t0, t1 = min(us), max(us), min(vs), max(vs)
+    box = lambda a, c: [(cx + ux * a + vx * t0, cy + uy * a + vy * t0), (cx + ux * c + vx * t0, cy + uy * c + vy * t0),
+                        (cx + ux * c + vx * t1, cy + uy * c + vy * t1), (cx + ux * a + vx * t1, cy + uy * a + vy * t1)]
+    H = b["h"]; cut = s0 + (s1 - s0) * 0.45; hook = s0 + (s1 - s0) * 0.12
+    parts = [((cut, s1), 0, H),            # tall north block, full height
+             ((s0, cut), 0, H * 0.42),     # lower south block
+             ((s0, cut), H * 0.78, H),     # top arm over the void
+             ((s0, hook), H * 0.68, H * 0.78)]   # the hook of the "G"
+    out = []
+    for (a, c), z0, z1 in parts:
+        ring = box(a, c)
+        area = sum(ring[i][0] * ring[(i+1) % 4][1] - ring[(i+1) % 4][0] * ring[i][1] for i in range(4))
+        if area < 0: ring = ring[::-1]
+        mx_ = sum(p[0] for p in ring) / 4; my_ = sum(p[1] for p in ring) / 4
+        out.append({"ring": ring, "z0": z0, "h": z1, "lv": (z1 - z0) / LEVEL_H, "key": b["key"], "c": (mx_, my_)})
+    return out
+blds = [p for b in blds for p in (g_tower(b) if b["key"] and b["key"][0] == "gtower" else [b])]
+
 W = {"motorway": 16, "trunk": 22, "primary": 20, "secondary": 11, "tertiary": 9, "motorway_link": 8, "primary_link": 8, "trunk_link": 8}
 ORDER = ["tertiary", "secondary", "primary_link", "trunk_link", "motorway_link", "primary", "trunk", "motorway"]
 roads = []
@@ -110,8 +140,8 @@ def render(name, deg):
 
     out_b = []
     depth = lambda p: rot(*p)[1]
-    for b in sorted(blds, key=lambda b: -depth(b["c"])):
-        r, h, key = b["ring"], b["h"], b["key"]
+    for b in sorted(blds, key=lambda b: (-round(depth(b["c"]), 1), b.get("z0", 0))):
+        r, h, key, z0 = b["ring"], b["h"], b["key"], b.get("z0", 0)
         faces = []
         for i in range(len(r)):
             (x1, y1), (x2, y2) = r[i], r[(i + 1) % len(r)]
@@ -119,14 +149,14 @@ def render(name, deg):
             if nyr >= 0: continue
             L = math.hypot(nxr, nyr) or 1
             lit = -nxr / L                      # +1 = faces left (lit), -1 = faces right
-            quad = [P(x1, y1, 0), P(x2, y2, 0), P(x2, y2, h), P(x1, y1, h)]
+            quad = [P(x1, y1, z0), P(x2, y2, z0), P(x2, y2, h), P(x1, y1, h)]
             d = rot((x1 + x2) / 2, (y1 + y2) / 2)[1]
             if key:
                 col = shade(key[2], 0.12 * lit - 0.12)
                 lines = ""
                 step = 3 if b["lv"] > 12 else 2
                 for f in range(step, int(b["lv"]), step):
-                    z = f * LEVEL_H
+                    z = z0 + f * LEVEL_H
                     a1, a2 = P(x1, y1, z), P(x2, y2, z)
                     lines += f"M{a1[0]:.1f},{a1[1]:.1f}L{a2[0]:.1f},{a2[1]:.1f}"
                 faces.append((d, f'<polygon points="{ps(quad)}" fill="{col}"/>' + (f'<path class="fl" d="{lines}"/>' if lines else "")))
