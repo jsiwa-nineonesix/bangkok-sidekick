@@ -6,7 +6,7 @@
 - ATMs charge a foreign-card fee (commonly ฿220 per withdrawal) 🔎. Withdraw larger amounts less often.
 - Get small notes/coins: ฿20, ฿50, ฿100 and ฿10 coins for BTS machines, markets and tips.
 - Currency exchange: SuperRich offices usually have better rates than airports/hotels.
-- A SuperRich exchange office is also reported at Central Rama 9 (5th floor), a short walk from the hotel. Confirm on Google Maps or the mall directory before you go 🔎.
+- Two SuperRich counters are right by the hotel: SuperRich 1965 (orange) inside MRT Phra Ram 9 station (daily 10:00–20:00) and OH! RiCH by SuperRich Thailand (green) on the 5th floor of Central Rama 9. Bring your passport.
 - Check with your bank for foreign-transaction fees and travel notices.
 
 ## Weather & clothing

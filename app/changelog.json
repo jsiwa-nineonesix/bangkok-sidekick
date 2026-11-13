@@ -2,6 +2,14 @@
   "_howto": "Add a new entry at the TOP for every release. 'v' must match the version in data.js and sw.js. Keep notes short and in plain language: they are shown to colleagues when an update is available.",
   "releases": [
     {
+      "v": "75",
+      "date": "2026-11-13",
+      "notes": [
+        "Ask Sidekick is faster and smarter: common questions like exchanging money are answered instantly",
+        "Money tip fixed: SuperRich is inside MRT Phra Ram 9 station and on Central Rama 9, 5th floor"
+      ]
+    },
+    {
       "v": "74",
       "date": "2026-11-13",
       "notes": [

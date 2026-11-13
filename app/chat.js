@@ -14,6 +14,10 @@
   /* ---------- 1. Knowledge base built from the guide ---------- */
   const docs = [];
   const add = d => docs.push(d);
+  // Instant answers (DATA.quick): matched by pattern, answered at once, and always given to the AI first.
+  const QUICK = (D.quick || []).map(x => Object.assign({}, x, { rx: new RegExp(x.re, "i"),
+    actions: (x.actions || []).map(a => a.q ? { label: a.label, href: gmap(a.q) } : a) }));
+  QUICK.forEach(x => add({ title: x.title, tab: x.tab, kw: x.re.replace(/[^a-z\s]/gi, " "), text: x.text, actions: x.actions }));
   const h = D.hotel;
   add({ title: "Hotel and address", tab: "home", kw: "hotel avani ratchada where stay staying room address phone location taxi home base opposite g tower check in",
     text: `**${h.name}**\n${h.address || "Address: see your booking."}\n${h.phone ? "📞 " + h.phone + "\n" : ""}MRT Phra Ram 9 is about a 3-minute walk.`,
@@ -152,8 +156,16 @@
   }
 
   /* ---------- 3. Optional AI proxy ---------- */
-  function guideContext() {
-    return docs.map(d => `## ${d.title}\n${d.text}`).join("\n\n").slice(0, 16000);
+  // Send the AI the sections that match the question first, so the right facts are never cut off by the size limit.
+  function guideContext(q) {
+    const LIMIT = 15500, picked = new Set(), parts = [];
+    const push = d => { if (picked.has(d)) return; picked.add(d); parts.push(`## ${d.title}\n${d.text}`); };
+    QUICK.forEach(x => { if (x.rx.test(q)) push(docs.find(d => d.title === x.title)); });
+    search(q).slice(0, 12).forEach(r => push(r.d));
+    docs.forEach(push);
+    let out = "";
+    for (const p of parts) { if (out.length + p.length + 2 > LIMIT) continue; out += (out ? "\n\n" : "") + p; }
+    return out;
   }
   function aiBudgetOk() {
     try {
@@ -167,7 +179,7 @@
     const ctl = new AbortController(); const to = setTimeout(() => ctl.abort(), CFG.timeoutMs);
     try {
       const res = await fetch(CFG.endpoint, { method: "POST", headers: { "Content-Type": "application/json" }, signal: ctl.signal,
-        body: JSON.stringify({ messages: history.slice(-8), guide: guideContext() }) });
+        body: JSON.stringify({ messages: history.slice(-8), guide: guideContext(history[history.length - 1].content) }) });
       if (!res.ok) throw new Error("HTTP " + res.status);
       const j = await res.json();
       if (!j.reply) throw new Error("empty");
@@ -229,7 +241,14 @@
     busy = true; addMsg("user", esc(q)); history.push({ role: "user", content: q }); el.input.value = ""; setChips([]);
     const typing = addMsg("bot typing", "<span></span><span></span><span></span>");
     let out = null, note = "";
-    if (CFG.endpoint && navigator.onLine !== false && aiBudgetOk()) {
+    // Instant answer for short, direct questions; comparisons and "should I..." questions go to the AI (which gets the same facts first).
+    const direct = q.split(/\s+/).length <= 14 && !/\b(or|vs\.?|versus|compare|comparison|better|best way|should|why|difference)\b/i.test(q);
+    const quick = (direct || !CFG.endpoint || navigator.onLine === false) && QUICK.find(x => x.rx.test(q));
+    if (quick) {
+      const actions = quick.actions.slice(); if (quick.tab) actions.push({ label: "Open in guide", tab: quick.tab });
+      out = { title: quick.title, text: quick.text, actions, chips: [] };
+    }
+    if (!out && CFG.endpoint && navigator.onLine !== false && aiBudgetOk()) {
       try { const reply = await aiAnswer(history); out = { text: reply, ai: true, actions: [], chips: [] }; }
       catch (_) { note = "\n\n_(AI assistant unavailable, answered from the guide.)_"; }
     }
