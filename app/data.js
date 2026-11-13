@@ -30,7 +30,7 @@ const DATA = {
   // dash.cloudflare.com > Web Analytics to turn it on; leave empty to keep analytics off.
   analytics: { cfToken: "" },
   chat: { endpoint: "https://bangkok-sidekick-chat.bangkok-sidekick-chat-proxy.workers.dev/", dailyLimit: 30 },
-  version: "62",
+  version: "63",
   hotel: {
     name: "Avani Ratchada Bangkok Hotel (opposite G Tower, Rama 9)",
     thaiName: "โรงแรมอวานี รัชดา กรุงเทพ ตรงข้ามจีทาวเวอร์ พระราม 9",
@@ -247,7 +247,8 @@ const DATA = {
     "baan-ying-rama9": { "by": "Baan Ying (restaurant's own promo photo)", "lic": "Provided by user", "licUrl": "", "page": "" },
     "laem-charoen-rama9": { "by": "Provided by user", "lic": "Provided by user", "licUrl": "", "page": "" },
     "central-rama9-food-court": { "by": "Provided by user", "lic": "Provided by user", "licUrl": "", "page": "" },
-    "rosniyom-rama9": { "by": "Provided by user", "lic": "Provided by user", "licUrl": "", "page": "" }
+    "rosniyom-rama9": { "by": "Provided by user", "lic": "Provided by user", "licUrl": "", "page": "" },
+    "nara-centralworld": { "by": "Provided by user", "lic": "Provided by user", "licUrl": "", "page": "" }
   },
 
   places: [
@@ -322,7 +323,7 @@ const DATA = {
     { n: "Eathai (Central Embassy)", photo: "eathai", cat: "mall", d: "Thai street-food hall in the basement of Central Embassy, with regional dishes from all over Thailand under one roof. BTS Phloen Chit. Photo from 2018 🔎", p: "฿฿", q: "Eathai Central Embassy" },
     { n: "SookSiam (ICONSIAM, GF)", wn: "SookSiam", photo: "sooksiam", cat: "mall", d: "Indoor 'floating market' floor with food and crafts from every region of Thailand. Pair it with the river view 🔎", p: "฿฿", q: "SookSiam ICONSIAM" },
     { n: "MBK Center food court", wn: "MBK food court", photo: "mbk-food-court", cat: "mall", d: "Big, cheap Thai food court on an upper floor of MBK, handy after shopping. BTS National Stadium. Photo from 2012 🔎", p: "฿", q: "MBK Center food court" },
-    { n: "Nara Thai Cuisine (CentralWorld)", wn: "Nara Thai Cuisine", cat: "mall", d: "Popular sit-down Thai restaurant: curries, pad thai, som tam. Safe choice for a group dinner in town 🔎", p: "฿฿", q: "Nara Thai Cuisine CentralWorld" },
+    { n: "Nara Thai Cuisine (CentralWorld)", wn: "Nara Thai Cuisine", photo: "nara-centralworld", cat: "mall", d: "Popular sit-down Thai restaurant: curries, pad thai, som tam. Safe choice for a group dinner in town 🔎", p: "฿฿", q: "Nara Thai Cuisine CentralWorld" },
     { n: "After You (Central Silom Complex)", wn: "After You Dessert Cafe", photo: "after-you-silom", cat: "mall", d: "Bangkok's famous dessert café: Shibuya honey toast and Thai-tea kakigori (shaved ice). Right at MRT Silom (BL26) 🔎", p: "฿฿", q: "After You Central Silom Complex" },
     { n: "G Tower lower floors", cat: "street", d: "Office-worker lunches. Avoid 12:00–13:00 queues 🔎", p: "฿", q: "G Tower Rama 9 restaurants" },
     { n: "Somyong Tumsua 2 (สมยง ตำซั่ว 2)", wn: "Somyong Tumsua", cat: "street", d: "Local Isaan favourite on Rama IX Soi 7, about 550 m from G Tower and a 3-min walk from Belle Grand Rama 9: som tam, grilled chicken and pork, larb. Cheap, about ฿100-200 a person. Google 4.3 (672 reviews). Mon-Sat 09:30-21:30, closed Sun 🔎", p: "฿", q: "Somyong Tumsua 2 Rama 9 Soi 7" },
