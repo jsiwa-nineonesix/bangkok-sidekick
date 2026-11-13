@@ -37,7 +37,7 @@
       text: `${p.rating ? `⭐ ${p.rating.toFixed(1)} from ${p.reviews.toLocaleString()} Google reviews (as of ${D.explore.asOf})\n` : ""}${p.d}\n${p.km != null ? `📏 ${p.km.toFixed(1)} km from the hotel\n` : ""}🧭 ${p.go}\n💰 Per person (my estimate): ${p.budget}`,
       actions: [{ label: "📍 Map", href: gmap(p.q) }] });
   });
-  D.food.forEach(f => add({ title: f.n, tab: "eat", kw: `eat food restaurant hungry dinner lunch breakfast meal ${f.cat === "night" ? "night market evening" : ""} ${f.cat === "mall" ? "mall air conditioned" : ""} ${f.cat === "downtown" ? "famous" : ""} ${/Rama 9|G Tower/i.test(f.q) || f.cat === "street" ? "near hotel nearby walk walking close" : ""} cheap ${f.p}`,
+  D.food.forEach(f => add({ title: f.n, tab: "eat", kw: `eat food restaurant hungry dinner lunch breakfast meal ${f.cat === "night" ? "night market evening" : ""} ${f.cat === "mall" ? "mall air conditioned" : ""} ${f.cat === "downtown" ? "famous" : ""} ${(f.cu || []).join(" ")} ${(f.cu || []).includes("vegetarian") ? "vegan veggie salad healthy" : ""} ${(f.cu || []).includes("japanese") ? "sushi ramen" : ""} ${(f.cu || []).includes("korean") ? "bbq" : ""} ${/Rama 9|G Tower/i.test(f.q) || f.cat === "street" ? "near hotel nearby walk walking close" : ""} cheap ${f.p}`,
     text: `${f.d}\nPrice: ${f.p}`, actions: [{ label: "📍 Map", href: gmap(f.q) }] }));
   add({ title: "Thai dishes to try", tab: "eat", kw: "dish dishes food thai try order menu pad thai curry tom yum som tam spicy",
     text: D.dishes.map(([a, b]) => `**${a}:** ${b}`).join("\n") + "\n\nSay **mai phet** (ไม่เผ็ด) for not spicy." });

@@ -2,6 +2,15 @@
   "_howto": "Add a new entry at the TOP for every release. 'v' must match the version in data.js and sw.js. Keep notes short and in plain language: they are shown to colleagues when an update is available.",
   "releases": [
     {
+      "v": "79",
+      "date": "2026-11-14",
+      "notes": [
+        "Eat: new Cuisine filter: Thai, Japanese, Korean, Chinese, Veggie & healthy, Indian",
+        "Eat: 19 more Central Rama 9 restaurants, incl. Sushiro, Ippudo, Hachiban, Mo-Mo-Paradise, Solsot, Bonchon, Hua Seng Hong, Haidilao and Ohkajhu",
+        "Eat: the Wongnai button now opens the restaurant's own Facebook, Instagram or website"
+      ]
+    },
+    {
       "v": "78",
       "date": "2026-11-13",
       "notes": [

@@ -31,6 +31,15 @@
   const filterChips = (opts, cur, attr) =>
     `<div class="chips">${opts.map(([k, l]) => `<button class="chip ${k === cur ? "on" : ""}" data-${attr}="${k}">${l}</button>`).join("")}</div>`;
 
+  // Eat: link to the restaurant's own page. f.so = { fb, ig, tt, web } (full URLs or FB slug); falls back to the Reserve sheet's Facebook slug.
+  const fbUrl = v => /^https?:/.test(v) ? v : /^\d+$/.test(v) ? `https://www.facebook.com/profile.php?id=${v}` : `https://www.facebook.com/${v}`;
+  const SOCIAL = [["fb", "Facebook", fbUrl], ["ig", "Instagram", v => /^https?:/.test(v) ? v : `https://www.instagram.com/${v}/`], ["tt", "TikTok", v => /^https?:/.test(v) ? v : `https://www.tiktok.com/@${v}`], ["web", "Website", v => v]];
+  const socialBtn = f => {
+    const so = Object.assign({}, f.res && f.res.fb ? { fb: f.res.fb } : {}, f.so || {});
+    const hit = SOCIAL.find(([k]) => so[k]);
+    return hit ? `<a class="btn alt" target="_blank" rel="noopener" href="${esc(hit[2](so[hit[0]]))}">${hit[1]}</a>` : "";
+  };
+
   const state = { places: "all", food: "all", q: "", trip: 0, explore: "near", sort: {}, mapMode: "3d", cbdView: (D.cbd && D.cbd.start) || 0, walking: false, cbdSel: null };
   const DEFAULT_SORT = { near: "close", nearby: "close", downtown: "rating", malls: "close", night: "rating" };
   const sortOf = key => state.sort[key] || DEFAULT_SORT[key];
@@ -180,17 +189,18 @@
     },
 
     eat() {
-      const cats = [["all", "All"], ["mall", "In the mall"], ["street", "Quick"], ["night", "Night markets"], ["downtown", "Downtown"], ["indian", "Indian"], ["dishes", "Dishes to try"]];
+      const cats = [["all", "All"], ["mall", "In the mall"], ["street", "Quick"], ["night", "Night markets"], ["downtown", "Downtown"], ["dishes", "Dishes to try"]];
+      const cuisines = [["thai", "🇹🇭 Thai"], ["japanese", "🍣 Japanese"], ["korean", "🇰🇷 Korean"], ["chinese", "🥟 Chinese"], ["vegetarian", "🥗 Veggie & healthy"], ["indian", "🍛 Indian"]];
       let body;
       if (state.food === "dishes") {
         body = `<div class="card"><table>${D.dishes.map(([a, b]) => `<tr><td><strong>${esc(a)}</strong></td><td>${esc(b)}</td></tr>`).join("")}</table></div>
         <div class="banner"><strong>Order smart:</strong> “mai phet” = not spicy · “check bin” = bill · Tipping isn't expected; rounding up is appreciated. Drink bottled water.</div>`;
       } else {
-        body = D.food.filter(f => state.food === "all" || f.cat === state.food).map(f => { const ph = photoOf(f); return `
+        body = D.food.filter(f => state.food === "all" || f.cat === state.food || (f.cu || []).includes(state.food)).map(f => { const ph = photoOf(f); return `
           <div class="card${ph ? " has-photo" : ""}">${ph ? `<div class="eimg"><img src="${esc(ph.src)}" alt="${esc(f.n)}" width="800" height="500" loading="lazy" decoding="async"></div>` : ""}<h4>${esc(f.n)} <span class="tag">${esc(f.p)}</span></h4><p>${esc(f.d)}</p>
-          <div class="row">${f.nores ? "" : `<button type="button" class="btn res" data-res="${D.food.indexOf(f)}">${calIcon()}Reserve</button>`}${mapBtn(f.q)}<a class="btn alt" target="_blank" rel="noopener" href="https://www.wongnai.com/restaurants?q=${encodeURIComponent(f.wn || f.order || f.n)}">Wongnai</a>${f.lm ? `<a class="btn alt" target="_blank" rel="noopener" href="${esc(f.lm)}">🛵 LINE MAN</a>` : ""}</div></div>`; }).join("");
+          <div class="row">${f.nores ? "" : `<button type="button" class="btn res" data-res="${D.food.indexOf(f)}">${calIcon()}Reserve</button>`}${mapBtn(f.q)}${socialBtn(f)}${f.lm ? `<a class="btn alt" target="_blank" rel="noopener" href="${esc(f.lm)}">🛵 LINE MAN</a>` : ""}</div></div>`; }).join("");
       }
-      return `<h2>Eat</h2><p style="color:var(--muted);margin-top:0">Places and types; check current hours & reviews in Maps. 🔎</p>${filterChips(cats, state.food, "ff")}${body}`;
+      return `<h2>Eat</h2><p style="color:var(--muted);margin-top:0">Places and types; check current hours & reviews in Maps. 🔎</p><div class="chip-label">Where</div>${filterChips(cats, state.food, "ff")}<div class="chip-label">Cuisine</div>${filterChips(cuisines, state.food, "ff")}${body}`;
     },
 
     go() {
