@@ -2,6 +2,13 @@
   "_howto": "Add a new entry at the TOP for every release. 'v' must match the version in data.js and sw.js. Keep notes short and in plain language: they are shown to colleagues when an update is available.",
   "releases": [
     {
+      "v": "82",
+      "date": "2026-11-14",
+      "notes": [
+        "Eat: filter buttons now wrap onto new lines, so none are cut off"
+      ]
+    },
+    {
       "v": "81",
       "date": "2026-11-14",
       "notes": [

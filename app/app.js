@@ -206,7 +206,7 @@
           <div class="card${ph ? " has-photo" : ""}">${ph ? `<div class="eimg"><img src="${esc(ph.src)}" alt="${esc(f.n)}" width="800" height="500" loading="lazy" decoding="async"></div>` : ""}<h4>${esc(f.n)} <span class="tag">${esc(f.p)}</span></h4><p>${esc(f.d)}</p>
           <div class="row">${f.nores ? "" : `<button type="button" class="btn res" data-res="${D.food.indexOf(f)}">${calIcon()}Reserve</button>`}${mapBtn(f.q)}${socialBtn(f)}${f.lm ? `<a class="btn alt" target="_blank" rel="noopener" href="${esc(f.lm)}">🛵 LINE MAN</a>` : ""}</div></div>`; }).join("");
       }
-      return `<h2>Eat</h2><p style="color:var(--muted);margin-top:0">Places and types; check current hours & reviews in Maps. 🔎</p><div class="chip-label">Where</div>${filterChips(cats, state.food, "ff")}<div class="chip-label">Cuisine</div>${filterChips(cuisines, state.food, "ff")}${body}`;
+      return `<h2>Eat</h2><p style="color:var(--muted);margin-top:0">Places and types; check current hours & reviews in Maps. 🔎</p><div class="chip-label">Where</div>${filterChips(cats, state.food, "ff").replace('class="chips"', 'class="chips wrap"')}<div class="chip-label">Cuisine</div>${filterChips(cuisines, state.food, "ff").replace('class="chips"', 'class="chips wrap"')}${body}`;
     },
 
     go() {

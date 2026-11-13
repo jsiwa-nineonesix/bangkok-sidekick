@@ -509,3 +509,5 @@ a.tag.rate-link { text-decoration: none; color: var(--link); font-weight: 600; b
 .chip-label { font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); margin: 2px 2px 2px; }
 .soc-ic { display: inline-flex; width: 1.15em; height: 1.15em; margin-right: 6px; vertical-align: -0.2em; flex: none; }
 .soc-ic svg { width: 100%; height: 100%; display: block; }
+.chips.wrap { flex-wrap: wrap; overflow: visible; padding-bottom: 8px; }
+.chips.wrap .chip { flex: none; }
