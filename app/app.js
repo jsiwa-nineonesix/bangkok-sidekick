@@ -135,6 +135,7 @@
         <div class="tile" data-chat="1"><span class="ic">💬</span>Ask Sidekick</div>
         <div class="tile" data-taxi="1"><span class="ic">🚕</span>Show to taxi driver</div>
         <div class="tile" data-sos="1"><span class="ic">🆘</span>Emergency</div>
+        <div class="tile" data-fb="0"><span class="ic">⭐</span>Rate Sidekick</div>
       </div>
       <h3>Quick facts</h3>
       <div class="card"><ul>
@@ -143,6 +144,7 @@
         <li>Hot and humid. Carry water, bring a layer for cold A/C.</li>
         <li>Street food and taxis are mostly cash. Keep small notes.</li>
       </ul></div>
+      ${feedbackCard()}
       <p class="banner info base-note"><strong>📍 ${esc(D.edition)} edition.</strong> ${esc(D.editionNote)}</p>
       <details class="trust">
         <summary><span class="t-ic">🧭</span><span><strong>Built with AI, verified where it counts</strong><small>Last reviewed ${esc(D.trust.reviewed)} · tap for details</small></span></summary>
@@ -325,6 +327,59 @@
     m.hidden = false;
   }
 
+  // ---- Feedback: star rating + comment, sent to the feedback Worker (Cloudflare D1). Anonymous unless they add a name.
+  const FB_KEY = "sk-feedback";
+  const FB_WORDS = ["", "😞 Not useful", "😕 Could be better", "🙂 It's OK", "😀 Really helpful", "🤩 Love it!"];
+  const fbLast = () => { try { return JSON.parse(localStorage.getItem(FB_KEY)) || null; } catch { return null; } };
+  const starRow = (n, attr) => `<div class="fb-stars" role="radiogroup" aria-label="Rating">${[1, 2, 3, 4, 5].map(i =>
+    `<button type="button" class="fb-star${i <= n ? " on" : ""}" data-${attr}="${i}" role="radio" aria-checked="${i === n}" aria-label="${i} star${i > 1 ? "s" : ""}">★</button>`).join("")}</div>`;
+  function feedbackCard() {
+    const last = fbLast();
+    return `<div class="card fb-card"><h3 style="margin:0 0 2px">How's Sidekick so far?</h3>
+      <p>${last ? `Thanks for your ${"★".repeat(last.stars)} rating! Got more ideas? Send them anytime.` : "Tap a star and tell us what to add or fix next."}</p>
+      ${starRow(0, "fb")}</div>`;
+  }
+  let fbStars = 0;
+  function feedback(n) {
+    fbStars = n || 0;
+    modal(`<h2 class="res-h">⭐ Rate Sidekick</h2>
+      <p class="res-note">How do you feel about the app? Your feedback shapes the next update.</p>
+      <div id="fbstars">${starRow(fbStars, "fbs")}</div>
+      <p id="fbword" class="fb-word">${FB_WORDS[fbStars] || "Tap a star"}</p>
+      <label class="fb-label" for="fbtext">What should we add, fix or improve? <small>(optional)</small></label>
+      <textarea id="fbtext" class="fb-input" rows="4" maxlength="1000" placeholder="e.g. more restaurants near G Tower, a wrong opening time, a missing place…"></textarea>
+      <label class="fb-label" for="fbname">Your name or team <small>(optional, leave blank to stay anonymous)</small></label>
+      <input id="fbname" class="fb-input" maxlength="60" autocomplete="name">
+      <input id="fbweb" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="fb-hp">
+      <p id="fbmsg" class="fb-msg" role="status"></p>
+      <p><button type="button" class="btn big" id="fbsend" data-fbsend="1">Send feedback</button></p>`);
+  }
+  function fbSetStars(n) {
+    fbStars = n;
+    $("#fbstars").innerHTML = starRow(n, "fbs");
+    $("#fbword").textContent = FB_WORDS[n];
+    $("#fbmsg").textContent = "";
+  }
+  async function fbSend() {
+    const msg = $("#fbmsg"), btn = $("#fbsend");
+    if (!fbStars) { msg.textContent = "Please tap a star first."; return; }
+    if (!navigator.onLine) { msg.textContent = "You're offline. Please try again when you have internet."; return; }
+    btn.disabled = true; btn.textContent = "Sending…"; msg.textContent = "";
+    try {
+      const r = await fetch(D.feedback.endpoint, { method: "POST", headers: { "content-type": "application/json" },
+        body: JSON.stringify({ stars: fbStars, comment: $("#fbtext").value, name: $("#fbname").value, website: $("#fbweb").value, ver: D.version }) });
+      const j = await r.json().catch(() => ({}));
+      if (!r.ok) throw new Error(j.error || "Couldn't send");
+      localStorage.setItem(FB_KEY, JSON.stringify({ stars: fbStars, ts: Date.now() }));
+      $("#modal .box").innerHTML = `<h2 class="res-h">🙏 Thank you!</h2><p>Your ${"★".repeat(fbStars)} feedback was sent. We read every message and use it for the next update.</p>
+        <p><button class="btn big" data-close="1">Close</button></p>`;
+      const c = $(".fb-card"); if (c) c.outerHTML = feedbackCard();
+    } catch (err) {
+      btn.disabled = false; btn.textContent = "Send feedback";
+      msg.textContent = (err && err.message && !/fetch|network|load/i.test(err.message)) ? err.message : "Couldn't send right now. Please try again in a moment.";
+    }
+  }
+
   // Reserve sheet: phone / LINE / Messenger for a restaurant (DATA.food[i].res), with Google Maps as a fallback.
   function reserve(i) {
     const f = D.food[i], r = f.res || {}, name = f.n.replace(/\s*⭐.*$/, "");
@@ -351,7 +406,7 @@
 
   // Events
   document.addEventListener("click", e => {
-    const t = e.target.closest("[data-res],[data-credit],[data-tab],[data-go],[data-pf],[data-ff],[data-ev],[data-ns],[data-say],[data-taxi],[data-sos],[data-close],[data-st],[data-mm],[data-cbd],#cbdstage [data-k]");
+    const t = e.target.closest("[data-res],[data-credit],[data-tab],[data-go],[data-pf],[data-ff],[data-ev],[data-ns],[data-say],[data-taxi],[data-sos],[data-fb],[data-fbs],[data-fbsend],[data-close],[data-st],[data-mm],[data-cbd],#cbdstage [data-k]");
     if (!t) return;
     const d = t.dataset;
     if (d.res != null && d.res !== "") { reserve(+d.res); }
@@ -374,6 +429,9 @@
     else if (d.say) { try { const u = new SpeechSynthesisUtterance(d.say); u.lang = "th-TH"; speechSynthesis.cancel(); speechSynthesis.speak(u); } catch (_) { } }
     else if (d.taxi) taxi();
     else if (d.sos) sos();
+    else if (d.fb != null) feedback(+d.fb);
+    else if (d.fbs) fbSetStars(+d.fbs);
+    else if (d.fbsend) fbSend();
     else if (d.close) $("#modal").hidden = true;
     else if (d.st) {
       const [type, id] = d.st.split(":");

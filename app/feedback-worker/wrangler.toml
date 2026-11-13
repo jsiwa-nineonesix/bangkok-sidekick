@@ -1,0 +1,15 @@
+name = "bangkok-sidekick-feedback"
+main = "src/index.js"
+compatibility_date = "2026-11-01"
+
+[vars]
+# Only the live app may send feedback.
+ALLOWED_ORIGIN = "https://jsiwa-nineonesix.github.io"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "bangkok-sidekick-feedback"
+database_id = "53466b65-ae90-4287-ae57-5a60dea3d0f0"
+
+# ADMIN_KEY (for reading feedback) is a SECRET, never in this file:
+#   npx wrangler secret put ADMIN_KEY

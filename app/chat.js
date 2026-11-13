@@ -63,6 +63,7 @@
   add({ title: "Night-out tips", tab: "night", kw: "night out late home last train midnight grab budget", text: NO.tips.map(x => "• " + x).join("\n") });
   D.stations.concat(D.btsStations).forEach(s => add({ title: `${s.n.replace(/[^\w\s\/]/g, "").trim()} station`, tab: "map", kw: "station mrt bts stop line", text: s.info,
     actions: s.ll ? [{ label: "📍 Map", href: "https://www.google.com/maps/search/?api=1&query=" + s.ll }] : [] }));
+  add({ title: "Give feedback on Sidekick", tab: "home", kw: "feedback rate rating review suggest suggestion idea improve bug wrong mistake missing comment star app sidekick", text: "Tap ⭐ Rate Sidekick on the Home screen: pick 1-5 stars and tell us what to add or fix. It's anonymous unless you add your name." });
   add({ title: "Avoid scams and bad rides", tab: "apps", kw: "scam avoid cheat taxi meter tuk tuk safe safety ripoff overcharge", text: D.avoid.map(x => "• " + x).join("\n") });
 
   /* ---------- 2. Matching ---------- */
