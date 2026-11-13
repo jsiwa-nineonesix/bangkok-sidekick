@@ -413,3 +413,58 @@ a.tag.rate-link { text-decoration: none; color: var(--link); font-weight: 600; b
 @media (prefers-reduced-transparency: reduce) {
   .glass, .card, .tile, details, .banner, .map-wrap, .chip, .btn.alt, .box, .top, #nav { background: var(--glass-strong); }
 }
+/* ===== 3D New CBD view (generated from OpenStreetMap by cbd_gen.py) ===== */
+.cbd-wrap { position: relative; border-radius: 22px; overflow: hidden; padding: 0; }
+.cbd3d { width: 100%; height: auto; display: block; font-family: "Outfit", -apple-system, sans-serif; touch-action: manipulation; }
+.cbd3d .ground { fill: rgba(255,255,255,.38); stroke: rgba(255,255,255,.8); stroke-width: 1.5; }
+.cbd3d .rd { fill: none; stroke: #c9d6e8; stroke-linecap: round; stroke-linejoin: round; }
+.cbd3d .rd-m { fill: none; stroke: #b2c3da; stroke-linecap: round; stroke-linejoin: round; }
+.cbd3d .rd-x { fill: none; stroke: #9cb0cc; stroke-linecap: round; stroke-linejoin: round; opacity: .75; }
+.cbd3d .rd-c { fill: none; stroke: #fff; stroke-width: 1.2; stroke-dasharray: 7 7; opacity: .9; }
+.cbd3d .bld .w1 { fill: rgba(255,255,255,.62); } .cbd3d .bld .w2 { fill: rgba(232,239,248,.62); } .cbd3d .bld .w3 { fill: rgba(206,218,234,.66); }
+.cbd3d .bld:not(.key) .roof { fill: rgba(255,255,255,.85); }
+.cbd3d .bld polygon { stroke: rgba(110,130,160,.22); stroke-width: .5; stroke-linejoin: round; }
+.cbd3d .bld.key polygon { stroke: rgba(255,255,255,.75); stroke-width: .8; }
+.cbd3d .bld.key .fl { fill: none; stroke: rgba(255,255,255,.28); stroke-width: .7; }
+.cbd3d .bld.key, .cbd3d .lbl, .cbd3d .mrt-tag { cursor: pointer; transition: opacity .25s, filter .25s; }
+.cbd3d.focus .bld.key:not(.on), .cbd3d.focus .lbl:not(.on) { opacity: .35; }
+.cbd3d .bld.key.on { filter: drop-shadow(0 0 10px rgba(255,255,255,.9)); }
+.cbd3d .walk-glow { fill: none; stroke: #ffb703; stroke-width: 9; stroke-linecap: round; stroke-linejoin: round; opacity: .3; }
+.cbd3d .walk { fill: none; stroke: #ff7a00; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1 8; }
+.cbd3d.walking .walk { animation: cbdwalk 1.2s linear infinite; }
+.cbd3d.walking .walk-glow { opacity: .55; }
+@keyframes cbdwalk { to { stroke-dashoffset: -18; } }
+.cbd3d .mrt-tag circle { fill: #1f5fd1; stroke: #fff; stroke-width: 2.5; }
+.cbd3d .mrt-tag text { fill: #fff; font-size: 13px; font-weight: 700; text-anchor: middle; }
+.cbd3d .rdname { fill: #50627a; font-size: 13px; font-weight: 600; text-anchor: middle; paint-order: stroke; stroke: rgba(255,255,255,.85); stroke-width: 3px; }
+.cbd3d .rdname.jn { fill: #14202d; font-size: 14px; font-weight: 700; }
+.cbd3d .lbl text { fill: #14202d; font-size: 17px; font-weight: 700; text-anchor: middle; paint-order: stroke; stroke: rgba(255,255,255,.92); stroke-width: 4px; stroke-linejoin: round; }
+.cbd3d .osm { fill: #7a8aa0; font-size: 9px; }
+:root[data-theme="dark"] .cbd3d .ground { fill: rgba(255,255,255,.06); stroke: rgba(255,255,255,.2); }
+:root[data-theme="dark"] .cbd3d .rd { stroke: #34445e; } :root[data-theme="dark"] .cbd3d .rd-m { stroke: #3e5070; } :root[data-theme="dark"] .cbd3d .rd-x { stroke: #4a5d80; }
+:root[data-theme="dark"] .cbd3d .rd-c { stroke: #8fa6c8; opacity: .6; }
+:root[data-theme="dark"] .cbd3d .bld .w1 { fill: rgba(120,145,190,.38); } :root[data-theme="dark"] .cbd3d .bld .w2 { fill: rgba(90,112,155,.4); } :root[data-theme="dark"] .cbd3d .bld .w3 { fill: rgba(60,78,115,.45); }
+:root[data-theme="dark"] .cbd3d .bld:not(.key) .roof { fill: rgba(150,175,220,.42); }
+:root[data-theme="dark"] .cbd3d .bld polygon { stroke: rgba(170,200,255,.18); }
+:root[data-theme="dark"] .cbd3d .rdname { fill: #a9bbd6; stroke: rgba(10,18,34,.85); }
+:root[data-theme="dark"] .cbd3d .rdname.jn { fill: #fff; }
+:root[data-theme="dark"] .cbd3d .lbl text { fill: #fff; stroke: rgba(10,18,34,.88); }
+.cbd3d .under-top { opacity: 0; pointer-events: none; transition: opacity .3s; }
+.cbd3d.walking .under-top { opacity: 1; pointer-events: auto; }
+.cbd3d .under-top .walk-glow { stroke: #ffd166; opacity: .5; }
+.cbd3d .pin circle { fill: #ff7a00; stroke: #fff; stroke-width: 2; }
+.cbd3d .pin text { fill: #fff; font-size: 10px; font-weight: 800; text-anchor: middle; }
+.cbd-wrap { margin: 6px 0 12px; }
+.cbd-stage { min-height: 300px; padding-bottom: 54px; transition: opacity .16s, transform .16s; user-select: none; -webkit-user-select: none; }
+.cbd-stage.turning { opacity: 0; transform: scale(.98); }
+.cbd-load { padding: 120px 16px; text-align: center; color: var(--muted); font-size: 14px; }
+.cbd-ctl { position: absolute; left: 50%; bottom: 10px; transform: translateX(-50%); display: flex; align-items: center; gap: 6px; padding: 4px; border-radius: 99px;
+  background: var(--glass); -webkit-backdrop-filter: var(--blur-bar); backdrop-filter: var(--blur-bar); border: 1px solid var(--glass-border); box-shadow: 0 6px 18px rgba(20,50,90,.18), inset 0 1px 0 var(--glass-edge); }
+.cbd-ctl span { font-family: "Outfit", -apple-system, sans-serif; font-size: 13px; font-weight: 600; min-width: 104px; text-align: center; color: var(--text); }
+.cbd-rot { width: 36px; height: 36px; border-radius: 50%; border: 0; font-size: 20px; line-height: 1; cursor: pointer; color: #fff; background: linear-gradient(180deg, #2d86e6, #0a5cc4); box-shadow: inset 0 1px 0 rgba(255,255,255,.45); }
+.cbd-rot:active { transform: scale(.92); }
+.cbd-actions { margin: 0 0 10px; }
+.cbd-tag { font-size: 13px !important; font-weight: 600; color: var(--link) !important; margin-top: 0 !important; }
+.cbd-walk ol { margin: 6px 0 4px; padding-left: 22px; } .cbd-walk li { margin: 4px 0; font-size: 14px; }
+.cbd-note { font-size: 12px !important; }
+.chips.seg { padding-bottom: 6px; }

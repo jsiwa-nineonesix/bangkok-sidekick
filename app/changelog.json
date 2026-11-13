@@ -2,6 +2,15 @@
   "_howto": "Add a new entry at the TOP for every release. 'v' must match the version in data.js and sw.js. Keep notes short and in plain language: they are shown to colleagues when an update is available.",
   "releases": [
     {
+      "v": "62",
+      "date": "2026-11-13",
+      "notes": [
+        "Map: new 3D view of the New CBD with the hotel, G Tower, Central Rama 9, Fortune Town and The Ninth Towers. Tap a building, swipe to turn it",
+        "See the underground walk from the hotel to G Tower through MRT Phra Ram 9",
+        "The transit minimap is still there under 'Transit minimap'"
+      ]
+    },
+    {
       "v": "61",
       "date": "2026-11-13",
       "notes": [

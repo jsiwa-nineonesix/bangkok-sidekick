@@ -30,7 +30,7 @@ const DATA = {
   // dash.cloudflare.com > Web Analytics to turn it on; leave empty to keep analytics off.
   analytics: { cfToken: "" },
   chat: { endpoint: "https://bangkok-sidekick-chat.bangkok-sidekick-chat-proxy.workers.dev/", dailyLimit: 30 },
-  version: "61",
+  version: "62",
   hotel: {
     name: "Avani Ratchada Bangkok Hotel (opposite G Tower, Rama 9)",
     thaiName: "โรงแรมอวานี รัชดา กรุงเทพ ตรงข้ามจีทาวเวอร์ พระราม 9",
@@ -285,6 +285,26 @@ const DATA = {
     { n: "Central Park Bangkok", photo: "central-park", cats: ["malls"], km: 4.3, type: "New mall & green space (Silom)", d: "A newer shopping and dining development by Silom with a green space. Check which shops are open 🔎.", go: "MRT straight to Silom (BL26), about 20 min, no change. The mall is about 100 m from the station.", budget: "฿0 to browse · meals ฿250-700", min: 22, q: "Central Park Bangkok" },
     { n: "Samyan Mitrtown", photo: "samyan-mitrtown", cats: ["malls"], km: 4.7, type: "Mall by Chulalongkorn Univ.", d: "A modern mall with shops, a food court and a student crowd.", go: "MRT straight to Sam Yan (BL27), about 25 min, no change. The mall is at the station.", budget: "฿0 to browse · meals ฿100-350", min: 25, q: "Samyan Mitrtown" }
   ],
+
+  // 3D New CBD view (Map tab). Pictures are generated from OpenStreetMap by tools/cbd_gen.py into img/cbd/cbd-0..3.svg.
+  cbd: {
+    views: ["Looking north", "Looking east", "Looking south", "Looking west"],
+    places: {
+      hotel: { n: "Avani Ratchada Bangkok Hotel", tag: "Your base · 30 floors", d: "On the west side of Ratchadaphisek Rd, right opposite G Tower. MRT Phra Ram 9 Exit 1 is about 80 m north, next to Fortune Town.", q: "Avani Ratchada Bangkok Hotel" },
+      gtower: { n: "G Tower", tag: "Office tower · 36 floors", d: "The iconic glass tower on the east side of Ratchadaphisek Rd, directly opposite the hotel. Our office building. Reach it underground through MRT Phra Ram 9, no road crossing.", q: "G Tower Rama 9" },
+      central: { n: "Central Rama 9", tag: "Shopping mall · 14 floors", d: "Food court on 6, Have A Zeed and Laem Charoen on 7, Rosniyom on B1, plus a supermarket. Linked to MRT Phra Ram 9 and next to G Tower.", q: "Central Rama 9" },
+      fortune: { n: "Fortune Town", tag: "IT mall", d: "Phones, laptops, chargers, SIM cards and repairs. Right next to the hotel, on the same side of the road as MRT Exit 1.", q: "Fortune Town Bangkok" },
+      ninth: { n: "The Ninth Towers", tag: "Twin office towers · 36 & 34 floors", d: "Office towers on the Grand Rama 9 side, a few minutes' walk east of G Tower and Central Rama 9.", q: "The Ninth Towers Grand Rama 9" },
+      mrt: { n: "MRT Phra Ram 9 (BL20)", tag: "Blue Line · your station", d: "Runs under Ratchadaphisek Rd between the hotel side and the G Tower / Central side. Its underground concourse is the easy, air-conditioned way across the road. You don't need a ticket to walk through the concourse.", q: "MRT Phra Ram 9" }
+    },
+    walk: [
+      "Leave the hotel and walk north along Ratchadaphisek Rd towards Fortune Town, about 80 m.",
+      "Go down MRT Phra Ram 9 Exit 1 into the station concourse.",
+      "Walk through the concourse under Ratchadaphisek Rd to the G Tower / Central Rama 9 side. No ticket needed, don't go through the gates.",
+      "Follow the G Tower signs up to the building. About 5 min in total, all in the shade."
+    ],
+    walkNote: "Exit numbers and passage signs can change, so follow the 'G Tower' signs in the station 🔎"
+  },
 
   food: [
     // cat: mall | street | night | classic | downtown | indian

@@ -24,7 +24,7 @@
   const filterChips = (opts, cur, attr) =>
     `<div class="chips">${opts.map(([k, l]) => `<button class="chip ${k === cur ? "on" : ""}" data-${attr}="${k}">${l}</button>`).join("")}</div>`;
 
-  const state = { places: "all", food: "all", q: "", trip: 0, explore: "near", sort: {} };
+  const state = { places: "all", food: "all", q: "", trip: 0, explore: "near", sort: {}, mapMode: "3d", cbdView: 0, walking: false, cbdSel: null };
   const DEFAULT_SORT = { near: "close", nearby: "close", downtown: "rating", malls: "close", night: "rating" };
   const sortOf = key => state.sort[key] || DEFAULT_SORT[key];
 
@@ -140,8 +140,10 @@
     map() {
       const L = (pts, col, w, dash) => `<polyline points="${pts}" fill="none" stroke="${col}" stroke-width="${w}" stroke-linejoin="round" ${dash ? `stroke-dasharray="${dash}"` : ""}/>`;
       const st = (s, type) => `<g data-st="${type}:${s.id}" tabindex="0"><circle class="hit" cx="${s.x}" cy="${s.y}" r="17"/><circle class="${s.home ? "home" : s.ix ? "ix" : "st"}" cx="${s.x}" cy="${s.y}" r="${s.home ? 10 : s.ix ? 8 : 6}"/>${s.nolabel ? "" : s.left ? `<text x="${s.x - 12}" y="${s.y + 4}" text-anchor="end">${esc(s.n)}</text>` : `<text x="${s.x + 12}" y="${s.y + 4}">${esc(s.n)}</text>`}</g>`;
+      const modes = `<div class="chips seg">${[["3d", "🏙️ New CBD 3D"], ["transit", "🚇 Transit minimap"]].map(([k, l]) => `<button type="button" class="chip${state.mapMode === k ? " on" : ""}" data-mm="${k}">${l}</button>`).join("")}</div>`;
+      if (state.mapMode === "3d") return `<h2>Map</h2>${modes}${cbdPanel()}`;
       return `
-      <h2>Minimap</h2>
+      <h2>Map</h2>${modes}
       <p style="color:var(--muted);margin-top:0">Schematic, not to scale. North is up. Tap a station.</p>
       <div class="map-wrap">
       <svg viewBox="0 0 900 700" role="img" aria-label="Bangkok transit map">
@@ -224,6 +226,66 @@
     }
   };
 
+
+  // ---- 3D New CBD (pictures generated from OpenStreetMap by tools/cbd_gen.py) ----
+  const cbdSvg = {};
+  const cbdInfo = k => {
+    const p = D.cbd.places[k];
+    if (!p) return `<p>Tap a building, or the <b>M</b>, to learn more. Swipe or use ↺ ↻ to turn the view.</p>`;
+    return `<h4>${esc(p.n)}</h4><p class="cbd-tag">${esc(p.tag)}</p><p>${esc(p.d)}</p><div class="row">${mapBtn(p.q)}</div>`;
+  };
+  const cbdWalk = () => `<div class="card cbd-walk"><h4>🚶 Hotel → G Tower, underground</h4><ol>${D.cbd.walk.map(x => `<li>${esc(x)}</li>`).join("")}</ol><p class="cbd-note">${esc(D.cbd.walkNote)}</p></div>`;
+  function cbdPanel() {
+    return `<p style="color:var(--muted);margin-top:0">The area around your hotel, in 3D. Buildings and roads come from OpenStreetMap; heights are from floor counts.</p>
+      <div class="glass cbd-wrap"><div class="cbd-stage" id="cbdstage" aria-live="polite"><div class="cbd-load">Loading 3D view…</div></div>
+        <div class="cbd-ctl"><button type="button" class="cbd-rot" data-cbd="-1" aria-label="Turn left">↺</button><span id="cbdview">${esc(D.cbd.views[state.cbdView])}</span><button type="button" class="cbd-rot" data-cbd="1" aria-label="Turn right">↻</button></div></div>
+      <div class="row cbd-actions"><button type="button" class="btn${state.walking ? "" : " alt"}" data-cbd="walk">${state.walking ? "✓ Showing underground walk" : "🚶 Walk hotel → G Tower (underground)"}</button></div>
+      ${state.walking ? cbdWalk() : ""}
+      <div id="cbdinfo" class="card">${cbdInfo(state.cbdSel)}</div>`;
+  }
+  function cbdPaint() {
+    const stage = $("#cbdstage"); if (!stage) return;
+    const i = state.cbdView, put = txt => {
+      if (!$("#cbdstage")) return;
+      stage.innerHTML = txt;
+      const svg = stage.querySelector("svg"); if (!svg) return;
+      svg.classList.toggle("walking", state.walking);
+      svg.classList.toggle("focus", !!state.cbdSel && state.cbdSel !== "mrt");
+      svg.querySelectorAll("[data-k]").forEach(g => g.classList.toggle("on", g.dataset.k === state.cbdSel));
+      $("#cbdview").textContent = D.cbd.views[i];
+      if (state.walking) cbdZoom(svg);
+    };
+    if (cbdSvg[i]) return put(cbdSvg[i]);
+    fetch(`img/cbd/cbd-${i}.svg`).then(r => r.text()).then(t => { cbdSvg[i] = t; if (state.cbdView === i) put(t); })
+      .catch(() => { stage.innerHTML = `<div class="cbd-load">3D view not available offline yet. Open it once while online.</div>`; });
+  }
+  // zoom the camera onto the hotel -> G Tower walk (smooth viewBox tween)
+  function cbdZoom(svg) {
+    const r = svg.querySelector(".under-top"); if (!r) return;
+    const b = r.getBBox(), full = svg.viewBox.baseVal, ar = full.height / full.width;
+    const w = Math.max(b.width * 3.4, 320), h = w * ar;
+    const to = [b.x + b.width / 2 - w / 2, b.y + b.height / 2 - h * 0.6, w, h], from = [full.x, full.y, full.width, full.height];
+    const t0 = performance.now(), dur = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 650;
+    const ease = t => 1 - Math.pow(1 - t, 3);
+    const step = now => {
+      const k = dur ? ease(Math.min(1, (now - t0) / dur)) : 1;
+      svg.setAttribute("viewBox", from.map((v, j) => (v + (to[j] - v) * k).toFixed(1)).join(" "));
+      if (k < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+  function cbdTurn(step) {
+    state.cbdView = (state.cbdView + step + 4) % 4;
+    const st = $("#cbdstage"); if (st) { st.classList.add("turning"); setTimeout(() => { st.classList.remove("turning"); cbdPaint(); }, 160); }
+  }
+  // swipe left/right on the 3D view to turn it
+  let swipeX = null;
+  document.addEventListener("pointerdown", e => { swipeX = e.target.closest("#cbdstage") ? e.clientX : null; });
+  document.addEventListener("pointerup", e => {
+    if (swipeX == null) return; const dx = e.clientX - swipeX; swipeX = null;
+    if (Math.abs(dx) > 45) { cbdTurn(dx < 0 ? 1 : -1); window.__cbdSwiped = Date.now(); }
+  });
+
   function render(tab) {
     if (EXPLORE_KEYS.includes(tab)) { state.explore = tab; tab = "places"; }
     tab = views[tab] ? tab : "home";
@@ -231,6 +293,7 @@
     $("#view").innerHTML = views[tab]();
     document.querySelectorAll("#nav button").forEach(b => b.classList.toggle("on", b.dataset.tab === tab));
     window.scrollTo(0, 0);
+    if (tab === "map" && state.mapMode === "3d") cbdPaint();
   }
 
   function modal(html) {
@@ -249,7 +312,7 @@
 
   // Events
   document.addEventListener("click", e => {
-    const t = e.target.closest("[data-credit],[data-tab],[data-go],[data-pf],[data-ff],[data-ev],[data-ns],[data-say],[data-taxi],[data-sos],[data-close],[data-st]");
+    const t = e.target.closest("[data-credit],[data-tab],[data-go],[data-pf],[data-ff],[data-ev],[data-ns],[data-say],[data-taxi],[data-sos],[data-close],[data-st],[data-mm],[data-cbd],#cbdstage [data-k]");
     if (!t) return;
     const d = t.dataset;
     if (d.credit) { t.closest(".vc").classList.toggle("show-credit"); }
@@ -257,6 +320,17 @@
     else if (d.ev) { state.explore = d.ev; render("places"); }
     else if (d.ns) { state.sort[state.explore] = d.ns; render("places"); }
     else if (d.ff) { state.food = d.ff; render("eat"); }
+    else if (d.mm) { state.mapMode = d.mm; render("map"); }
+    else if (d.cbd) {
+      if (d.cbd === "walk") { state.walking = !state.walking; const y = window.scrollY; render("map"); window.scrollTo(0, y); }
+      else cbdTurn(+d.cbd);
+    }
+    else if (d.k) {
+      if (window.__cbdSwiped && Date.now() - window.__cbdSwiped < 400) return;
+      state.cbdSel = state.cbdSel === d.k ? null : d.k;
+      $("#cbdinfo").innerHTML = cbdInfo(state.cbdSel); cbdPaint();
+      if (state.cbdSel) $("#cbdinfo").scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
     else if (d.say) { try { const u = new SpeechSynthesisUtterance(d.say); u.lang = "th-TH"; speechSynthesis.cancel(); speechSynthesis.speak(u); } catch (_) { } }
     else if (d.taxi) taxi();
     else if (d.sos) sos();
