@@ -30,7 +30,7 @@ const DATA = {
   // dash.cloudflare.com > Web Analytics to turn it on; leave empty to keep analytics off.
   analytics: { cfToken: "" },
   chat: { endpoint: "https://bangkok-sidekick-chat.bangkok-sidekick-chat-proxy.workers.dev/", dailyLimit: 30 },
-  version: "55",
+  version: "56",
   hotel: {
     name: "Avani Ratchada Bangkok Hotel (opposite G Tower, Rama 9)",
     thaiName: "โรงแรมอวานี รัชดา กรุงเทพ ตรงข้ามจีทาวเวอร์ พระราม 9",
@@ -242,7 +242,8 @@ const DATA = {
     "thip-samai": { "by": "LWYang from USA", "lic": "CC BY 2.0", "licUrl": "https://creativecommons.org/licenses/by/2.0", "page": "https://commons.wikimedia.org/wiki/File:Thipsamai_(September_2016).jpeg" },
     "yentafo-wat-kaek": { "by": "Phoebus 28", "lic": "CC BY 4.0", "licUrl": "https://creativecommons.org/licenses/by/4.0", "page": "https://commons.wikimedia.org/wiki/File:Yen_Ta_Fo_Wat_Kaek_(original).jpg" },
     "somboon-surawong": { "by": "jetalone", "lic": "CC BY 2.0", "licUrl": "https://creativecommons.org/licenses/by/2.0", "page": "https://www.flickr.com/photos/92203585@N00/2160390403" },
-    "mbk-food-court": { "by": "goodiesfirst", "lic": "CC BY 2.0", "licUrl": "https://creativecommons.org/licenses/by/2.0", "page": "https://www.flickr.com/photos/49215102@N00/7797217712" }
+    "mbk-food-court": { "by": "goodiesfirst", "lic": "CC BY 2.0", "licUrl": "https://creativecommons.org/licenses/by/2.0", "page": "https://www.flickr.com/photos/49215102@N00/7797217712" },
+    "have-a-zeed": { "by": "Bangkok Sidekick (own photo)", "lic": "Own photo", "licUrl": "", "page": "" }
   },
 
   places: [
@@ -284,7 +285,7 @@ const DATA = {
   food: [
     // cat: mall | street | night | classic | downtown | indian
     // photo = key in photos (only a photo of that exact restaurant or food hall; leave it out otherwise)
-    { n: "Have A Zeed (Central Rama 9, 7th floor) ⭐ Sidekick pick", wn: "Have A Zeed", cat: "mall", d: "Our favourite! Thai restaurant, just renovated with a fresh new look. Ask staff for their best dishes. 7th floor of Central Rama 9, about a 4-min walk from the hotel. Google 4.5 (214 reviews)", p: "฿", q: "Have A Zeed Central Rama 9" },
+    { n: "Have A Zeed (Central Rama 9, 7th floor) ⭐ Sidekick pick", wn: "Have A Zeed", photo: "have-a-zeed", cat: "mall", d: "Our favourite! Thai Esarn (Isaan) comfort food, just renovated with a cosy new look. Ask staff for their best dishes. 7th floor of Central Rama 9, about a 4-min walk from the hotel. Google 4.5 (214 reviews)", p: "฿", q: "Have A Zeed Central Rama 9" },
     { n: "Tops Flavour (Central Rama 9)", photo: "tops-flavour-rama9", cat: "mall", d: "Bright food hall by the Tops supermarket inside Central Rama 9: Thai rice and noodle dishes with seats. The closest sit-down meal to the hotel. Photo from Sept 2025; check the floor in the mall directory 🔎", p: "฿", q: "Tops Flavour Central Rama 9" },
     { n: "Ootoya (Central Rama 9)", photo: "ootoya-rama9", cat: "mall", d: "Japanese set meals (teishoku): grilled fish, chicken katsu, rice and miso soup. Photo is from 2012, so check it is still there 🔎", p: "฿฿", q: "Ootoya Central Rama 9" },
     { n: "Central Rama 9 food court / food hall", cat: "mall", d: "Thai dishes, noodles, rice plates, desserts. Buy a food-court card at the counter and refund the balance before leaving.", p: "฿", q: "Central Rama 9 food court" },
