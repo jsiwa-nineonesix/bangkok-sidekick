@@ -327,23 +327,62 @@
     m.hidden = false;
   }
 
-  // ---- Feedback: star rating + comment, sent to the feedback Worker (Cloudflare D1). Anonymous unless they add a name.
-  const FB_KEY = "sk-feedback";
+  // ---- Feedback: star rating + comment, sent to the feedback Worker (Cloudflare D1), and a public board of
+  // everyone's comments with "Me too" so people can agree instead of repeating. Anonymous unless they add a name.
+  const FB_KEY = "sk-feedback", FB_VOTES = "sk-fb-votes";
   const FB_WORDS = ["", "😞 Not useful", "😕 Could be better", "🙂 It's OK", "😀 Really helpful", "🤩 Love it!"];
-  const fbLast = () => { try { return JSON.parse(localStorage.getItem(FB_KEY)) || null; } catch { return null; } };
+  const fbApi = path => D.feedback.endpoint.replace(/\/$/, "") + path;
+  const lsGet = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) || d; } catch { return d; } };
+  const fbLast = () => lsGet(FB_KEY, null);
+  let fbBoard = null, fbSort = "new", fbShowAll = false, fbStars = 0;
   const starRow = (n, attr) => `<div class="fb-stars" role="radiogroup" aria-label="Rating">${[1, 2, 3, 4, 5].map(i =>
     `<button type="button" class="fb-star${i <= n ? " on" : ""}" data-${attr}="${i}" role="radio" aria-checked="${i === n}" aria-label="${i} star${i > 1 ? "s" : ""}">★</button>`).join("")}</div>`;
+  const starsTxt = n => "★".repeat(n) + "☆".repeat(5 - n);
+  const fbSummary = b => b && b.count ? `<strong>${(+b.avg).toFixed(1)} ★</strong> from ${b.count} rating${b.count > 1 ? "s" : ""}` : "";
+
+  async function fbLoad() {
+    const r = await fetch(fbApi("/list"), { cache: "no-store" });
+    if (!r.ok) throw new Error("load");
+    fbBoard = await r.json();
+    const s = $("#fbsum"); if (s) s.innerHTML = fbSummary(fbBoard) ? fbSummary(fbBoard) + " · <u>read what others said</u>" : "";
+    return fbBoard;
+  }
   function feedbackCard() {
     const last = fbLast();
+    setTimeout(() => { if (!fbBoard) fbLoad().catch(() => {}); else { const s = $("#fbsum"); if (s && fbSummary(fbBoard)) s.innerHTML = fbSummary(fbBoard) + " · <u>read what others said</u>"; } }, 0);
     return `<div class="card fb-card"><h3 style="margin:0 0 2px">How's Sidekick so far?</h3>
       <p>${last ? `Thanks for your ${"★".repeat(last.stars)} rating! Got more ideas? Send them anytime.` : "Tap a star and tell us what to add or fix next."}</p>
-      ${starRow(0, "fb")}</div>`;
+      ${starRow(0, "fb")}<p id="fbsum" class="fb-sum" data-fb="0"></p></div>`;
   }
-  let fbStars = 0;
+
+  function boardHtml() {
+    if (!fbBoard) return `<p class="fb-empty">Loading what others said…</p>`;
+    const b = fbBoard, voted = lsGet(FB_VOTES, []);
+    const dist = b.count ? `<div class="fb-dist">${[5, 4, 3, 2, 1].map(s => `<div><span>${s}★</span><i style="width:${Math.round(100 * b.dist[s - 1] / b.count)}%"></i><em>${b.dist[s - 1]}</em></div>`).join("")}</div>` : "";
+    let items = b.items.slice();
+    if (fbSort === "top") items.sort((x, y) => y.metoo - x.metoo || y.id - x.id);
+    const shown = fbShowAll ? items : items.slice(0, 5);
+    const list = items.length ? shown.map(x => {
+      const mine = voted.includes(x.id), d = new Date(x.ts).toLocaleDateString("en-GB", { day: "numeric", month: "short", timeZone: "Asia/Bangkok" });
+      return `<div class="fb-item"><div class="fb-meta"><span class="fb-st">${starsTxt(x.stars)}</span> ${esc(x.name || "Anonymous")} · ${d}</div>
+        <p>${esc(x.comment).replace(/\n/g, "<br>")}</p>
+        <button type="button" class="fb-metoo${mine ? " on" : ""}" data-fbme="${x.id}"${mine ? " disabled" : ""}>👍 ${mine ? "You agreed" : "Me too"}${x.metoo ? ` · ${x.metoo}` : ""}</button></div>`;
+    }).join("") : `<p class="fb-empty">No comments yet. Be the first!</p>`;
+    return `${b.count ? `<p class="fb-avg">${fbSummary(b)}</p>${dist}` : ""}
+      ${items.length > 1 ? `<div class="chips fb-sort"><button class="chip ${fbSort === "new" ? "on" : ""}" data-fbsort="new">Newest</button><button class="chip ${fbSort === "top" ? "on" : ""}" data-fbsort="top">Most agreed 👍</button></div>` : ""}
+      ${items.length ? `<p class="fb-hint">Same idea already here? Tap <strong>👍 Me too</strong> instead of writing it again.</p>` : ""}
+      <div class="fb-list">${list}</div>
+      ${items.length > 5 && !fbShowAll ? `<button type="button" class="btn alt fb-more" data-fbmore="1">Show all ${items.length} comments</button>` : ""}`;
+  }
+  const fbRefreshBoard = () => { const el = $("#fbboard"); if (el) el.innerHTML = boardHtml(); };
+
   function feedback(n) {
-    fbStars = n || 0;
+    fbStars = n || 0; fbShowAll = false;
     modal(`<h2 class="res-h">⭐ Rate Sidekick</h2>
-      <p class="res-note">How do you feel about the app? Your feedback shapes the next update.</p>
+      <button type="button" class="btn alt fb-jump" data-fbjump="1">✍️ Write yours ↓</button>
+      <h3 class="fb-h">💬 What others said</h3>
+      <div id="fbboard">${boardHtml()}</div>
+      <h3 class="fb-h" id="fbyours">✍️ Your feedback</h3>
       <div id="fbstars">${starRow(fbStars, "fbs")}</div>
       <p id="fbword" class="fb-word">${FB_WORDS[fbStars] || "Tap a star"}</p>
       <label class="fb-label" for="fbtext">What should we add, fix or improve? <small>(optional)</small></label>
@@ -351,14 +390,27 @@
       <label class="fb-label" for="fbname">Your name or team <small>(optional, leave blank to stay anonymous)</small></label>
       <input id="fbname" class="fb-input" maxlength="60" autocomplete="name">
       <input id="fbweb" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="fb-hp">
+      <p class="fb-public">👀 Your comment (and name, if you add one) will be shown here for everyone using the app.</p>
       <p id="fbmsg" class="fb-msg" role="status"></p>
       <p><button type="button" class="btn big" id="fbsend" data-fbsend="1">Send feedback</button></p>`);
+    if (!navigator.onLine && !fbBoard) { $("#fbboard").innerHTML = `<p class="fb-empty">You're offline, so comments can't load right now.</p>`; return; }
+    fbLoad().then(fbRefreshBoard).catch(() => { if (!fbBoard) { const el = $("#fbboard"); if (el) el.innerHTML = `<p class="fb-empty">Couldn't load comments right now.</p>`; } });
   }
   function fbSetStars(n) {
     fbStars = n;
     $("#fbstars").innerHTML = starRow(n, "fbs");
     $("#fbword").textContent = FB_WORDS[n];
     $("#fbmsg").textContent = "";
+  }
+  async function fbMeToo(id, btn) {
+    btn.disabled = true;
+    try {
+      const r = await fetch(fbApi("/metoo"), { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ id }) });
+      const j = await r.json(); if (!r.ok) throw 0;
+      const v = lsGet(FB_VOTES, []); if (!v.includes(id)) v.push(id); localStorage.setItem(FB_VOTES, JSON.stringify(v));
+      const it = fbBoard && fbBoard.items.find(x => x.id === id); if (it) it.metoo = j.metoo;
+      fbRefreshBoard();
+    } catch { btn.disabled = false; btn.textContent = "👍 Try again"; }
   }
   async function fbSend() {
     const msg = $("#fbmsg"), btn = $("#fbsend");
@@ -371,8 +423,11 @@
       const j = await r.json().catch(() => ({}));
       if (!r.ok) throw new Error(j.error || "Couldn't send");
       localStorage.setItem(FB_KEY, JSON.stringify({ stars: fbStars, ts: Date.now() }));
+      const hadComment = $("#fbtext").value.trim();
       $("#modal .box").innerHTML = `<h2 class="res-h">🙏 Thank you!</h2><p>Your ${"★".repeat(fbStars)} feedback was sent. We read every message and use it for the next update.</p>
+        ${hadComment ? `<p><button class="btn big alt" data-fb="0">💬 See all feedback</button></p>` : ""}
         <p><button class="btn big" data-close="1">Close</button></p>`;
+      fbBoard = null; fbLoad().catch(() => {});
       const c = $(".fb-card"); if (c) c.outerHTML = feedbackCard();
     } catch (err) {
       btn.disabled = false; btn.textContent = "Send feedback";
@@ -406,7 +461,7 @@
 
   // Events
   document.addEventListener("click", e => {
-    const t = e.target.closest("[data-res],[data-credit],[data-tab],[data-go],[data-pf],[data-ff],[data-ev],[data-ns],[data-say],[data-taxi],[data-sos],[data-fb],[data-fbs],[data-fbsend],[data-close],[data-st],[data-mm],[data-cbd],#cbdstage [data-k]");
+    const t = e.target.closest("[data-res],[data-credit],[data-tab],[data-go],[data-pf],[data-ff],[data-ev],[data-ns],[data-say],[data-taxi],[data-sos],[data-fb],[data-fbs],[data-fbsend],[data-fbme],[data-fbsort],[data-fbmore],[data-fbjump],[data-close],[data-st],[data-mm],[data-cbd],#cbdstage [data-k]");
     if (!t) return;
     const d = t.dataset;
     if (d.res != null && d.res !== "") { reserve(+d.res); }
@@ -432,6 +487,10 @@
     else if (d.fb != null) feedback(+d.fb);
     else if (d.fbs) fbSetStars(+d.fbs);
     else if (d.fbsend) fbSend();
+    else if (d.fbme) fbMeToo(+d.fbme, t);
+    else if (d.fbsort) { fbSort = d.fbsort; fbRefreshBoard(); }
+    else if (d.fbmore) { fbShowAll = true; fbRefreshBoard(); }
+    else if (d.fbjump) $("#fbyours").scrollIntoView({ behavior: "smooth", block: "start" });
     else if (d.close) $("#modal").hidden = true;
     else if (d.st) {
       const [type, id] = d.st.split(":");

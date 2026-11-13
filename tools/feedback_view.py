@@ -17,6 +17,7 @@ print()
 for r in rows:
     t = datetime.fromisoformat(r["ts"].replace("Z", "+00:00")).astimezone(ICT).strftime("%d %b %H:%M")
     stars = "★" * r["stars"] + "☆" * (5 - r["stars"])
-    print("#%s  %s  %s ICT  v%s  %s  %s" % (r["id"], stars, t, r.get("ver") or "?", r.get("device") or "", r.get("name") or "(anonymous)"))
+    extra = ("  👍%d" % r["metoo"] if r.get("metoo") else "") + ("  [HIDDEN]" if r.get("hidden") else "")
+    print("#%s  %s  %s ICT  v%s  %s  %s%s" % (r["id"], stars, t, r.get("ver") or "?", r.get("device") or "", r.get("name") or "(anonymous)", extra))
     if r.get("comment"):
         print("     " + r["comment"].replace("\n", "\n     "))
