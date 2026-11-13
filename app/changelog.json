@@ -2,6 +2,15 @@
   "_howto": "Add a new entry at the TOP for every release. 'v' must match the version in data.js and sw.js. Keep notes short and in plain language: they are shown to colleagues when an update is available.",
   "releases": [
     {
+      "v": "80",
+      "date": "2026-11-14",
+      "notes": [
+        "Eat: new Bakery & dessert filter with 17 sweet spots in Central Rama 9 (Kyo Roll En, Swensen's, Krispy Kreme, bingsu and more)",
+        "Eat: Moom Gapao in G Tower: quick holy-basil rice in about 4 minutes (Quick)",
+        "Eat: Facebook / Instagram / website buttons now show the app's icon"
+      ]
+    },
+    {
       "v": "79",
       "date": "2026-11-14",
       "notes": [

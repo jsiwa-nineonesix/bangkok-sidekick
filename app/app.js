@@ -33,11 +33,17 @@
 
   // Eat: link to the restaurant's own page. f.so = { fb, ig, tt, web } (full URLs or FB slug); falls back to the Reserve sheet's Facebook slug.
   const fbUrl = v => /^https?:/.test(v) ? v : /^\d+$/.test(v) ? `https://www.facebook.com/profile.php?id=${v}` : `https://www.facebook.com/${v}`;
+  const SOC_ICON = {
+    fb: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#1877F2"/><path fill="#fff" d="M15.6 7.8h-1.7c-.7 0-.9.4-.9 1v1.6h2.6l-.4 2.7H13V20h-3v-6.9H7.8v-2.7H10V8.5C10 6.4 11.2 5 13.5 5h2.1z"/></svg>',
+    ig: '<svg viewBox="0 0 24 24"><defs><linearGradient id="igg" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#FEDA75"/><stop offset=".35" stop-color="#FA7E1E"/><stop offset=".6" stop-color="#D62976"/><stop offset=".85" stop-color="#962FBF"/><stop offset="1" stop-color="#4F5BD5"/></linearGradient></defs><rect width="24" height="24" rx="6.5" fill="url(#igg)"/><rect x="5" y="5" width="14" height="14" rx="4.2" fill="none" stroke="#fff" stroke-width="1.9"/><circle cx="12" cy="12" r="3.3" fill="none" stroke="#fff" stroke-width="1.9"/><circle cx="16.4" cy="7.6" r="1.1" fill="#fff"/></svg>',
+    tt: '<svg viewBox="0 0 24 24"><rect width="24" height="24" rx="6.5" fill="#000"/><path fill="#25F4EE" d="M15.6 4.5h-2.4v10.2a2.1 2.1 0 1 1-1.9-2.1V10a4.7 4.7 0 1 0 4.3 4.7V9.6a5.8 5.8 0 0 0 3.2 1V8.2a3.3 3.3 0 0 1-3.2-3.7z" transform="translate(-.7 -.5)"/><path fill="#FE2C55" d="M15.6 4.5h-2.4v10.2a2.1 2.1 0 1 1-1.9-2.1V10a4.7 4.7 0 1 0 4.3 4.7V9.6a5.8 5.8 0 0 0 3.2 1V8.2a3.3 3.3 0 0 1-3.2-3.7z" transform="translate(.7 .5)"/><path fill="#fff" d="M15.6 4.5h-2.4v10.2a2.1 2.1 0 1 1-1.9-2.1V10a4.7 4.7 0 1 0 4.3 4.7V9.6a5.8 5.8 0 0 0 3.2 1V8.2a3.3 3.3 0 0 1-3.2-3.7z"/></svg>',
+    web: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.5"/><path d="M2.5 12h19M12 2.5c2.6 2.6 3.9 5.8 3.9 9.5s-1.3 6.9-3.9 9.5c-2.6-2.6-3.9-5.8-3.9-9.5S9.4 5.1 12 2.5z"/></svg>'
+  };
   const SOCIAL = [["fb", "Facebook", fbUrl], ["ig", "Instagram", v => /^https?:/.test(v) ? v : `https://www.instagram.com/${v}/`], ["tt", "TikTok", v => /^https?:/.test(v) ? v : `https://www.tiktok.com/@${v}`], ["web", "Website", v => v]];
   const socialBtn = f => {
     const so = Object.assign({}, f.res && f.res.fb ? { fb: f.res.fb } : {}, f.so || {});
     const hit = SOCIAL.find(([k]) => so[k]);
-    return hit ? `<a class="btn alt" target="_blank" rel="noopener" href="${esc(hit[2](so[hit[0]]))}">${hit[1]}</a>` : "";
+    return hit ? `<a class="btn alt" target="_blank" rel="noopener" href="${esc(hit[2](so[hit[0]]))}"><span class="soc-ic" aria-hidden="true">${SOC_ICON[hit[0]]}</span>${hit[1]}</a>` : "";
   };
 
   const state = { places: "all", food: "all", q: "", trip: 0, explore: "near", sort: {}, mapMode: "3d", cbdView: (D.cbd && D.cbd.start) || 0, walking: false, cbdSel: null };
@@ -190,7 +196,7 @@
 
     eat() {
       const cats = [["all", "All"], ["mall", "In the mall"], ["street", "Quick"], ["night", "Night markets"], ["downtown", "Downtown"], ["dishes", "Dishes to try"]];
-      const cuisines = [["thai", "🇹🇭 Thai"], ["japanese", "🍣 Japanese"], ["korean", "🇰🇷 Korean"], ["chinese", "🥟 Chinese"], ["vegetarian", "🥗 Veggie & healthy"], ["indian", "🍛 Indian"]];
+      const cuisines = [["thai", "🇹🇭 Thai"], ["japanese", "🍣 Japanese"], ["korean", "🇰🇷 Korean"], ["chinese", "🥟 Chinese"], ["vegetarian", "🥗 Veggie & healthy"], ["indian", "🍛 Indian"], ["dessert", "🍰 Bakery & dessert"]];
       let body;
       if (state.food === "dishes") {
         body = `<div class="card"><table>${D.dishes.map(([a, b]) => `<tr><td><strong>${esc(a)}</strong></td><td>${esc(b)}</td></tr>`).join("")}</table></div>
