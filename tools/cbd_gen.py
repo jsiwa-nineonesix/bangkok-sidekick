@@ -13,13 +13,13 @@ osm_path, avani_path, out_dir = sys.argv[1], sys.argv[2], sys.argv[3]
 
 LAT0, LON0 = 13.75700, 100.56560        # around the hotel / G Tower; wide enough for the Asok-Din Daeng condos
 RANGE = 355                              # metres from centre to keep
-TILT = math.radians(40)                  # 90 = straight down
+TILT = math.radians(30)                  # 90 = straight down; lower = more side-on, like a street view
 LEVEL_H = 3.8                            # metres per floor
 ZX = 1.45                                # height exaggeration so towers read as towers
 VIEWS = [("north", 32), ("east", 122), ("south", 212), ("west", 302)]   # camera looks towards ...
 
 KEYS = {   # OSM way id -> (key, label, colour)
-    390013453: ("gtower", "G Tower", "#2f86ff"),
+    390013453: ("gtower", "G Tower", "#2f6fd0"),
     182002417: ("hotel", "Avani Hotel", "#ff9a1f"),
     176298728: ("central", "Central Rama 9", "#ff5470"),
     176298735: ("fortune", "Fortune Town", "#8a63ff"),
@@ -31,6 +31,7 @@ KEYS = {   # OSM way id -> (key, label, colour)
     1199961655: ("cashton", "Ashton Asoke–Rama 9", "#25a9c9"),
     1199961656: ("cashton", "Ashton Asoke–Rama 9", "#25a9c9"),
     1199961652: ("cline", "The Line Asoke–Ratchada", "#25a9c9"),
+    1367263850: ("bkkcity", "Bangkok City Rama 9 Hotel", "#f2b13a"),   # OSM still marks it as under construction (26 floors)
 }
 LEVELS_OVERRIDE = {   # OSM has no floor count for these
     720474551: 248 / 3.8,     # One9Five: twin towers about 248 m (Wikimedia Commons description)
@@ -105,20 +106,21 @@ def boxes(b, spec):
         part = {"ring": ring, "z0": H * z0, "h": H * z1, "lv": H * (z1 - z0) / LEVEL_H, "key": b["key"],
                 "c": (sum(p[0] for p in ring) / 4, sum(p[1] for p in ring) / 4)}
         part.update(extra or {})
+        if part.get("lean"):     # lean the top along the long axis (fraction of footprint length)
+            d_ = part.pop("lean") * (S1 - S0); part["shift"] = (ux * d_, uy * d_)
         out.append(part)
     return out
 
 def g_tower(b):
-    # G Tower (from the architect's rendering + photos): two slim glass towers on a shared podium.
-    # The tall north tower rises the full height; a shorter south tower stands slightly offset in front; an arm
-    # across the top with a small hook frames a huge glowing void above the south tower: together a giant "G".
+    # G Tower, modelled from a street photo: a long low podium; a slim full-height north tower; a thick arm jutting
+    # out at the top; a narrow recessed fin under the arm; a slit of sky; and a shorter south tower that leans
+    # outward. Seen from the side the pieces read as a giant "G".
     return boxes(b, [
-        (0.00, 1.00, 0.00, 1.00, 0.00, 0.13, {"podium": True}),       # podium
-        (0.52, 1.00, 0.00, 0.70, 0.13, 1.00, {"mull": True}),         # tall north tower (slim)
-        (0.00, 0.48, 0.30, 1.00, 0.13, 0.70, {"mull": True}),         # shorter south tower, offset in front
-        (0.505, 0.52, 0.02, 0.68, 0.70, 0.86, {"glow": True}),        # lit inner wall of the void
-        (0.00, 0.52, 0.00, 0.70, 0.86, 1.00, {"mull": True}),         # top arm
-        (0.00, 0.11, 0.00, 0.70, 0.78, 0.86, {}),                     # hook at the tip
+        (0.00, 1.00, 0.00, 1.00, 0.00, 0.10, {"podium": True}),               # podium
+        (0.64, 1.00, 0.06, 0.94, 0.10, 1.00, {"mull": True}),                 # tall north tower (slim)
+        (0.56, 0.64, 0.30, 0.70, 0.10, 0.72, {"mull": True}),                 # narrow fin under the arm
+        (0.30, 0.64, 0.06, 0.94, 0.72, 1.00, {"mull": True}),                 # the big arm jutting out at the top
+        (0.02, 0.48, 0.10, 0.90, 0.10, 0.63, {"mull": True, "lean": -0.07}),  # shorter south tower, leaning out
     ])
 
 def twin(b, gap=0.24):
@@ -180,6 +182,8 @@ def render(name, deg):
     depth = lambda p: rot(*p)[1]
     for b in sorted(blds, key=lambda b: (-round(depth(b["c"]), 1), b.get("z0", 0))):
         r, h, key, z0 = b["ring"], b["h"], b["key"], b.get("z0", 0)
+        sh = b.get("shift", (0.0, 0.0)); span = max(1e-6, h - z0)
+        Q = lambda x, y, z: P(x + sh[0] * (z - z0) / span, y + sh[1] * (z - z0) / span, z)
         faces = []
         for i in range(len(r)):
             (x1, y1), (x2, y2) = r[i], r[(i + 1) % len(r)]
@@ -187,7 +191,7 @@ def render(name, deg):
             if nyr >= 0: continue
             L = math.hypot(nxr, nyr) or 1
             lit = -nxr / L                      # +1 = faces left (lit), -1 = faces right
-            quad = [P(x1, y1, z0), P(x2, y2, z0), P(x2, y2, h), P(x1, y1, h)]
+            quad = [Q(x1, y1, z0), Q(x2, y2, z0), Q(x2, y2, h), Q(x1, y1, h)]
             d = rot((x1 + x2) / 2, (y1 + y2) / 2)[1]
             if b.get("glow"):
                 faces.append((d - 0.01, f'<polygon class="glow" points="{ps(quad)}"/>')); continue
@@ -197,20 +201,20 @@ def render(name, deg):
                 step = 3 if b["lv"] > 12 else 2
                 for f in range(step, int(b["lv"]), step):
                     z = z0 + f * LEVEL_H
-                    a1, a2 = P(x1, y1, z), P(x2, y2, z)
+                    a1, a2 = Q(x1, y1, z), Q(x2, y2, z)
                     lines += f"M{a1[0]:.1f},{a1[1]:.1f}L{a2[0]:.1f},{a2[1]:.1f}"
                 if b.get("mull"):    # vertical mullions every ~7 m for a curtain-wall look
                     seg = math.hypot(x2 - x1, y2 - y1); n = int(seg // 7)
                     for m in range(1, n + 1):
                         f_ = m / (n + 1); xa, ya = x1 + (x2 - x1) * f_, y1 + (y2 - y1) * f_
-                        a1, a2 = P(xa, ya, z0), P(xa, ya, h)
+                        a1, a2 = Q(xa, ya, z0), Q(xa, ya, h)
                         lines += f"M{a1[0]:.1f},{a1[1]:.1f}L{a2[0]:.1f},{a2[1]:.1f}"
                 faces.append((d, f'<polygon points="{ps(quad)}" fill="{col}"/>' + (f'<path class="fl" d="{lines}"/>' if lines else "")))
             else:
                 cls = "w1" if lit > 0.35 else ("w2" if lit > -0.35 else "w3")
                 faces.append((d, f'<polygon class="{cls}" points="{ps(quad)}"/>'))
         faces.sort(key=lambda f: -f[0])
-        roof = [P(x, y, h) for x, y in r]
+        roof = [Q(x, y, h) for x, y in r]
         if b.get("glow"): roof_svg = ""
         else: roof_svg = f'<polygon class="roof" points="{ps(roof)}"' + (f' style="fill:{shade(key[2], 0.5)}"' if key else "") + "/>"
         attr = f' class="bld key" data-k="{key[0]}"' if key else ' class="bld"'
@@ -235,7 +239,7 @@ def render(name, deg):
         if not b["key"] or b["key"][0] in done: continue
         done.add(b["key"][0])
         X, Y = P(*b["c"], b["h"])
-        sm = " sm" if b["key"][0] in ("c195", "cmobi", "cashton", "cline") else ""
+        sm = " sm" if b["key"][0] in ("c195", "cmobi", "cashton", "cline", "bkkcity") else ""
         labels.append(f'<g class="lbl{sm}" data-k="{b["key"][0]}" transform="translate({X:.1f},{Y - 6:.1f})"><text>{b["key"][1]}</text></g>')
 
     grads = ""

@@ -24,7 +24,7 @@
   const filterChips = (opts, cur, attr) =>
     `<div class="chips">${opts.map(([k, l]) => `<button class="chip ${k === cur ? "on" : ""}" data-${attr}="${k}">${l}</button>`).join("")}</div>`;
 
-  const state = { places: "all", food: "all", q: "", trip: 0, explore: "near", sort: {}, mapMode: "3d", cbdView: 0, walking: false, cbdSel: null };
+  const state = { places: "all", food: "all", q: "", trip: 0, explore: "near", sort: {}, mapMode: "3d", cbdView: (D.cbd && D.cbd.start) || 0, walking: false, cbdSel: null };
   const DEFAULT_SORT = { near: "close", nearby: "close", downtown: "rating", malls: "close", night: "rating" };
   const sortOf = key => state.sort[key] || DEFAULT_SORT[key];
 
@@ -232,7 +232,7 @@
   const cbdInfo = k => {
     const p = D.cbd.places[k];
     if (!p) return `<p>Tap a building, or the <b>M</b>, to learn more. Swipe or use ↺ ↻ to turn the view.</p>`;
-    return `<h4>${esc(p.n)}</h4><p class="cbd-tag">${esc(p.tag)}</p><p>${esc(p.d)}</p><div class="row">${mapBtn(p.q)}</div>`;
+    return `${p.photo ? `<div class="cbd-photo${p.tall ? " tall" : ""}"><img src="${esc(p.photo)}" alt="${esc(p.n)}" loading="lazy"></div>` : ""}<h4>${esc(p.n)}</h4><p class="cbd-tag">${esc(p.tag)}</p><p>${esc(p.d)}</p><div class="row">${mapBtn(p.q)}</div>`;
   };
   const cbdWalk = () => `<div class="card cbd-walk"><h4>🚶 Hotel → G Tower, underground</h4><ol>${D.cbd.walk.map(x => `<li>${esc(x)}</li>`).join("")}</ol><p class="cbd-note">${esc(D.cbd.walkNote)}</p></div>`;
   function cbdPanel() {
