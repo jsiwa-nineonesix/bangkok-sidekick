@@ -30,7 +30,7 @@ const DATA = {
   // dash.cloudflare.com > Web Analytics to turn it on; leave empty to keep analytics off.
   analytics: { cfToken: "" },
   chat: { endpoint: "https://bangkok-sidekick-chat.bangkok-sidekick-chat-proxy.workers.dev/", dailyLimit: 30 },
-  version: "69",
+  version: "70",
   hotel: {
     name: "Avani Ratchada Bangkok Hotel (opposite G Tower, Rama 9)",
     thaiName: "โรงแรมอวานี รัชดา กรุงเทพ ตรงข้ามจีทาวเวอร์ พระราม 9",
@@ -296,10 +296,13 @@ const DATA = {
       gtower: { n: "G Tower", photo: "img/places/g-tower-render.jpg", tall: true,
         tenants: [
           { n: "Allianz Technology Thailand", f: "10th floor", note: "Our office", allianz: true },
-          { n: "Huawei Technologies", f: "Anchor tenant" },
-          { n: "Corporate Serviced Offices (CSO)", f: "Level 32", note: "Serviced offices & meeting rooms" }
+          { n: "Krungthai-AXA Life Insurance PCL", f: "1st & 22nd–27th floors", note: "Head office" },
+          { n: "Huawei Technologies (Thailand)", f: "34th–39th floors, North Wing", note: "Head office" },
+          { n: "Sparkoo Technologies (Thailand)", f: "35th floor, North Wing", note: "Huawei Cloud partner" },
+          { n: "Corporate Serviced Offices (CSO)", f: "Level 32", note: "Serviced offices & meeting rooms" },
+          { n: "TOTO (Thailand)", f: "12th floor, South Wing", note: "Bangkok office & bathroom showroom" }
         ],
-        tenantsNote: "Some of the companies in G Tower, from their own sites and office listings 🔎", tag: "Office tower · 36 floors · 159 m", d: "Bangkok's iconic 'G'-shaped glass tower: a slim full-height tower with a huge arm jutting out at the top, a slit of sky, and a shorter tower leaning outward, all on one podium. On the east side of Ratchadaphisek Rd, directly opposite the hotel. Our office building. Reach it underground through MRT Phra Ram 9, no road crossing.", q: "G Tower Rama 9" },
+        tenantsNote: "From each company's own contact page or public company records (Nov 2026). Offices move, so double-check before a visit 🔎", tag: "Office towers · North Wing 36 floors, South Wing 25 · 159 m", d: "Bangkok's iconic 'G'-shaped glass tower: a slim full-height tower with a huge arm jutting out at the top, a slit of sky, and a shorter tower leaning outward, all on one podium. On the east side of Ratchadaphisek Rd, directly opposite the hotel. Our office building. Reach it underground through MRT Phra Ram 9, no road crossing.", q: "G Tower Rama 9" },
       central: { n: "Central Rama 9", photo: "img/places/central-rama-9.jpg", tag: "Shopping mall · 14 floors", d: "Food court on 6, Have A Zeed and Laem Charoen on 7, Rosniyom on B1, plus a supermarket. Linked to MRT Phra Ram 9 and next to G Tower.", q: "Central Rama 9" },
       fortune: { n: "Fortune Town", photo: "img/places/fortune-town.jpg", tag: "IT mall", d: "Phones, laptops, chargers, SIM cards and repairs. Right next to the hotel, on the same side of the road as MRT Exit 1.", q: "Fortune Town Bangkok" },
       ninth: { n: "The Ninth Towers", tag: "Twin office towers · 36 & 34 floors", d: "Office towers on the Grand Rama 9 side, a few minutes' walk east of G Tower and Central Rama 9.", q: "The Ninth Towers Grand Rama 9" },
