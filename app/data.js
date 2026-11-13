@@ -30,7 +30,7 @@ const DATA = {
   // dash.cloudflare.com > Web Analytics to turn it on; leave empty to keep analytics off.
   analytics: { cfToken: "" },
   chat: { endpoint: "https://bangkok-sidekick-chat.bangkok-sidekick-chat-proxy.workers.dev/", dailyLimit: 30 },
-  version: "72",
+  version: "73",
   hotel: {
     name: "Avani Ratchada Bangkok Hotel (opposite G Tower, Rama 9)",
     thaiName: "โรงแรมอวานี รัชดา กรุงเทพ ตรงข้ามจีทาวเวอร์ พระราม 9",
@@ -296,6 +296,7 @@ const DATA = {
       gtower: { n: "G Tower", photo: "img/places/g-tower-render.jpg", tall: true,
         tenants: [
           { n: "Allianz Technology Thailand", f: "10th floor", note: "Our office", allianz: true },
+          { n: "CHAGEE (Thailand)", f: "10th floor, South Wing (room GS1002)", note: "Thailand head office of the tea brand, same floor as Allianz" },
           { n: "Krungthai-AXA Life Insurance PCL", f: "1st & 22nd–27th floors", note: "Head office" },
           { n: "Huawei Technologies (Thailand)", f: "34th–39th floors, North Wing", note: "Head office" },
           { n: "Sparkoo Technologies (Thailand)", f: "35th floor, North Wing", note: "Huawei Cloud partner" },
