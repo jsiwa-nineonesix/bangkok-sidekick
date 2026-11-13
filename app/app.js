@@ -7,8 +7,8 @@
 
   const isAndroid = /android/i.test(navigator.userAgent || "");
   const storeBtns = a => {
-    const ios = `<a class="badge" target="_blank" rel="noopener" aria-label="Download ${esc(a.n)} on the App Store" href="https://apps.apple.com/th/app/id${esc(a.ios)}"><img src="img/app-store-badge.png" alt="Download on the App Store" width="132" height="42"></a>`;
-    const gp = `<a class="badge" target="_blank" rel="noopener" aria-label="Get ${esc(a.n)} on Google Play" href="https://play.google.com/store/apps/details?id=${esc(a.android)}"><img src="img/google-play-badge.png" alt="Get it on Google Play" width="132" height="42"></a>`;
+    const ios = `<a class="badge" target="_blank" rel="noopener" aria-label="Download ${esc(a.n)} on the App Store" href="https://apps.apple.com/th/app/id${esc(a.ios)}"><img src="img/app-store-badge.png" alt="Download on the App Store" width="134" height="40"></a>`;
+    const gp = `<a class="badge" target="_blank" rel="noopener" aria-label="Get ${esc(a.n)} on Google Play" href="https://play.google.com/store/apps/details?id=${esc(a.android)}"><img src="img/google-play-badge.png" alt="Get it on Google Play" width="137" height="40"></a>`;
     return isAndroid ? gp + ios : ios + gp;
   };
 

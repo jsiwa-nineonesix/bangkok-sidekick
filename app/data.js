@@ -30,7 +30,7 @@ const DATA = {
   // dash.cloudflare.com > Web Analytics to turn it on; leave empty to keep analytics off.
   analytics: { cfToken: "" },
   chat: { endpoint: "https://bangkok-sidekick-chat.bangkok-sidekick-chat-proxy.workers.dev/", dailyLimit: 30 },
-  version: "53",
+  version: "54",
   hotel: {
     name: "Avani Ratchada Bangkok Hotel (opposite G Tower, Rama 9)",
     thaiName: "โรงแรมอวานี รัชดา กรุงเทพ ตรงข้ามจีทาวเวอร์ พระราม 9",
@@ -284,6 +284,7 @@ const DATA = {
   food: [
     // cat: mall | street | night | classic | downtown | indian
     // photo = key in photos (only a photo of that exact restaurant or food hall; leave it out otherwise)
+    { n: "Have A Zeed (Central Rama 9, 7th floor) ⭐ Sidekick pick", wn: "Have A Zeed", cat: "mall", d: "Our favourite! Thai restaurant, just renovated with a fresh new look. Ask staff for their best dishes. 7th floor of Central Rama 9, about a 4-min walk from the hotel. Google 4.5 (214 reviews)", p: "฿", q: "Have A Zeed Central Rama 9" },
     { n: "Tops Flavour (Central Rama 9)", photo: "tops-flavour-rama9", cat: "mall", d: "Bright food hall by the Tops supermarket inside Central Rama 9: Thai rice and noodle dishes with seats. The closest sit-down meal to the hotel. Photo from Sept 2025; check the floor in the mall directory 🔎", p: "฿", q: "Tops Flavour Central Rama 9" },
     { n: "Ootoya (Central Rama 9)", photo: "ootoya-rama9", cat: "mall", d: "Japanese set meals (teishoku): grilled fish, chicken katsu, rice and miso soup. Photo is from 2012, so check it is still there 🔎", p: "฿฿", q: "Ootoya Central Rama 9" },
     { n: "Central Rama 9 food court / food hall", cat: "mall", d: "Thai dishes, noodles, rice plates, desserts. Buy a food-court card at the counter and refund the balance before leaving.", p: "฿", q: "Central Rama 9 food court" },
@@ -419,7 +420,7 @@ const DATA = {
       { n: "Dal Dal Korean Restaurant", ph: "🥘", type: "Korean restaurant", rating: 4.7, reviews: 543, taxi: 5, go: "About 5 min by Grab (Google's estimate).", budget: "฿300-700" },
       { n: "Kumpoon - Central Rama 9", ph: "🍲", type: "Thai restaurant", rating: 4.6, reviews: 398, taxi: 6, walk: "inside Central Rama 9, about a 4-min walk", go: "Inside Central Rama 9, a 4-minute walk (~250 m) from the hotel. Use the mall directory for the floor.", budget: "฿200-450" },
       { n: "Baan Ying Original Siam Kitchen", ph: "🍜", type: "Thai restaurant", rating: 4.6, reviews: 340, taxi: 3, go: "About 3 min by Grab (Google's estimate), the closest of the group by car.", budget: "฿250-500" },
-      { n: "Have A Zeed - Central Rama 9", ph: "🍛", type: "Thai restaurant", rating: 4.5, reviews: 214, taxi: 4, walk: "inside Central Rama 9, about a 4-min walk", go: "Inside Central Rama 9, a 4-minute walk (~250 m) from the hotel.", budget: "฿150-350" },
+      { n: "Have A Zeed - Central Rama 9", ph: "🍛", type: "Thai restaurant", rating: 4.5, reviews: 214, taxi: 4, walk: "inside Central Rama 9, about a 4-min walk", go: "Inside Central Rama 9 on the 7th floor (recently renovated), a 4-minute walk (~250 m) from the hotel.", budget: "฿150-350" },
       { n: "MUGI - The Prom Din Daeng", ph: "🍣", type: "Japanese restaurant", rating: 5.0, reviews: 170, taxi: 11, go: "About 11 min by Grab (Google's estimate). Perfect score but fewer reviews.", budget: "฿300-700" }
     ],
     find: [

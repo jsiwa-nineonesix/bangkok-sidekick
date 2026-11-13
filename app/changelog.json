@@ -2,6 +2,14 @@
   "_howto": "Add a new entry at the TOP for every release. 'v' must match the version in data.js and sw.js. Keep notes short and in plain language: they are shown to colleagues when an update is available.",
   "releases": [
     {
+      "v": "54",
+      "date": "2026-11-13",
+      "notes": [
+        "Eat: Have A Zeed (Central Rama 9, 7th floor), our favourite, now at the top of In the mall",
+        "App Store and Google Play buttons no longer have a white box around them"
+      ]
+    },
+    {
       "v": "53",
       "date": "2026-11-13",
       "notes": [
