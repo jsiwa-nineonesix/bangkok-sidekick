@@ -1,0 +1,35 @@
+name: Apple Pay Thailand check
+# Every Monday 09:00 Bangkok time: if Apple lists Thailand as an Apple Pay country, update the app tip and publish.
+on:
+  schedule:
+    - cron: "0 2 * * 1"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pages: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check Apple's country list
+        id: check
+        run: |
+          out=$(python3 tools/check_applepay_th.py)
+          echo "$out"
+          if echo "$out" | grep -q "changed=true"; then echo "changed=true" >> "$GITHUB_OUTPUT"; fi
+      - name: Publish the update
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          git config user.name "jsiwa-nineonesix"
+          git config user.email "jsiwa-nineonesix@users.noreply.github.com"
+          git add app/data.js app/sw.js app/changelog.json
+          git commit -m "Apple Pay is now available in Thailand: update payments tip (automatic)"
+          git push
+      - name: Rebuild GitHub Pages
+        if: steps.check.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh api -X POST "repos/${{ github.repository }}/pages/builds" || echo "Pages will rebuild on its own"
