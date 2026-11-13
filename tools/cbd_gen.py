@@ -116,11 +116,11 @@ def g_tower(b):
     # out at the top; a narrow recessed fin under the arm; a slit of sky; and a shorter south tower that leans
     # outward. Seen from the side the pieces read as a giant "G".
     return boxes(b, [
-        (0.00, 1.00, 0.00, 1.00, 0.00, 0.10, {"podium": True}),               # podium
-        (0.64, 1.00, 0.06, 0.94, 0.10, 1.00, {"mull": True}),                 # tall north tower (slim)
-        (0.56, 0.64, 0.30, 0.70, 0.10, 0.72, {"mull": True}),                 # narrow fin under the arm
-        (0.30, 0.64, 0.06, 0.94, 0.72, 1.00, {"mull": True}),                 # the big arm jutting out at the top
-        (0.02, 0.48, 0.10, 0.90, 0.10, 0.63, {"mull": True, "lean": -0.07}),  # shorter south tower, leaning out
+        (0.00, 1.00, 0.00, 1.00, 0.00, 0.10, {"podium": True}),               # podium (both towers stand on it)
+        (0.62, 0.95, 0.20, 0.80, 0.10, 1.00, {"mull": True}),                 # tall north tower, same setback as the south one
+        (0.55, 0.62, 0.34, 0.66, 0.10, 0.72, {"mull": True}),                 # narrow fin under the arm
+        (0.30, 0.62, 0.20, 0.80, 0.72, 1.00, {"mull": True}),                 # the big arm jutting out at the top
+        (0.05, 0.47, 0.20, 0.80, 0.10, 0.63, {"mull": True, "lean": -0.07}),  # shorter south tower, leaning out
     ])
 
 def twin(b, gap=0.24):
@@ -196,7 +196,7 @@ def render(name, deg):
             if b.get("glow"):
                 faces.append((d - 0.01, f'<polygon class="glow" points="{ps(quad)}"/>')); continue
             if key:
-                col = f"url(#gk-{key[0]}-{'a' if lit > 0.35 else ('b' if lit > -0.35 else 'c')})"
+                col = f"url(#gk-{key[0]}-{'p' if b.get('podium') else ''}{'a' if lit > 0.35 else ('b' if lit > -0.35 else 'c')})"
                 lines = ""
                 step = 3 if b["lv"] > 12 else 2
                 for f in range(step, int(b["lv"]), step):
@@ -216,7 +216,7 @@ def render(name, deg):
         faces.sort(key=lambda f: -f[0])
         roof = [Q(x, y, h) for x, y in r]
         if b.get("glow"): roof_svg = ""
-        else: roof_svg = f'<polygon class="roof" points="{ps(roof)}"' + (f' style="fill:{shade(key[2], 0.5)}"' if key else "") + "/>"
+        else: roof_svg = f'<polygon class="roof" points="{ps(roof)}"' + (f' style="fill:{shade(key[2], 0.78 if b.get("podium") else 0.5)}"' if key else "") + "/>"
         attr = f' class="bld key" data-k="{key[0]}"' if key else ' class="bld"'
         out_b.append(f"<g{attr}>" + "".join(f for _, f in faces) + roof_svg + "</g>")
 
@@ -248,6 +248,9 @@ def render(name, deg):
             top, bot = shade(col, min(0.6, f + 0.38)), shade(col, f - 0.06)
             grads += (f'<linearGradient id="gk-{k}-{tag}" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="{top}"/>'
                       f'<stop offset=".55" stop-color="{shade(col, f)}"/><stop offset="1" stop-color="{bot}"/></linearGradient>')
+            pc = shade(col, 0.55 + f * 0.5)   # pale podium glass
+            grads += (f'<linearGradient id="gk-{k}-p{tag}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{shade(pc, 0.25)}"/>'
+                      f'<stop offset="1" stop-color="{shade(pc, -0.12)}"/></linearGradient>')
     svg = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{" ".join(f"{v:.0f}" for v in vb)}" class="cbd3d" data-view="{name}">'
            f'<defs>{grads}<linearGradient id="gk-glow" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff3d6"/><stop offset="1" stop-color="#ffc56b"/></linearGradient></defs>'
            f'<polygon class="ground" points="{ps(octo)}"/>'

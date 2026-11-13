@@ -2,6 +2,13 @@
   "_howto": "Add a new entry at the TOP for every release. 'v' must match the version in data.js and sw.js. Keep notes short and in plain language: they are shown to colleagues when an update is available.",
   "releases": [
     {
+      "v": "67",
+      "date": "2026-11-13",
+      "notes": [
+        "Map 3D: both G Tower wings now stand on the podium, like the real building"
+      ]
+    },
+    {
       "v": "66",
       "date": "2026-11-13",
       "notes": [
