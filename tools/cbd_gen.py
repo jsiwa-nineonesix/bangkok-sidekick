@@ -106,6 +106,8 @@ def boxes(b, spec):
         part = {"ring": ring, "z0": H * z0, "h": H * z1, "lv": H * (z1 - z0) / LEVEL_H, "key": b["key"],
                 "c": (sum(p[0] for p in ring) / 4, sum(p[1] for p in ring) / 4)}
         part.update(extra or {})
+        part["gc"], part["gid"] = b["c"], id(b)          # draw the whole building as one group
+        part["rank"] = 0 if part.get("podium") else (2 if z0 >= 0.5 else 1)   # podium, then wings, then the arm
         if part.get("lean"):     # lean the top along the long axis (fraction of footprint length)
             d_ = part.pop("lean") * (S1 - S0); part["shift"] = (ux * d_, uy * d_)
         out.append(part)
@@ -180,7 +182,9 @@ def render(name, deg):
 
     out_b = []
     depth = lambda p: rot(*p)[1]
-    for b in sorted(blds, key=lambda b: (-round(depth(b["c"]), 1), b.get("z0", 0))):
+    # painter's order: whole buildings far-to-near; inside a multi-part building the podium first, then the
+    # wings far-to-near, then anything high up (the arm), so no wing is ever painted over by its own podium
+    for b in sorted(blds, key=lambda b: (-round(depth(b.get("gc", b["c"])), 1), b.get("gid", id(b)), b.get("rank", 1), -depth(b["c"]))):
         r, h, key, z0 = b["ring"], b["h"], b["key"], b.get("z0", 0)
         sh = b.get("shift", (0.0, 0.0)); span = max(1e-6, h - z0)
         Q = lambda x, y, z: P(x + sh[0] * (z - z0) / span, y + sh[1] * (z - z0) / span, z)
