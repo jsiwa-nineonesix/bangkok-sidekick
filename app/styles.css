@@ -487,3 +487,12 @@ a.tag.rate-link { text-decoration: none; color: var(--link); font-weight: 600; b
 :root[data-theme="dark"] .cbd-ten li { background: rgba(255,255,255,.06); }
 :root[data-theme="dark"] .cbd-ten li.az { background: linear-gradient(135deg, rgba(90,150,255,.28), rgba(90,150,255,.1)); border-color: rgba(140,180,255,.7); }
 :root[data-theme="dark"] .cbd-ten li.az b { color: #fff; }
+/* ===== Reserve button + sheet (Eat) ===== */
+.btn.res { background: linear-gradient(180deg, #ff6a3d, #e8452c); color: #fff; border: 1px solid rgba(255,255,255,.5); box-shadow: inset 0 1px 0 rgba(255,255,255,.45), 0 4px 12px rgba(232,69,44,.25); }
+.res-name { margin: 0 0 8px; }
+.res-btns { display: grid; gap: 8px; margin: 10px 0; }
+.res-btns .btn.big { text-align: center; }
+.res-call { background: linear-gradient(180deg, #2fbf61, #1a9a48); color: #fff; }
+.res-line { background: linear-gradient(180deg, #19c35a, #06a447); color: #fff; }
+.res-fb { background: linear-gradient(180deg, #2f8bff, #0866ff); color: #fff; }
+.res-note, .res-tip { font-size: 13px; color: var(--muted); }

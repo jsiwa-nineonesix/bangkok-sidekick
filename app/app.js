@@ -181,7 +181,7 @@
       } else {
         body = D.food.filter(f => state.food === "all" || f.cat === state.food).map(f => { const ph = photoOf(f); return `
           <div class="card${ph ? " has-photo" : ""}">${ph ? `<div class="eimg"><img src="${esc(ph.src)}" alt="${esc(f.n)}" width="800" height="500" loading="lazy" decoding="async"></div>` : ""}<h4>${esc(f.n)} <span class="tag">${esc(f.p)}</span></h4><p>${esc(f.d)}</p>
-          <div class="row">${mapBtn(f.q)}<a class="btn alt" target="_blank" rel="noopener" href="https://www.wongnai.com/restaurants?q=${encodeURIComponent(f.wn || f.order || f.n)}">Wongnai</a>${f.lm ? `<a class="btn alt" target="_blank" rel="noopener" href="${esc(f.lm)}">🛵 LINE MAN</a>` : ""}</div></div>`; }).join("");
+          <div class="row">${f.nores ? "" : `<button type="button" class="btn res" data-res="${D.food.indexOf(f)}">📅 Reserve</button>`}${mapBtn(f.q)}<a class="btn alt" target="_blank" rel="noopener" href="https://www.wongnai.com/restaurants?q=${encodeURIComponent(f.wn || f.order || f.n)}">Wongnai</a>${f.lm ? `<a class="btn alt" target="_blank" rel="noopener" href="${esc(f.lm)}">🛵 LINE MAN</a>` : ""}</div></div>`; }).join("");
       }
       return `<h2>Eat</h2><p style="color:var(--muted);margin-top:0">Places and types; check current hours & reviews in Maps. 🔎</p>${filterChips(cats, state.food, "ff")}${body}`;
     },
@@ -302,6 +302,22 @@
     m.hidden = false;
   }
 
+  // Reserve sheet: phone / LINE / Messenger for a restaurant (DATA.food[i].res), with Google Maps as a fallback.
+  function reserve(i) {
+    const f = D.food[i], r = f.res || {}, name = f.n.replace(/\s*⭐.*$/, "");
+    const btns = [];
+    if (r.tel) String(r.tel).split(/\s*,\s*/).forEach(t => btns.push(`<a class="btn big res-call" href="tel:${esc(t.replace(/[^0-9+]/g, ""))}">📞 Call ${esc(t)}</a>`));
+    if (r.line) btns.push(`<a class="btn big res-line" target="_blank" rel="noopener" href="https://line.me/R/ti/p/${encodeURIComponent(r.line)}">💬 LINE ${esc(r.line)}</a>`);
+    if (r.fb) btns.push(`<a class="btn big res-fb" target="_blank" rel="noopener" href="https://m.me/${esc(r.fb)}">💬 Facebook Messenger</a>`);
+    if (r.web) btns.push(`<a class="btn big alt" target="_blank" rel="noopener" href="${esc(r.web)}">🌐 Book online</a>`);
+    const top = r.walkIn ? `<div class="banner"><strong>Walk-in only.</strong> ${esc(r.note || "They don't take bookings: go early or expect a queue.")}</div>`
+      : !btns.length ? `<div class="banner">We couldn't confirm a booking contact for this place yet. Google Maps usually lists their phone number.</div>`
+      : r.note ? `<p class="res-note">${esc(r.note)}</p>` : "";
+    modal(`<h2>📅 Reserve</h2><h3 class="res-name">${esc(name)}</h3>${top}<div class="res-btns">${btns.join("")}
+      <a class="btn big alt" target="_blank" rel="noopener" href="${gmap(f.q)}">📍 Phone & hours on Google Maps</a></div>
+      ${r.walkIn ? "" : `<p class="res-tip">Tip: say <strong>“jong toh”</strong> (จองโต๊ะ) = book a table, and give the time and number of people. Many places answer in Thai; LINE and Messenger work well with a translation app.</p>`}`);
+  }
+
   function taxi() {
     modal(`<div class="taxi"><h2>Show to driver 🚕</h2>${D.taxiCards.map(c => `<div class="card"><p>${esc(c.en)}</p><div class="big-th">${esc(c.th)}</div></div>`).join("")}
       ${D.hotel.address ? `<p>${esc(D.hotel.address)}</p>` : ""}${D.hotel.phone ? `<p>📞 ${esc(D.hotel.phone)}</p>` : ""}</div>`);
@@ -312,10 +328,11 @@
 
   // Events
   document.addEventListener("click", e => {
-    const t = e.target.closest("[data-credit],[data-tab],[data-go],[data-pf],[data-ff],[data-ev],[data-ns],[data-say],[data-taxi],[data-sos],[data-close],[data-st],[data-mm],[data-cbd],#cbdstage [data-k]");
+    const t = e.target.closest("[data-res],[data-credit],[data-tab],[data-go],[data-pf],[data-ff],[data-ev],[data-ns],[data-say],[data-taxi],[data-sos],[data-close],[data-st],[data-mm],[data-cbd],#cbdstage [data-k]");
     if (!t) return;
     const d = t.dataset;
-    if (d.credit) { t.closest(".vc").classList.toggle("show-credit"); }
+    if (d.res != null && d.res !== "") { reserve(+d.res); }
+    else if (d.credit) { t.closest(".vc").classList.toggle("show-credit"); }
     else if (d.tab || d.go) { render(d.tab || d.go); }
     else if (d.ev) { state.explore = d.ev; render("places"); }
     else if (d.ns) { state.sort[state.explore] = d.ns; render("places"); }

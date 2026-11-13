@@ -2,6 +2,14 @@
   "_howto": "Add a new entry at the TOP for every release. 'v' must match the version in data.js and sw.js. Keep notes short and in plain language: they are shown to colleagues when an update is available.",
   "releases": [
     {
+      "v": "76",
+      "date": "2026-11-14",
+      "notes": [
+        "Eat: new 📅 Reserve button on 25 restaurants with their phone, LINE and Messenger (plus online booking where they have it)",
+        "Walk-in-only places like Jay Fai say so, so you don't waste a call"
+      ]
+    },
+    {
       "v": "75",
       "date": "2026-11-13",
       "notes": [
