@@ -2,6 +2,14 @@
   "_howto": "Add a new entry at the TOP for every release. 'v' must match the version in data.js and sw.js. Keep notes short and in plain language: they are shown to colleagues when an update is available.",
   "releases": [
     {
+      "v": "53",
+      "date": "2026-11-13",
+      "notes": [
+        "Eat: added Somyong Tumsua 2, a local som tam favourite near G Tower and Belle Grand Rama 9",
+        "Photos added for Somboon Seafood and the MBK food court"
+      ]
+    },
+    {
       "v": "52",
       "date": "2026-11-13",
       "notes": [
