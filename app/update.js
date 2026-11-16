@@ -8,6 +8,7 @@
   if (!btn) return;
   const current = String(DATA.version);
   const CHECK_EVERY = 5 * 60 * 1000, MIN_GAP = 45 * 1000, MAX_NOTES = 8;
+  const CORE = ["./", "index.html", "data.js", "app.js", "chat.js", "update.js", "theme.js", "styles.css"];
   let reg = null, lastCheck = 0, applying = false, shown = false, toastDone = false, dialog = null;
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const store = { get: k => { try { return sessionStorage.getItem(k); } catch (_) { return null; } }, set: (k, v) => { try { sessionStorage.setItem(k, v); } catch (_) { } } };
@@ -93,7 +94,9 @@
     if (waiting || (v && Number(v) > Number(current))) {
       const latest = v || "new";
       showButton(latest);
-      openDialog(latest);
+      // Safety net: if you already tapped Update for this version in this visit and it still didn't take,
+      // keep just the small button instead of popping the message up again and again.
+      if (store.get("sidekick-upd-tried") !== String(latest)) openDialog(latest);
     } else if (v && !toastDone && document.visibilityState === "visible") {
       toastDone = true;                                   // once per visit, and only when we really could check
       toast("✓ You're running the latest version · v" + current);
@@ -108,7 +111,21 @@
     const go2 = dialog && dialog.querySelector("#upd-go");
     if (go2) { go2.disabled = true; go2.textContent = "Updating…"; const l = dialog.querySelector("#upd-later"); if (l) l.disabled = true; }
     let done = false;
-    const go = () => { if (!done) { done = true; location.reload(); } };
+    const target = btn.dataset.v || "new";
+    const go = () => { if (!done) { done = true; store.set("sidekick-upd-tried", target); location.reload(); } };
+    // The browser's own HTTP cache (GitHub Pages: max-age=600) can hand back the OLD data.js after a reload even when
+    // our caches are cleared, which made "Update now" come straight back. Re-download the core files first.
+    try {
+      const page = location.href.split("#")[0];
+      await Promise.all([page, ...CORE].map(u => fetch(u, { cache: "reload" }).catch(() => { })));
+    } catch (_) { }
+    // A new version may still be downloading: give it a moment to finish so we can switch to it cleanly.
+    if (reg && !reg.waiting && reg.installing) {
+      await new Promise(res => {
+        const w = reg.installing, t = setTimeout(res, 8000);
+        w.addEventListener("statechange", () => { if (w.state !== "installing") { clearTimeout(t); res(); } });
+      });
+    }
     try {
       if (reg && reg.waiting) {                           // a new version is installed and waiting: activate it, then reload
         console.info("[update] activating the waiting version");
@@ -118,9 +135,10 @@
         return;
       }
     } catch (_) { }
-    console.info("[update] no waiting version: clearing saved copies and reloading");
-    try { const keys = await caches.keys(); await Promise.all(keys.map(k => caches.delete(k))); } catch (_) { }
-    try { if (reg) await reg.unregister(); } catch (_) { }
+    // No new version waiting. Do NOT unregister the service worker: it fetches pages network-first with no-cache, so
+    // reloading through it brings the new files. Unregistering made the reload read straight from the browser's
+    // HTTP cache, which returned the old version and caused the endless "Update now" loop.
+    console.info("[update] no waiting version: reloading through the network");
     go();
   }
 
