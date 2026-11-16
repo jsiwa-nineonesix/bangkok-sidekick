@@ -90,13 +90,21 @@
     lastCheck = Date.now();
     if (reg) { try { await reg.update(); } catch (_) { } }
     const v = await latestVersion();
-    const waiting = !!(reg && reg.waiting && navigator.serviceWorker.controller);
+    let waiting = !!(reg && reg.waiting && navigator.serviceWorker.controller);
+    // Pages load network-first, so after a release you are usually ALREADY running the new version while its
+    // offline copy (service worker) sits "waiting". That is not an update for you: switch to it quietly, no button.
+    if (waiting && v && Number(v) <= Number(current)) {
+      try { reg.waiting.postMessage({ type: "SKIP_WAITING" }); } catch (_) { }
+      waiting = false;
+    }
     if (waiting || (v && Number(v) > Number(current))) {
       const latest = v || "new";
       showButton(latest);
       // Safety net: if you already tapped Update for this version in this visit and it still didn't take,
       // keep just the small button instead of popping the message up again and again.
       if (store.get("sidekick-upd-tried") !== String(latest)) openDialog(latest);
+    } else if (v && !btn.hidden) {                        // up to date now: take the stale button down
+      btn.hidden = true; shown = false; closeDialog();
     } else if (v && !toastDone && document.visibilityState === "visible") {
       toastDone = true;                                   // once per visit, and only when we really could check
       toast("✓ You're running the latest version · v" + current);
