@@ -30,7 +30,7 @@ A chat button ("Ask") answers questions from the guide itself (free, offline). `
 
 - **Home base:** Rama 9 sits on the **MRT Blue Line** at **Phra Ram 9 station (BL20)**, a short walk from the hotel and G Tower.
 - **To downtown:** MRT to **Sukhumvit (BL22)** for BTS Asok, or **Silom (BL26)** for BTS Sala Daeng and Lumphini Park. Roughly 10–25 min.
-- **Card tip:** MRT gates accept **contactless Visa/Mastercard directly**. **BTS does not**: you need a Rabbit card, a QR ticket from the BTS app/machines, or coins/cash at a ticket machine.
+- **Card tip:** MRT gates accept **contactless Visa/Mastercard directly** (some foreign cards are refused, so keep cash for a token). **BTS does not**: you need a Rabbit card, a QR ticket from the BTS app/machines, or coins/cash at a ticket machine.
 - **Rides:** Use **Grab** (or Bolt) for taxis and bike/car, **LINE MAN** for food delivery, **MuvMI** for short electric tuk-tuk hops where it operates.
 - **Always:** Bangkok is hot and humid, carry water, dress light, bring a layer for cold AC.
 

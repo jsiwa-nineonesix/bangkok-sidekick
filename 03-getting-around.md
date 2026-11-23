@@ -49,7 +49,7 @@ Times are approximate and exclude walking and waiting. 🔎
 
 | System | Contactless credit/debit card | Notes |
 |--------|------------------------------|-------|
-| **MRT (Blue & Purple Line)** | ✅ **Yes, tap Visa/Mastercard directly at the gate** (also works with Apple/Google Pay on the same card) | Use the **same card or phone to tap in and out**. Foreign-card fees may apply. Keep the card in the same wallet slot – don't tap two cards at once. |
+| **MRT (Blue & Purple Line)** | ✅ **Yes, tap Visa/Mastercard directly at the gate** (also works with Apple/Google Pay on the same card) | Use the **same card or phone to tap in and out**. Foreign-card fees may apply. Keep the card in the same wallet slot – don't tap two cards at once. ⚠️ Thai cards work well, but **some visitors' foreign cards are refused** at the gate: carry cash to buy a **token** at the ticket machine or counter as a backup. |
 | **BTS Skytrain** | ❌ **No direct card tap** | Use a **Rabbit card** (rechargeable, from ticket offices), a **QR ticket** (BTS/Rabbit app or machines), or a **single-journey ticket** bought with **coins/small notes** at a vending machine. Machines don't take bank notes in all stations – carry ฿10/฿5/฿1 coins or get change from the booth. |
 | **Airport Rail Link** | Cash/token or its own ticket machines | Check at station |
 | **Chao Phraya Express Boat** | Cash on board | Small notes needed |

@@ -36,9 +36,12 @@ const DATA = {
     { re: "exchange|currency|money ?changer|super ?rich|forex|change (some |my )?(money|cash|baht|dollars?|usd|euros?)|(usd|dollars?|euros?|yen|pounds?|sgd|inr|rupees?) (to|for|into) (baht|thb)|แลกเงิน|ร้านแลกเงิน",
       title: "Exchange money near the hotel",
       text: "**Fastest (about 3 min walk):** SuperRich 1965 (orange sign) inside **MRT Phra Ram 9 station**, open daily 10:00–20:00.\n**Also close:** OH! RiCH by SuperRich Thailand (green sign) on **Central Rama 9, 5th floor**, open during mall hours.\nBring your **passport**: you need it to exchange cash. Both usually beat airport and hotel rates.",
-      actions: [{ label: "📍 SuperRich at MRT Phra Ram 9", q: "SuperRich 1965 MRT Rama 9" }, { label: "📍 OH! RiCH Central Rama 9", q: "OH RiCH SuperRich Thailand Central Rama 9" }], tab: "tips" }
+      actions: [{ label: "📍 SuperRich at MRT Phra Ram 9", q: "SuperRich 1965 MRT Rama 9" }, { label: "📍 OH! RiCH Central Rama 9", q: "OH RiCH SuperRich Thailand Central Rama 9" }], tab: "tips" },
+    { re: "(card|credit|debit|visa|master ?card|contactless|tap|pay|ticket|token).{0,30}mrt|mrt.{0,30}(card|credit|debit|visa|master ?card|contactless|tap|pay|ticket|token)|บัตร.{0,10}mrt",
+      title: "Paying for the MRT",
+      text: "**Tap a contactless Visa or Mastercard** at the MRT gate, and tap the **same card** when you leave.\n**Heads-up:** Thai cards work well, but some visiting colleagues found their **foreign card was refused** at the gate.\n**Backup:** buy a single-journey **token** with cash at the ticket machine or the counter. Tap it to enter and drop it in the slot to exit.\n**BTS Skytrain is different:** no card tap, use a Rabbit card, a QR ticket or coins.", tab: "go" }
   ],
-  version: "89",
+  version: "90",
   hotel: {
     name: "Avani Ratchada Bangkok Hotel (opposite G Tower, Rama 9)",
     thaiName: "โรงแรมอวานี รัชดา กรุงเทพ ตรงข้ามจีทาวเวอร์ พระราม 9",
@@ -471,7 +474,7 @@ const DATA = {
   ],
 
   pay: [
-    { sys: "MRT (Blue & Purple)", ok: true, note: "Tap contactless Visa/Mastercard (or phone wallet linked to the card) directly at the gate. Use the same card to tap in and out. Foreign-card fees may apply." },
+    { sys: "MRT (Blue & Purple)", ok: true, note: "Tap contactless Visa/Mastercard (or phone wallet linked to the card) directly at the gate. Use the same card to tap in and out. Foreign-card fees may apply. ⚠️ Thai cards work well, but some visiting colleagues found their foreign card was refused at the gate. Keep cash for a token (from the ticket machine or counter) as a backup." },
     { sys: "BTS Skytrain", ok: false, note: "No direct card tap. Use a Rabbit card, a QR ticket, or buy a single-journey ticket with coins/small notes at a machine. Carry ฿10/฿5/฿1 coins." },
     { sys: "Airport Rail Link", ok: false, note: "Own ticket machines/tokens. Check at the station." },
     { sys: "Chao Phraya Express Boat", ok: false, note: "Cash on board; small notes." },
@@ -497,13 +500,13 @@ const DATA = {
   ],
 
   tips: [
-    { h: "Money & payments", b: ["Currency: Thai Baht (฿). Cards work in malls and hotels; street food, markets, taxis and boats are mostly cash.", "MRT accepts contactless cards; BTS does not.", "ATMs charge a foreign-card fee (commonly ฿220) 🔎, so withdraw larger amounts less often.", "Carry small notes and coins (฿10 coins for BTS machines).", "SuperRich exchange offices usually beat airport and hotel rates, and there are two right by the hotel: SuperRich 1965 (orange) inside MRT Phra Ram 9 station, open daily 10:00–20:00, and OH! RiCH by SuperRich Thailand (green) on the 5th floor of Central Rama 9.", "Bring your passport: you need it to exchange cash."] },
+    { h: "Money & payments", b: ["Currency: Thai Baht (฿). Cards work in malls and hotels; street food, markets, taxis and boats are mostly cash.", "MRT accepts contactless cards; BTS does not. Some foreign cards are refused at MRT gates (Thai cards work fine), so keep cash for a token just in case.", "ATMs charge a foreign-card fee (commonly ฿220) 🔎, so withdraw larger amounts less often.", "Carry small notes and coins (฿10 coins for BTS machines).", "SuperRich exchange offices usually beat airport and hotel rates, and there are two right by the hotel: SuperRich 1965 (orange) inside MRT Phra Ram 9 station, open daily 10:00–20:00, and OH! RiCH by SuperRich Thailand (green) on the 5th floor of Central Rama 9.", "Bring your passport: you need it to exchange cash."] },
     { h: "Phone payments: Google Pay & Apple Pay", b: ["Google Pay (Google Wallet) works in Thailand: tap your phone at contactless card readers in malls, 7-Eleven, supermarkets and restaurant chains, using a Visa or Mastercard.", "Apple Pay has not launched in Thailand yet, so don't rely on your iPhone or Apple Watch to pay. Carry your physical card as well.", "Street food, markets, taxis and boats are still mostly cash or Thai QR (PromptPay)."] },  // @applepay-th: no (updated automatically by .github/workflows/applepay-th.yml)
     { h: "Weather & clothing", b: ["Hot and humid; short but heavy rain showers. Check the forecast 🔎.", "Pack light clothes, a compact umbrella, sunscreen, comfortable shoes.", "Indoor A/C is cold; bring a light layer.", "Temples: cover shoulders and knees; remove shoes where required."] },
     { h: "Health & safety", b: ["Drink bottled water.", "Pharmacies (Boots, Watsons) are common; Central Rama 9 has one.", "Watch for pickpockets in crowded markets and on trains.", "Cross at footbridges; traffic doesn't always stop at crossings.", "Rama 9 is generally safe; use normal city caution at night."] },
     { h: "Etiquette", b: ["Greet with a wai and “sawasdee krap” (male) / “sawasdee ka” (female).", "Respect the monarchy; avoid disparaging comments.", "Don't touch people's heads; don't point your feet at people or Buddha images.", "Remove shoes in homes, some shops and temples.", "Keep calm; raising your voice is impolite.", "Women should not touch monks."] },
     { h: "Connectivity", b: ["Tourist SIM / eSIM from AIS, True or dtac 🔎.", "Free Wi-Fi in malls, cafés and the hotel.", "Download offline maps for Rama 9."] },
-    { h: "Packing checklist", b: ["Passport, entry documents, hotel booking", "Travel insurance", "Power adapter (220 V) 🔎", "Contactless credit card for MRT", "Small cash", "Power bank", "Umbrella or rain jacket", "Sunscreen, insect repellent", "Prescription medicines with a copy of the prescription"] }
+    { h: "Packing checklist", b: ["Passport, entry documents, hotel booking", "Travel insurance", "Power adapter (220 V) 🔎", "Contactless credit card for MRT (plus cash for a token in case your card is refused)", "Small cash", "Power bank", "Umbrella or rain jacket", "Sunscreen, insect repellent", "Prescription medicines with a copy of the prescription"] }
   ],
 
   // BKK Night Out (Explore > Night Out). Ratings/review counts/taxi times are Google's, read from the hotel's

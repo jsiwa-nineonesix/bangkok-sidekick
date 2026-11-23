@@ -2,7 +2,7 @@
 
 ## Money & payments
 - Currency: **Thai Baht (฿ / THB)**. Credit cards work in malls, hotels and many restaurants; **street food, markets, taxis and boats are mostly cash**.
-- **MRT accepts contactless Visa/Mastercard at the gate; BTS does not**. See [03-getting-around.md](03-getting-around.md).
+- **MRT accepts contactless Visa/Mastercard at the gate; BTS does not**. Some foreign cards are refused at MRT gates (Thai cards work fine), so keep cash for a token as a backup. See [03-getting-around.md](03-getting-around.md).
 - ATMs charge a foreign-card fee (commonly ฿220 per withdrawal) 🔎. Withdraw larger amounts less often.
 - Get small notes/coins: ฿20, ฿50, ฿100 and ฿10 coins for BTS machines, markets and tips.
 - Currency exchange: SuperRich offices usually have better rates than airports/hotels.
