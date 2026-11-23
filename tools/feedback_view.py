@@ -5,6 +5,9 @@ from datetime import datetime, timezone, timedelta
 ICT = timezone(timedelta(hours=7))
 data = json.load(sys.stdin)
 rows = data.get("feedback", [])
+reps = {}
+for x in data.get("replies", []):
+    reps.setdefault(x["fid"], []).append(x)
 if not rows:
     print(data.get("error") and "Error: " + data["error"] or "No feedback yet.")
     sys.exit()
@@ -21,3 +24,7 @@ for r in rows:
     print("#%s  %s  %s ICT  v%s  %s  %s%s" % (r["id"], stars, t, r.get("ver") or "?", r.get("device") or "", r.get("name") or "(anonymous)", extra))
     if r.get("comment"):
         print("     " + r["comment"].replace("\n", "\n     "))
+    for x in reps.get(r["id"], []):
+        t2 = datetime.fromisoformat(x["ts"].replace("Z", "+00:00")).astimezone(ICT).strftime("%d %b %H:%M")
+        who = "💬 Sidekick team" if x.get("team") else (x.get("name") or "(anonymous)")
+        print("       ↳ r%s  %s ICT  %s%s: %s" % (x["id"], t2, who, "  [HIDDEN]" if x.get("hidden") else "", x["text"].replace("\n", " ")))

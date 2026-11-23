@@ -545,3 +545,10 @@ a.tag.rate-link { text-decoration: none; color: var(--link); font-weight: 600; b
 .fb-empty { color: var(--muted); font-size: 14px; }
 .fb-public { font-size: 13px; color: var(--muted); margin: 10px 0 0; }
 .fb-jump { margin: -4px 0 4px; }
+.fb-acts { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.fb-replies { display: grid; gap: 6px; margin: 8px 0 0 10px; padding-left: 10px; border-left: 2px solid var(--glass-edge, rgba(0,0,0,.12)); }
+.fb-reply p { margin: 2px 0 0; font-size: 14px; }
+.fb-reply.team { border-radius: 12px; padding: 6px 10px; background: color-mix(in srgb, #2d86e6 12%, transparent); margin-left: -10px; border-left: 2px solid #2d86e6; }
+.fb-badge { color: #2d86e6; font-weight: 700; }
+.fb-rform { margin-top: 8px; }
+.fb-rform .fb-public { margin-top: 6px; }

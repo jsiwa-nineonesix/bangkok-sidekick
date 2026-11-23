@@ -334,7 +334,8 @@
   const fbApi = path => D.feedback.endpoint.replace(/\/$/, "") + path;
   const lsGet = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) || d; } catch { return d; } };
   const fbLast = () => lsGet(FB_KEY, null);
-  let fbBoard = null, fbSort = "new", fbShowAll = false, fbStars = 0;
+  const FB_NAME = "sk-fb-name";
+  let fbBoard = null, fbSort = "new", fbShowAll = false, fbStars = 0, fbReplyTo = 0;
   const starRow = (n, attr) => `<div class="fb-stars" role="radiogroup" aria-label="Rating">${[1, 2, 3, 4, 5].map(i =>
     `<button type="button" class="fb-star${i <= n ? " on" : ""}" data-${attr}="${i}" role="radio" aria-checked="${i === n}" aria-label="${i} star${i > 1 ? "s" : ""}">★</button>`).join("")}</div>`;
   const starsTxt = n => "★".repeat(n) + "☆".repeat(5 - n);
@@ -363,21 +364,67 @@
     if (fbSort === "top") items.sort((x, y) => y.metoo - x.metoo || y.id - x.id);
     const shown = fbShowAll ? items : items.slice(0, 5);
     const list = items.length ? shown.map(x => {
-      const mine = voted.includes(x.id), d = new Date(x.ts).toLocaleDateString("en-GB", { day: "numeric", month: "short", timeZone: "Asia/Bangkok" });
+      const mine = voted.includes(x.id), d = fbDate(x.ts), reps = x.replies || [];
       return `<div class="fb-item"><div class="fb-meta"><span class="fb-st">${starsTxt(x.stars)}</span> ${esc(x.name || "Anonymous")} · ${d}</div>
         <p>${esc(x.comment).replace(/\n/g, "<br>")}</p>
-        <button type="button" class="fb-metoo${mine ? " on" : ""}" data-fbme="${x.id}"${mine ? " disabled" : ""}>👍 ${mine ? "You agreed" : "Me too"}${x.metoo ? ` · ${x.metoo}` : ""}</button></div>`;
+        <div class="fb-acts"><button type="button" class="fb-metoo${mine ? " on" : ""}" data-fbme="${x.id}"${mine ? " disabled" : ""}>👍 ${mine ? "You agreed" : "Me too"}${x.metoo ? ` · ${x.metoo}` : ""}</button>
+        <button type="button" class="fb-metoo${fbReplyTo === x.id ? " on" : ""}" data-fbrep="${x.id}" aria-expanded="${fbReplyTo === x.id}">↩️ Reply</button></div>
+        ${reps.length ? `<div class="fb-replies">${reps.map(r => `<div class="fb-reply${r.team ? " team" : ""}"><div class="fb-meta">${r.team ? `<span class="fb-badge">💬 Sidekick team</span>` : esc(r.name || "Anonymous")} · ${fbDate(r.ts)}</div>
+          <p>${esc(r.text).replace(/\n/g, "<br>")}</p></div>`).join("")}</div>` : ""}
+        ${fbReplyTo === x.id ? fbReplyForm(x.id) : ""}</div>`;
     }).join("") : `<p class="fb-empty">No comments yet. Be the first!</p>`;
     return `${b.count ? `<p class="fb-avg">${fbSummary(b)}</p>${dist}` : ""}
       ${items.length > 1 ? `<div class="chips fb-sort"><button class="chip ${fbSort === "new" ? "on" : ""}" data-fbsort="new">Newest</button><button class="chip ${fbSort === "top" ? "on" : ""}" data-fbsort="top">Most agreed 👍</button></div>` : ""}
-      ${items.length ? `<p class="fb-hint">Same idea already here? Tap <strong>👍 Me too</strong> instead of writing it again.</p>` : ""}
+      ${items.length ? `<p class="fb-hint">Same idea already here? Tap <strong>👍 Me too</strong> instead of writing it again, or <strong>↩️ Reply</strong> to add to it.</p>` : ""}
       <div class="fb-list">${list}</div>
       ${items.length > 5 && !fbShowAll ? `<button type="button" class="btn alt fb-more" data-fbmore="1">Show all ${items.length} comments</button>` : ""}`;
   }
-  const fbRefreshBoard = () => { const el = $("#fbboard"); if (el) el.innerHTML = boardHtml(); };
+  const fbDate = ts => new Date(ts).toLocaleDateString("en-GB", { day: "numeric", month: "short", timeZone: "Asia/Bangkok" });
+  const fbReplyForm = id => `<div class="fb-rform">
+      <label class="fb-label" for="fbrtext">Your reply</label>
+      <textarea id="fbrtext" class="fb-input" rows="3" maxlength="500" placeholder="e.g. I found it on 5F, next to the cinema"></textarea>
+      <label class="fb-label" for="fbrname">Your name or team <small>(optional)</small></label>
+      <input id="fbrname" class="fb-input" maxlength="60" autocomplete="name" value="${esc(lsGet(FB_NAME, ""))}">
+      <input id="fbrweb" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="fb-hp">
+      <p class="fb-public">👀 Replies are shown here for everyone using the app.</p>
+      <p id="fbrmsg" class="fb-msg" role="status"></p>
+      <div class="fb-acts"><button type="button" class="btn" id="fbrsend" data-fbrsend="${id}">Send reply</button>
+      <button type="button" class="btn alt" data-fbrep="${id}">Cancel</button></div></div>`;
+  // Re-render the board but keep anything typed in an open reply form.
+  const fbRefreshBoard = () => {
+    const el = $("#fbboard"); if (!el) return;
+    const t = $("#fbrtext"), n = $("#fbrname"), keep = t && [t.value, n.value];
+    el.innerHTML = boardHtml();
+    if (keep && $("#fbrtext")) { $("#fbrtext").value = keep[0]; $("#fbrname").value = keep[1]; }
+  };
+  function fbToggleReply(id) {
+    fbReplyTo = fbReplyTo === id ? 0 : id;
+    const el = $("#fbboard"); if (el) el.innerHTML = boardHtml();
+    const t = $("#fbrtext"); if (t) { t.focus({ preventScroll: true }); t.scrollIntoView({ behavior: "smooth", block: "center" }); }
+  }
+  async function fbReply(id) {
+    const msg = $("#fbrmsg"), btn = $("#fbrsend"), text = $("#fbrtext").value.trim(), name = $("#fbrname").value.trim();
+    if (!text) { msg.textContent = "Please write a reply first."; return; }
+    if (!navigator.onLine) { msg.textContent = "You're offline. Please try again when you have internet."; return; }
+    btn.disabled = true; btn.textContent = "Sending…"; msg.textContent = "";
+    try {
+      const r = await fetch(fbApi("/reply"), { method: "POST", headers: { "content-type": "application/json" },
+        body: JSON.stringify({ fid: id, text, name, website: $("#fbrweb").value }) });
+      const j = await r.json().catch(() => ({}));
+      if (!r.ok) throw new Error(j.error || "Couldn't send");
+      try { localStorage.setItem(FB_NAME, JSON.stringify(name)); } catch (_) { }
+      const it = fbBoard && fbBoard.items.find(x => x.id === id);
+      if (it) (it.replies = it.replies || []).push({ id: j.id, ts: new Date().toISOString(), text, name: name || null, team: 0 });
+      fbReplyTo = 0; const el = $("#fbboard"); if (el) el.innerHTML = boardHtml();
+      fbLoad().then(fbRefreshBoard).catch(() => { });
+    } catch (err) {
+      btn.disabled = false; btn.textContent = "Send reply";
+      msg.textContent = (err && err.message && !/fetch|network|load/i.test(err.message)) ? err.message : "Couldn't send right now. Please try again in a moment.";
+    }
+  }
 
   function feedback(n) {
-    fbStars = n || 0; fbShowAll = false;
+    fbStars = n || 0; fbShowAll = false; fbReplyTo = 0;
     modal(`<h2 class="res-h">⭐ Rate Sidekick</h2>
       <button type="button" class="btn alt fb-jump" data-fbjump="1">✍️ Write yours ↓</button>
       <h3 class="fb-h">💬 What others said</h3>
@@ -461,7 +508,7 @@
 
   // Events
   document.addEventListener("click", e => {
-    const t = e.target.closest("[data-res],[data-credit],[data-tab],[data-go],[data-pf],[data-ff],[data-ev],[data-ns],[data-say],[data-taxi],[data-sos],[data-fb],[data-fbs],[data-fbsend],[data-fbme],[data-fbsort],[data-fbmore],[data-fbjump],[data-close],[data-st],[data-mm],[data-cbd],#cbdstage [data-k]");
+    const t = e.target.closest("[data-res],[data-credit],[data-tab],[data-go],[data-pf],[data-ff],[data-ev],[data-ns],[data-say],[data-taxi],[data-sos],[data-fb],[data-fbs],[data-fbsend],[data-fbme],[data-fbrep],[data-fbrsend],[data-fbsort],[data-fbmore],[data-fbjump],[data-close],[data-st],[data-mm],[data-cbd],#cbdstage [data-k]");
     if (!t) return;
     const d = t.dataset;
     if (d.res != null && d.res !== "") { reserve(+d.res); }
@@ -488,6 +535,8 @@
     else if (d.fbs) fbSetStars(+d.fbs);
     else if (d.fbsend) fbSend();
     else if (d.fbme) fbMeToo(+d.fbme, t);
+    else if (d.fbrep) fbToggleReply(+d.fbrep);
+    else if (d.fbrsend) fbReply(+d.fbrsend);
     else if (d.fbsort) { fbSort = d.fbsort; fbRefreshBoard(); }
     else if (d.fbmore) { fbShowAll = true; fbRefreshBoard(); }
     else if (d.fbjump) $("#fbyours").scrollIntoView({ behavior: "smooth", block: "start" });

@@ -2,6 +2,13 @@
   "_howto": "Add a new entry at the TOP for every release. 'v' must match the version in data.js and sw.js. Keep notes short and in plain language: they are shown to colleagues when an update is available.",
   "releases": [
     {
+      "v": "89",
+      "date": "2026-11-23",
+      "notes": [
+        "Rate Sidekick: tap ↩️ Reply to answer someone's comment. Replies from the Sidekick team are marked 💬"
+      ]
+    },
+    {
       "v": "88",
       "date": "2026-11-16",
       "notes": [
